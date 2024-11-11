@@ -1,0 +1,127 @@
+" --- Settings ---
+
+" Enable syntax highlighting
+syntax on
+
+" Set the color scheme
+colorscheme catppuccin_macchiato
+" Required for the Catppuccin color schemes
+set termguicolors
+
+" Show line numbers 
+set number
+" Show line numbers relative to the current line
+set relativenumber
+
+" Disable the VI compatibility mode 
+set nocompatible 
+" Do not use a timeout for key sequences
+set notimeout  
+" Disable the bell sound (set the visual bell to do nothing)
+set visualbell t_vb=
+" Use minimum 10 context lines around the cursor
+set scrolloff=10
+" Share the clipboard with the system clipboard
+set clipboard+=unnamed  
+" Allow for switching a buffer without saving (hide an abandoned buffer)
+set hidden
+
+" Use soft tabs (spaces) instead of tabs
+set expandtab
+" Use 4 spaces for Tab and BS keys
+set softtabstop=4
+" Render hard tabs (\t) as 6 spaces to easly distinguish from soft tabs  
+set tabstop=6
+" Use 4 spaces when changing indentation
+set shiftwidth=4
+" Use indentation from the current line for new lines
+set autoindent
+" Take code syntax into account when auto-indenting
+set smartindent
+
+" Use incremental search (search as you type)
+set incsearch  
+" Highlight all of the search results
+set hlsearch
+" Use case-insensitive search by default
+set ignorecase
+" Use case-sensitive search if any of the search characters are uppercase
+set smartcase
+
+" TODO: Verify
+set wildmenu
+set wildmode=list:longest
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+
+" Highlight the current line
+set cursorline
+
+" Always show the status line
+set laststatus=2
+
+" Make sure the airline_symbols variable is defined
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+" Use the powerline symbols (requires nerd font)
+let g:airline_powerline_fonts = 1
+" Disable the default maxlinenr symbol which causes problems
+let g:airline_symbols.maxlinenr = ""
+" Set the line number symbol (requires nerd font)
+let g:airline_symbols.linenr = " \uE0A1"
+" Set the column number symbol (requires nerd font)
+let g:airline_symbols.colnr = " \uE0A3"
+
+" Enable the built-in tabline extension
+let g:airline#extensions#tabline#enabled = 1
+" Show the unique tail for each path in tabline
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" Use the flame symbol from Powerline Extra Symbols (requires nerd font)
+let g:airline#extensions#tabline#left_sep = "\uE0C0"
+" Show buffer numbers in tabline
+let g:airline#extensions#tabline#buffer_nr_show = 1
+
+" Disable the built-in whitespace extension
+let g:airline#extensions#whitespace#enabled = 0
+
+" Show the current command (e.g. f, t) on the command line
+set showcmd  
+" Do not show the current mode on the command line
+" The current mode is already displayed on the status line (vim-airline)
+set noshowmode
+
+" --- Mappings ---
+
+" Set the leader key
+let mapleader=" "
+
+" Quit the insert mode
+inoremap jj <esc>
+inoremap jk <esc>
+inoremap kj <esc>
+
+" Use Ctrl + w/h/j/k/l for switching windows
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-;> <C-w><C-w>
+
+" Keep the visual selection when changing the indentation
+vnoremap < <gv
+vnoremap > >gv
+
+" Use U for REDO
+nnoremap U <C-r>
+
+" Move faster with J/K
+nnoremap J 5j
+nnoremap K 5k
+
+" Re-map the join command
+nnoremap \ J
+vnoremap \ J
+
+" Remove the search highlight
+nnoremap <leader>/ :nohlsearch<CR>
+
