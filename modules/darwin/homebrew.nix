@@ -10,26 +10,26 @@
     casks = [
       # GUI applications
       "1password"
+      #"adobe-acrobat-reader"
+      #"arc"
+      #"brave-browser"
       "docker"
+      #"firefox"
+      #"google-chrome"
       "jetbrains-toolbox"
       "karabiner-elements"
       "logi-options+"
+      #"notion"
+      #"nvidia-geforce-now"
       "obsidian"
       "raycast"
       "slack"
       "spotify"
-      "visual-studio-code"
-      "wezterm"
-      #"adobe-acrobat-reader"
-      #"arc"
-      #"brave-browser"
-      #"firefox"
-      #"google-chrome"
-      #"notion"
-      #"nvidia-geforce-now"
       #"the-unarchiver"
       #"tunnelblick"
+      "visual-studio-code"
       #"vlc"
+      "wezterm"
 
       # Nerd Fonts used by the WezTerm, Starship etc.
       # Homebrew by default installs fonts per-user in ~/Library/Fonts
@@ -39,16 +39,18 @@
       "font-jetbrains-mono-nerd-font"
     ];
 
-    # Applications from Mac App Store
-    # This option automatically installs the `mas` CLI tool (brew)
+    # Applications from the Mac App Store (login required)
     # Applications installed in this way must be uninstalled manually
+    # This option automatically installs the mas CLI tool (brew)
     # To search for an application ID: mas search "1Password"
-    #masApps = {
-    #  "1Password for Safari" = 1569813296;
-    #  Amphetamine = 937984704;
-    #  Bear = 1091189122;
-    #  Things = 904280696;
-    #};
+    masApps = {
+      "1Password for Safari" = 1569813296;
+      Amphetamine = 937984704;
+      Bear = 1091189122;
+      Numbers = 409203825;
+      Pages = 409201541;
+      Things = 904280696;
+    };
 
     # Remove all formulae not listed in this configuration
     # DOES NOT work for applications installed via masApps
