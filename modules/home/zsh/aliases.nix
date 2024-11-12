@@ -34,6 +34,7 @@
     gr = "git reset";
     gs = "git status";
     gcm = "git commit";
+    gds = "gd --staged";
     glg = "git log --graph";
     gll = "git log --oneline";
     gpl = "git pull";
