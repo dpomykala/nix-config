@@ -22,10 +22,13 @@
     pkgs.fd
     pkgs.httpie
     pkgs.jq
+    # TODO: Can it be completely replaced with uv?
+    pkgs.pipx
     pkgs.ripgrep
     pkgs.sd
     pkgs.tlrc
     pkgs.tokei
+    pkgs.uv
   ];
 
   # Let Home Manager install and manage itself
