@@ -48,7 +48,8 @@
       modules = [ 
         ./modules/darwin
         
-        nix-homebrew.darwinModules.nix-homebrew {
+        nix-homebrew.darwinModules.nix-homebrew
+        {
           nix-homebrew = {
             # Install Homebrew under the default prefix
             enable = true;
@@ -73,7 +74,10 @@
           };
         }
 
-        home-manager.darwinModules.home-manager {
+        # Use Home Manager as a nix-darwin module
+        # This allows to run Home Manager when running darwin-rebuild
+        home-manager.darwinModules.home-manager
+        {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
@@ -81,6 +85,15 @@
           };
         }
       ];
+    };
+
+    # The standalone Home Manager configuration
+    # Can be used e.g. for Linux (non-NixOS) systems (including WSL on Windows)
+    # FIXME: Hardcoded username
+    homeConfigurations."dp" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages."x86_64-linux";
+
+      modules = [ ./modules/home ];
     };
   };
 }

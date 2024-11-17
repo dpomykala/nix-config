@@ -4,6 +4,7 @@
     ./fzf.nix
     ./git.nix
     ./mise.nix
+    # FIXME: MacOS specific?
     ./ssh.nix
     ./starship.nix
     ./thefuck.nix
@@ -12,6 +13,14 @@
     ./zoxide.nix
     ./zsh
   ];
+
+  # FIXME: Hardcoded username?
+  home.username = "dp";
+  # FIXME: Use host-specific files?
+  home.homeDirectory = if pkgs.stdenv.isDarwin then
+      "/Users/dp"
+    else
+      "/home/dp";
 
   # The version used for backwards compatibility
   home.stateVersion = "24.11";
@@ -32,5 +41,6 @@
   ];
 
   # Let Home Manager install and manage itself
+  # This option only works with a standalone Home Manager setup
   programs.home-manager.enable = true;
 }
