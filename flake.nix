@@ -46,8 +46,6 @@
     darwinConfigurations."MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
       specialArgs = { inherit self; };
       modules = [ 
-        ./modules/darwin
-        
         nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {
@@ -76,14 +74,17 @@
 
         # Use Home Manager as a nix-darwin module
         # This allows to run Home Manager when running darwin-rebuild
-        home-manager.darwinModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.dp = import ./modules/home;
-          };
-        }
+        #home-manager.darwinModules.home-manager
+        #{
+        #  home-manager = {
+        #    useGlobalPkgs = true;
+        #    useUserPackages = true;
+        #    users.dp = import ./home;
+        #  };
+        #}
+
+        # The entrypoint for the nix-darwin configuration
+        ./darwin
       ];
     };
 
@@ -91,9 +92,11 @@
     # Can be used e.g. for Linux (non-NixOS) systems (including WSL on Windows)
     # FIXME: Hardcoded username
     homeConfigurations."dp" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages."x86_64-linux";
-
-      modules = [ ./modules/home ];
+      pkgs = nixpkgs.legacyPackages."x86_64-darwin";
+      modules = [
+        # The entrypoint for the Home Manager configuration
+        ./home
+      ];
     };
   };
 }
