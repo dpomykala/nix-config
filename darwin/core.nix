@@ -2,9 +2,6 @@
   nix.settings = {
     # Use new-style commands and flakes 
     experimental-features = "nix-command flakes";
-    
-    # Conform to the XDG Base Directory Specification
-    use-xdg-base-directories = true;
   };
 
   # The platform the configuration will be used on
