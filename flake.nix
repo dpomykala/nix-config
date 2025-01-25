@@ -1,5 +1,4 @@
-{
-  description = "Darwin system configuration";
+{ description = "Darwin system and Home Manager configurations";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -42,7 +41,14 @@
     homebrew-core, 
     homebrew-cask, 
     home-manager 
-  }: {
+  }:
+  let
+    supportedSystems = [ "x86_64-darwin" ];
+    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+  in
+  {
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+
     darwinConfigurations."MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
       specialArgs = { inherit self; };
       modules = [ 
@@ -72,8 +78,9 @@
           };
         }
 
-        # Use Home Manager as a nix-darwin module
+        # For reference: Home Manager can be used as a nix-darwin module
         # This allows to run Home Manager when running darwin-rebuild
+        # I prefer to use a standalone Home Manager setup instead
         #home-manager.darwinModules.home-manager
         #{
         #  home-manager = {
@@ -89,7 +96,7 @@
     };
 
     # The standalone Home Manager configuration
-    # Can be used e.g. for Linux (non-NixOS) systems (including WSL on Windows)
+    # This can also be used on platforms other than NixOS and Darwin
     # FIXME: Hardcoded username
     homeConfigurations."dp" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages."x86_64-darwin";
