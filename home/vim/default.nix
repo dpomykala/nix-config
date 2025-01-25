@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.vim = {
     enable = true;
 
@@ -11,6 +11,6 @@
       pkgs.vimPlugins.vim-airline
     ];
 
-    extraConfig = builtins.readFile ./vimrc;    
+    extraConfig = builtins.readFile ./vimrc;
   };
 }

@@ -1,4 +1,5 @@
-{ description = "Darwin system and Home Manager configurations";
+{
+  description = "Darwin system and Home Manager configurations";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -32,26 +33,24 @@
     };
   };
 
-  outputs = inputs@{ 
-    self, 
-    nixpkgs, 
-    nix-darwin, 
-    nix-homebrew, 
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    nix-darwin,
+    nix-homebrew,
     homebrew-bundle,
-    homebrew-core, 
-    homebrew-cask, 
-    home-manager 
-  }:
-  let
-    supportedSystems = [ "x86_64-darwin" ];
+    homebrew-core,
+    homebrew-cask,
+    home-manager,
+  }: let
+    supportedSystems = ["x86_64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-  in
-  {
+  in {
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     darwinConfigurations."MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit self; };
-      modules = [ 
+      specialArgs = {inherit self;};
+      modules = [
         nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {

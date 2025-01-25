@@ -1,24 +1,21 @@
-{ lib, ... }: 
-
-let
+{lib, ...}: let
   filePreview = lib.concatStringsSep " " [
-    "bat" 
-    "-n" 
-    "--color=always" 
+    "bat"
+    "-n"
+    "--color=always"
     "{}"
   ];
   dirPreview = lib.concatStringsSep " " [
-    "eza" 
-    "--color=always" 
-    "--icons" 
-    "--hyperlink" 
-    "--group-directories-first" 
-    "--tree" 
-    "--level 3" 
+    "eza"
+    "--color=always"
+    "--icons"
+    "--hyperlink"
+    "--group-directories-first"
+    "--tree"
+    "--level 3"
     "{}"
   ];
-in 
-{
+in {
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;

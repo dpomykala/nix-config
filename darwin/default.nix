@@ -1,13 +1,12 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   imports = [
     ./core.nix
     ./homebrew.nix
     ./system.nix
   ];
-  
+
   # System-wide packages
   environment.systemPackages = [
-
   ];
 
   programs.zsh = {

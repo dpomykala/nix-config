@@ -1,4 +1,4 @@
-{ self, ... }: {
+{self, ...}: {
   # Enable sudo authentication with Touch ID
   security.pam.enableSudoTouchIdAuth = true;
 
@@ -115,7 +115,7 @@
       };
 
       CustomUserPreferences = {
-        # -> Mission Control / App Exposé gestures 
+        # -> Mission Control / App Exposé gestures
         "com.apple.dock" = {
           # Enable the Mission Control gesture on the trackpad
           # See: TrackpadThreeFingerVertSwipeGesture / TrackpadFourFingerVertSwipeGesture
@@ -144,9 +144,9 @@
           # to display correctly in the System Settings GUI app as a 3-finger
           # vertical swipe (up / down)
           "com.apple.trackpad.threeFingerVertSwipeGesture" = 2;
-          "com.apple.trackpad.fourFingerVertSwipeGesture" = 2; 
+          "com.apple.trackpad.fourFingerVertSwipeGesture" = 2;
         };
-        # <- Mission Control / App Exposé gestures 
+        # <- Mission Control / App Exposé gestures
 
         "com.apple.finder" = {
           # Do not show a warning when deleting from iCloud Drive
@@ -169,7 +169,7 @@
         };
       };
     };
-    
+
     # Enable keyboard mappings
     keyboard.enableKeyMapping = true;
 

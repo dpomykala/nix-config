@@ -1,4 +1,4 @@
-{ config, ... }: {
+{config, ...}: {
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -10,7 +10,7 @@
       character = {
         success_symbol = "[[󱜙](green) ❯](peach)";
         error_symbol = "[[󱚡](red) ❯](peach)";
-        vimcmd_symbol = "[󱚣 ❮](subtext1)"; 
+        vimcmd_symbol = "[󱚣 ❮](subtext1)";
       };
 
       # Set the custom palette (defined below)

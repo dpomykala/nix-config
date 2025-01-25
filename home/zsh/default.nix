@@ -1,10 +1,14 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./aliases.nix
   ];
 
   programs.zsh = {
-    enable = true; 
+    enable = true;
     enableCompletion = true;
 
     dotDir = ".config/zsh";
@@ -37,7 +41,7 @@
     # Plugins natively supported by home-manager
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-  
+
     # Other plugins
     plugins = [
       # https://github.com/jeffreytse/zsh-vi-mode
@@ -46,7 +50,7 @@
         src = pkgs.zsh-vi-mode.src;
       }
       # https://github.com/MichaelAquilina/zsh-you-should-use
-      { 
+      {
         name = "zsh-you-should-use";
         src = pkgs.zsh-you-should-use.src;
       }

@@ -5,16 +5,12 @@
 #   2. The SSH agent must be enabled in the 1Password app.
 #
 # See: https://developer.1password.com/docs/ssh
-
-{ config, ... }:
-
-let
+{config, ...}: let
   # Use the 1Password SSH agent
   ssh_agent_socket =
     "${config.home.homeDirectory}/Library/Group Containers/"
     + "2BUA8C4S2C.com.1password/t/agent.sock";
-in
-{
+in {
   home = {
     sessionVariables = {
       SSH_AUTH_SOCK = ssh_agent_socket;
@@ -40,7 +36,7 @@ in
     #    hostname = "github.com";
     #    user = "git";
     #  };
-    #  
+    #
     #  # Default GitHub account (e.g. for work)
     #  "github.com gh" = {
     #    identityFile = "~/.ssh/id_ed25519_github_work.pub";
@@ -56,7 +52,7 @@ in
     # Rules for the general "Host *" section
     extraConfig = ''
       IdentityAgent "${ssh_agent_socket}"
-      
+
       # Only use the identities specified explicitly in the config file
       # IdentitiesOnly yes
     '';

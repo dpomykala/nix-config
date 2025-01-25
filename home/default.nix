@@ -1,4 +1,4 @@
-{ pkgs, ...}: {
+{pkgs, ...}: {
   imports = [
     ./bat.nix
     ./fzf.nix
@@ -17,10 +17,10 @@
   # FIXME: Hardcoded username?
   home.username = "dp";
   # FIXME: Use host-specific files?
-  home.homeDirectory = if pkgs.stdenv.isDarwin then
-      "/Users/dp"
-    else
-      "/home/dp";
+  home.homeDirectory =
+    if pkgs.stdenv.isDarwin
+    then "/Users/dp"
+    else "/home/dp";
 
   # The version used for backwards compatibility
   home.stateVersion = "24.11";

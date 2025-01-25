@@ -1,8 +1,8 @@
-{ ... }: {
+{...}: {
   programs.git = {
     enable = true;
 
-    # TODO: Do not hardcode user-specific data? 
+    # TODO: Do not hardcode user-specific data?
     userName = "Damian Pomykała";
     userEmail = "168227269+dpomykala@users.noreply.github.com";
 
@@ -25,11 +25,11 @@
       # MacOS
       "._*"
       ".DS_Store"
-      
+
       # Vim
       "*~"
       "*.swp"
-      
+
       # JetBrains IDEs
       ".idea"
 
