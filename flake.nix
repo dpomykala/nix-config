@@ -9,11 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
       inputs.nix-darwin.follows = "nix-darwin";
@@ -31,6 +26,13 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixvim.url = "github:nix-community/nixvim";
   };
 
   outputs = inputs @ {
@@ -42,12 +44,11 @@
     homebrew-core,
     homebrew-cask,
     home-manager,
+    nixvim,
   }: let
     supportedSystems = ["x86_64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
   in {
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
     darwinConfigurations."MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
       specialArgs = {inherit self;};
       modules = [
@@ -104,5 +105,23 @@
         ./home
       ];
     };
+
+    packages = forAllSystems (system: let
+      nixvimLib = nixvim.lib.${system};
+      nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
+        inherit system;
+        module = import ./nixvim;
+        extraSpecialArgs = {};
+      };
+    in {
+      # Run NixVim as the default program for this flake with `nix run`
+      default = nvim;
+      nvim = nvim;
+    });
+
+    # TODO: Add checks for NixVim?
+
+    # Format Nix files with `nix fmt`
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
 }
