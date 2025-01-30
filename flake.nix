@@ -104,6 +104,7 @@
         # The entrypoint for the Home Manager configuration
         ./home
       ];
+      extraSpecialArgs = {inherit self;};
     };
 
     packages = forAllSystems (system: let

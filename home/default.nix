@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  self,
+  pkgs,
+  ...
+}: {
   imports = [
     ./bat.nix
     ./fzf.nix
@@ -38,6 +42,9 @@
     pkgs.tlrc
     pkgs.tokei
     pkgs.uv
+
+    # Use the NixVim derivation from this flake
+    self.packages.${pkgs.system}.nvim
   ];
 
   # Let Home Manager install and manage itself
