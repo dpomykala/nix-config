@@ -1,12 +1,5 @@
 {...}: {
   keymaps = [
-    # mini.files
-    {
-      action = "<Cmd>lua MiniFiles.open()<CR>";
-      key = "-";
-      mode = "n";
-    }
-
     # mini.map
     {
       action = "<Cmd>lua MiniMap.toggle()<CR>";

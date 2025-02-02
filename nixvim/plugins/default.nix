@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ./mini.nix
+    ./mini
     ./treesitter.nix
   ];
 }
