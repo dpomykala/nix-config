@@ -22,5 +22,7 @@
 
     splitbelow = true;
     splitright = true;
+
+    foldlevel = 99;
   };
 }
