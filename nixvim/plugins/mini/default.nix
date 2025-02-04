@@ -4,6 +4,8 @@
     ./clue.nix
     ./diff.nix
     ./files.nix
+    ./map.nix
+    ./pick.nix
   ];
 
   plugins.mini = {
@@ -29,12 +31,10 @@
       indentscope = {};
       jump = {};
       jump2d = {};
-      map = {};
       move = {};
       notify = {};
       operators = {};
       pairs = {};
-      pick = {};
       snippets = {};
       splitjoin = {};
       starter = {};
