@@ -1,16 +1,129 @@
 {...}: {
   plugins.mini.modules.clue = {
-    # TODO: Enhance this by adding descriptions for <Leader> mapping groups
-    clues._raw = ''
+    clues = [
+      # Descriptions for <Leader> mapping groups
       {
-        miniclue.gen_clues.builtin_completion(),
-        miniclue.gen_clues.g(),
-        miniclue.gen_clues.marks(),
-        miniclue.gen_clues.registers(),
-        miniclue.gen_clues.windows(),
-        miniclue.gen_clues.z(),
+        mode = "n";
+        keys = "<Leader>b";
+        desc = "+Buffer";
       }
-    '';
+      {
+        mode = "n";
+        keys = "<Leader>e";
+        desc = "+Explore";
+      }
+      {
+        mode = "n";
+        keys = "<Leader>g";
+        desc = "+Git";
+      }
+      {
+        mode = "n";
+        keys = "<Leader>f";
+        desc = "+Find";
+      }
+      {
+        mode = "n";
+        keys = "<Leader>m";
+        desc = "+Map";
+      }
+
+      # Submodes for previous / next (mini.bracketed)
+      {
+        mode = "n";
+        keys = "]b";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[b";
+        postkeys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]w";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[w";
+        postkeys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]c";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[c";
+        postkeys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]d";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[d";
+        postkeys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]h";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[h";
+        postkeys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]j";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[j";
+        postkeys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]q";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[q";
+        postkeys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]u";
+        postkeys = "]";
+      }
+      {
+        mode = "n";
+        keys = "[u";
+        postkeys = "[";
+      }
+
+      # Generate pre-configured clues
+      {__raw = "require('mini.clue').gen_clues.builtin_completion()";}
+      {__raw = "require('mini.clue').gen_clues.g()";}
+      {__raw = "require('mini.clue').gen_clues.marks()";}
+      {__raw = "require('mini.clue').gen_clues.registers()";}
+      {
+        __raw = ''
+          require('mini.clue').gen_clues.windows(
+            { submode_move = true, submode_navigate = true, submode_resize = true }
+          )
+        '';
+      }
+      {__raw = "require('mini.clue').gen_clues.z()";}
+    ];
 
     triggers = [
       # Leader triggers
@@ -57,6 +170,24 @@
         keys = "`";
       }
 
+      # Previous / next (mini.bracketed)
+      {
+        mode = "n";
+        keys = "[";
+      }
+      {
+        mode = "x";
+        keys = "[";
+      }
+      {
+        mode = "n";
+        keys = "]";
+      }
+      {
+        mode = "x";
+        keys = "[";
+      }
+
       # Registers
       {
         mode = "n";
@@ -75,6 +206,12 @@
         keys = "<C-r>";
       }
 
+      # Toggling options (mini.basics)
+      {
+        mode = "n";
+        keys = "\\";
+      }
+
       # Window commands
       {
         mode = "n";
@@ -91,5 +228,10 @@
         keys = "z";
       }
     ];
+
+    window = {
+      config = {width = "auto";};
+      delay = 500;
+    };
   };
 }

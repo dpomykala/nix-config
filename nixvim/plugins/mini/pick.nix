@@ -4,44 +4,44 @@
   keymaps = [
     {
       mode = "n";
-      key = "<leader>fb";
-      action = "<cmd>Pick buffers<CR>";
+      key = "<Leader>fb";
+      action = "<Cmd>Pick buffers<CR>";
       options = {desc = "Find buffers";};
     }
     {
       mode = "n";
-      key = "<leader>ff";
-      action = "<cmd>Pick files<CR>";
+      key = "<Leader>ff";
+      action = "<Cmd>Pick files<CR>";
       options = {desc = "Find files";};
     }
     {
       mode = "n";
-      key = "<leader>fg";
-      action = "<cmd>Pick grep_live<CR>";
+      key = "<Leader>fg";
+      action = "<Cmd>Pick grep_live<CR>";
       options = {desc = "Find by grep";};
     }
     {
       mode = "n";
-      key = "<leader>fh";
-      action = "<cmd>Pick help<CR>";
+      key = "<Leader>fh";
+      action = "<Cmd>Pick help<CR>";
       options = {desc = "Find help";};
     }
     {
       mode = "n";
-      key = "<leader>fm";
-      action = "<cmd>Pick marks<CR>";
+      key = "<Leader>fm";
+      action = "<Cmd>Pick marks<CR>";
       options = {desc = "Find marks";};
     }
     {
       mode = "n";
-      key = "<leader>fk";
-      action = "<cmd>Pick keymaps<CR>";
+      key = "<Leader>fk";
+      action = "<Cmd>Pick keymaps<CR>";
       options = {desc = "Find keymaps";};
     }
     {
       mode = "n";
-      key = "<leader>fo";
-      action = "<cmd>Pick options<CR>";
+      key = "<Leader>fo";
+      action = "<Cmd>Pick options<CR>";
       options = {desc = "Find options";};
     }
   ];

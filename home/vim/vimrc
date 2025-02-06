@@ -123,5 +123,5 @@ nnoremap \ J
 vnoremap \ J
 
 " Remove the search highlight
-nnoremap <leader>/ :nohlsearch<CR>
+nnoremap <Leader>/ :nohlsearch<CR>
 

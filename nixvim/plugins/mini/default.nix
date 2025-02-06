@@ -1,9 +1,11 @@
 {...}: {
   imports = [
     ./basics.nix
+    ./bufremove.nix
     ./clue.nix
     ./diff.nix
     ./files.nix
+    ./hipatterns.nix
     ./map.nix
     ./pick.nix
   ];
@@ -19,14 +21,12 @@
       animate = {};
       align = {};
       bracketed = {};
-      bufremove = {};
       # TODO: Can it be replaced with the built-in functionality?
       comment = {};
       cursorword = {};
       extra = {};
       files = {};
       git = {};
-      hipatterns = {};
       icons = {};
       indentscope = {};
       jump = {};
