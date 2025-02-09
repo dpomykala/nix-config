@@ -60,7 +60,7 @@ set cursorline
 set laststatus=2
 
 " Make sure the airline_symbols variable is defined
-if !exists('g:airline_symbols')
+if !exists("g:airline_symbols")
     let g:airline_symbols = {}
 endif
 " Use the powerline symbols (requires nerd font)
@@ -75,7 +75,7 @@ let g:airline_symbols.colnr = " \uE0A3"
 " Enable the built-in tabline extension
 let g:airline#extensions#tabline#enabled = 1
 " Show the unique tail for each path in tabline
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#formatter = "unique_tail_improved"
 " Use the flame symbol from Powerline Extra Symbols (requires nerd font)
 let g:airline#extensions#tabline#left_sep = "\uE0C0"
 " Show buffer numbers in tabline

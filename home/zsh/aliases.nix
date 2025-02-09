@@ -16,7 +16,7 @@
 
     # APPLICATIONS
 
-    v = "vim";
+    v = "nvim";
 
     # PYTHON
 

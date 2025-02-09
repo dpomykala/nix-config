@@ -2,12 +2,10 @@
   programs.vim = {
     enable = true;
 
-    # Set Vim as the default editor using the EDITOR environment variable
-    defaultEditor = true;
-
     plugins = [
-      # Catppuccin color schemes for Vim and vim-airline
+      # Catppuccin color schemes for Vim
       pkgs.vimPlugins.catppuccin-vim
+      # The vim-airline plugin used for a status line
       pkgs.vimPlugins.vim-airline
     ];
 
