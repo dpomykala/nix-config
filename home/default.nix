@@ -33,6 +33,9 @@
       pkgs.fd
       pkgs.httpie
       pkgs.jq
+      pkgs.just
+      # NOTE: nh does not support nix-darwin (only NixOS and Home Manager)
+      pkgs.nh
       # TODO: Can it be completely replaced with uv?
       pkgs.pipx
       pkgs.ripgrep
