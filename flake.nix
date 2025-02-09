@@ -33,6 +33,7 @@
     };
 
     nixvim.url = "github:nix-community/nixvim";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs = inputs @ {
@@ -45,6 +46,7 @@
     homebrew-cask,
     home-manager,
     nixvim,
+    ...
   }: let
     supportedSystems = ["x86_64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
@@ -112,7 +114,7 @@
       nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
         inherit system;
         module = import ./nixvim;
-        extraSpecialArgs = {};
+        extraSpecialArgs = {inherit inputs;};
       };
     in {
       # Run NixVim as the default program for this flake with `nix run`
