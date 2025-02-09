@@ -4,14 +4,14 @@
       fixme = {
         __raw = ''
           require('mini.extra').gen_highlighter.words(
-            { 'FIXME' }, 'MiniHipatternsFixme'
+            { 'FIXME', 'BUG' }, 'MiniHipatternsFixme'
           )
         '';
       };
       hack = {
         __raw = ''
           require('mini.extra').gen_highlighter.words(
-            { 'HACK' }, 'MiniHipatternsHack'
+            { 'HACK', 'WARN', 'WARNING' }, 'MiniHipatternsHack'
           )
         '';
       };
