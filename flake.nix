@@ -124,6 +124,21 @@
 
     # TODO: Add checks for NixVim?
 
+    # Run development environment with `nix develop`
+    devShells = forAllSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      default = pkgs.mkShellNoCC {
+        packages = with pkgs; [
+          alejandra
+          just
+          nh
+        ];
+
+        shellHook = ''exec zsh'';
+      };
+    });
+
     # Format Nix files with `nix fmt`
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
