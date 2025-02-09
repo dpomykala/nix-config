@@ -11,6 +11,7 @@
     ./thefuck.nix
     ./vim
     ./wezterm
+    ./yazi.nix
     ./zoxide.nix
     ./zsh
   ];
