@@ -139,7 +139,7 @@
       };
     });
 
-    # Format Nix files with `nix fmt`
+    # Format Nix files with `nix fmt .`
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
 }
