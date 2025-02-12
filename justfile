@@ -29,3 +29,7 @@ dev:
 fmt:
     just --unstable --fmt
     nix fmt .
+
+# Link regular (not managed by Nix) dotfiles using GNU Stow
+dotfiles:
+    stow --dotfiles --restow --target $HOME dotfiles

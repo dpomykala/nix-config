@@ -133,6 +133,7 @@
           alejandra
           just
           nh
+          stow
         ];
 
         shellHook = ''exec zsh'';
