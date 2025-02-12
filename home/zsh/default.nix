@@ -43,16 +43,16 @@
     syntaxHighlighting.enable = true;
 
     # Other plugins
-    plugins = [
+    plugins = with pkgs; [
       # https://github.com/jeffreytse/zsh-vi-mode
       {
         name = "zsh-vi-mode";
-        src = pkgs.zsh-vi-mode.src;
+        src = zsh-vi-mode.src;
       }
       # https://github.com/MichaelAquilina/zsh-you-should-use
       {
         name = "zsh-you-should-use";
-        src = pkgs.zsh-you-should-use.src;
+        src = zsh-you-should-use.src;
       }
     ];
   };

@@ -30,6 +30,6 @@ fmt:
     just --unstable --fmt
     nix fmt .
 
-# Link regular (not managed by Nix) dotfiles using GNU Stow
-dotfiles:
-    stow --dotfiles --restow --target $HOME dotfiles
+# Link files not managed by Nix (using GNU Stow)
+stow:
+    stow --dotfiles --restow --target $HOME stow

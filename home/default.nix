@@ -3,6 +3,7 @@
     ./bat.nix
     ./fzf.nix
     ./git.nix
+    ./karabiner
     ./mise.nix
     ./nvim.nix
     # FIXME: MacOS specific?
@@ -28,22 +29,22 @@
     # The version used for backwards compatibility
     stateVersion = "24.11";
 
-    packages = [
-      pkgs.dust
-      pkgs.eza
-      pkgs.fd
-      pkgs.httpie
-      pkgs.jq
-      pkgs.just
+    packages = with pkgs; [
+      dust
+      eza
+      fd
+      httpie
+      jq
+      just
       # NOTE: nh does not support nix-darwin (only NixOS and Home Manager)
-      pkgs.nh
+      nh
       # TODO: Can it be completely replaced with uv?
-      pkgs.pipx
-      pkgs.ripgrep
-      pkgs.sd
-      pkgs.tlrc
-      pkgs.tokei
-      pkgs.uv
+      pipx
+      ripgrep
+      sd
+      tlrc
+      tokei
+      uv
     ];
   };
 
