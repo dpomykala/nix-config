@@ -11,18 +11,14 @@
     "${config.home.homeDirectory}/Library/Group Containers/"
     + "2BUA8C4S2C.com.1password/t/agent.sock";
 in {
-  home = {
-    sessionVariables = {
-      SSH_AUTH_SOCK = ssh_agent_socket;
-    };
+  home.sessionVariables.SSH_AUTH_SOCK = ssh_agent_socket;
 
-    # Create the 1Password SSH agent config file
-    # See: https://developer.1password.com/docs/ssh/agent/config
-    file."${config.xdg.configHome}/1Password/ssh/agent.toml".text = ''
-      [[ssh-keys]]
-      vault = "Private"
-    '';
-  };
+  # Create the 1Password SSH agent config file
+  # See: https://developer.1password.com/docs/ssh/agent/config
+  xdg.configFile."1Password/ssh/agent.toml".text = ''
+    [[ssh-keys]]
+    vault = "Private"
+  '';
 
   programs.ssh = {
     enable = true;
