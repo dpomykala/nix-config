@@ -5,6 +5,7 @@
 }: {
   imports = [
     ./colorschemes.nix
+    ./ftplugins.nix
     ./keymaps.nix
     ./options.nix
     ./plugins

@@ -1,5 +1,8 @@
 " --- Settings ---
 
+" Enable file type detection, plugin and indent
+filetype plugin indent on
+
 " Enable syntax highlighting
 syntax on
 
@@ -26,18 +29,20 @@ set clipboard+=unnamed
 " Allow for switching a buffer without saving (hide an abandoned buffer)
 set hidden
 
-" Use soft tabs (spaces) instead of tabs
-set expandtab
-" Use 4 spaces for Tab and BS keys
-set softtabstop=4
-" Render hard tabs (\t) as 6 spaces to easly distinguish from soft tabs  
-set tabstop=6
-" Use 4 spaces when changing indentation
-set shiftwidth=4
-" Use indentation from the current line for new lines
+" Use indentation from the current line when starting a new line
 set autoindent
-" Take code syntax into account when auto-indenting
+" Use soft tabs (spaces) instead of hard tabs (\t) for indentation
+set expandtab
+" Align to the closest indentation level when shifting indentation
+set shiftround
+" Use the 'tabstop' value when shifting indentation with << and >>
+set shiftwidth=0
+" Auto-indent based on syntax (ignored if indenting via Treesitter).
 set smartindent
+" Use the `shiftwidth` value (=`tabstop`) when editing with Tab or BS
+set softtabstop=-1
+" Set the tab width for both soft and hard tabs
+set tabstop=2
 
 " Use incremental search (search as you type)
 set incsearch  

@@ -1,17 +1,20 @@
 {...}: {
-  globals = {
-    mapleader = " ";
-  };
-
   opts = {
     number = true;
     relativenumber = true;
 
+    # Use soft tabs (spaces) instead of hard tabs (\t) for indentation
     expandtab = true;
-    softtabstop = 4;
-    tabstop = 4;
-    shiftwidth = 4;
+    # Align to the closest indentation level when shifting indentation
+    shiftround = true;
+    # Use the 'tabstop' value when shifting indentation with << and >>
+    shiftwidth = 0;
+    # Auto-indent based on syntax (ignored if indenting via Treesitter).
     smartindent = true;
+    # Use the `shiftwidth` value (=`tabstop`) when editing with Tab or BS
+    softtabstop = -1;
+    # Set the tab width for both soft and hard tabs
+    tabstop = 2;
 
     ignorecase = true;
     smartcase = true;
