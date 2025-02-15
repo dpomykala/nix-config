@@ -1,5 +1,5 @@
-/**
-  Custom ftplugins with configurtion for specific file types.
+/*
+Custom ftplugins with configurtion for specific file types.
 */
 {...}: {
   files."after/ftplugin/make.lua" = {

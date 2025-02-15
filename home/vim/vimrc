@@ -1,68 +1,71 @@
 " --- Settings ---
 
-" Enable file type detection, plugin and indent
+" Disable the VI compatibility mode
+" This should be set first as it may affect other options!
+set nocompatible
+
+" Enable file types (detection, plugins and indentation)
 filetype plugin indent on
 
 " Enable syntax highlighting
-syntax on
+syntax enable
 
 " Set the color scheme
 colorscheme catppuccin_macchiato
-" Required for the Catppuccin color schemes
+" Use 24-bit colors (required for the Catppuccin color schemes)
 set termguicolors
 
-" Show line numbers 
+" Highlight the current line
+set cursorline
+" Show line numbers
 set number
-" Show line numbers relative to the current line
+" Use line numbers relative to the current line
 set relativenumber
-
-" Disable the VI compatibility mode 
-set nocompatible 
-" Do not use a timeout for key sequences
-set notimeout  
-" Disable the bell sound (set the visual bell to do nothing)
-set visualbell t_vb=
-" Use minimum 10 context lines around the cursor
+" Set the minimum number of lines above and below the cursor
 set scrolloff=10
-" Share the clipboard with the system clipboard
-set clipboard+=unnamed  
-" Allow for switching a buffer without saving (hide an abandoned buffer)
-set hidden
+" Set the minimum number of columns to the sides of the cursor
+set sidescrolloff=10;
 
 " Use indentation from the current line when starting a new line
 set autoindent
+" Indent wrapped lines to match line start
+set breakindent
 " Use soft tabs (spaces) instead of hard tabs (\t) for indentation
 set expandtab
 " Align to the closest indentation level when shifting indentation
 set shiftround
 " Use the 'tabstop' value when shifting indentation with << and >>
 set shiftwidth=0
-" Auto-indent based on syntax (ignored if indenting via Treesitter).
+" Auto-indent based on syntax (ignored if indenting via Treesitter)
 set smartindent
 " Use the `shiftwidth` value (=`tabstop`) when editing with Tab or BS
 set softtabstop=-1
 " Set the tab width for both soft and hard tabs
 set tabstop=2
 
-" Use incremental search (search as you type)
-set incsearch  
 " Highlight all of the search results
 set hlsearch
-" Use case-insensitive search by default
+" Use case-insensitive search by default (unless `\C` is used)
 set ignorecase
-" Use case-sensitive search if any of the search characters are uppercase
+" Use incremental search (search as you type)
+set incsearch
+" Use case-sensitive search if any of the characters are uppercase
 set smartcase
 
-" TODO: Verify
-set wildmenu
-set wildmode=list:longest
-set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
-
-" Highlight the current line
-set cursorline
-
+" Disable the default ruler (use the status line instead)
+set noruler;
 " Always show the status line
 set laststatus=2
+" Show the current command (e.g. f, t) on the command line
+set showcmd
+" Don't show mode on the command line (use the status line instead)
+set noshowmode
+" Ignore some patterns when expanding wildcards and completing names
+set wildignore=*.docx,*.exe,*.flv,*.gif,*.img,*.jpg,*.pdf,*.png,*.pyc,*.xlsx
+" Enable a completion menu on the command line
+set wildmenu
+" Set the command line completion mode
+set wildmode=longest:full,full
 
 " Make sure the airline_symbols variable is defined
 if !exists("g:airline_symbols")
@@ -76,7 +79,6 @@ let g:airline_symbols.maxlinenr = ""
 let g:airline_symbols.linenr = " \uE0A1"
 " Set the column number symbol (requires nerd font)
 let g:airline_symbols.colnr = " \uE0A3"
-
 " Enable the built-in tabline extension
 let g:airline#extensions#tabline#enabled = 1
 " Show the unique tail for each path in tabline
@@ -85,15 +87,19 @@ let g:airline#extensions#tabline#formatter = "unique_tail_improved"
 let g:airline#extensions#tabline#left_sep = "\uE0C0"
 " Show buffer numbers in tabline
 let g:airline#extensions#tabline#buffer_nr_show = 1
-
 " Disable the built-in whitespace extension
 let g:airline#extensions#whitespace#enabled = 0
 
-" Show the current command (e.g. f, t) on the command line
-set showcmd  
-" Do not show the current mode on the command line
-" The current mode is already displayed on the status line (vim-airline)
-set noshowmode
+" Allow for switching a buffer without saving (hide an abandoned buffer)
+set hidden
+" New horizontal splits are created below the current window
+set splitbelow
+" New vertical splits are created to the right of the current window
+set splitright
+" Set how long (in ms) to wait for a mapped sequence (default is 1000)
+set timeoutlen=300
+" Disable the bell sound (set the visual bell to do nothing)
+set visualbell t_vb=
 
 " --- Mappings ---
 
