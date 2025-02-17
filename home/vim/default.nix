@@ -11,4 +11,8 @@
 
     extraConfig = builtins.readFile ./vimrc;
   };
+
+  # Create directories for Vim swap files and undo files
+  xdg.stateFile."vim/swap/.keep".text = "";
+  xdg.stateFile."vim/undo/.keep".text = "";
 }

@@ -51,4 +51,7 @@
   # Let Home Manager install and manage itself
   # This option only works with a standalone Home Manager setup
   programs.home-manager.enable = true;
+
+  # Set XDG environment variables
+  xdg.enable = true;
 }
