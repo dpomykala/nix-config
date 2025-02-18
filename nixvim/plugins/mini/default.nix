@@ -30,7 +30,7 @@
       icons = {};
       indentscope = {};
       jump = {};
-      jump2d = {};
+      # jump2d = {};
       move = {};
       notify = {};
       operators = {};

@@ -6,8 +6,18 @@
 
     settings = {
       highlight.enable = true;
+
+      incremental_selection = {
+        enable = true;
+        keymaps = {
+          init_selection = "<CR>";
+          node_decremental = "<BS>";
+          node_incremental = "<CR>";
+          scope_incremental = false;
+        };
+      };
+
       indent.enable = true;
-      # TODO: Incremental selection?
     };
 
     grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -25,6 +35,7 @@
       lua
       make
       markdown
+      markdown_inline
       nginx
       nix
       python
