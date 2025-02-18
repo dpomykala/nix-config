@@ -155,6 +155,8 @@ set autoread
 set directory=$XDG_STATE_HOME/vim/swap//
 " Don't make a backup before overwriting a file
 set nowritebackup
+" Extend the runtime path with the XDG based `after` directory
+set runtimepath+=$XDG_CONFIG_HOME/vim/after
 " Set the directory used for undo files
 set undodir=$XDG_STATE_HOME/vim/undo//
 " Use persistent undo history (save to a file)
@@ -167,6 +169,8 @@ set undofile
 set confirm
 " Allow for switching a buffer without saving (hide an abandoned buffer)
 set hidden
+" Set the number of history entries for ":" commands and search patterns
+set history=10000
 " Enable the mouse for all available modes
 set mouse=a
 " Disable the following:

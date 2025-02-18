@@ -90,7 +90,7 @@
     # Don't wrap long lines
     wrap = false;
 
-    # COMMAND/STATUS LINE
+    # STATUS/COMMAND LINE
 
     # Use the global status line
     laststatus = 3;
