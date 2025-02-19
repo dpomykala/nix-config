@@ -29,17 +29,29 @@
       git = {};
       icons = {};
       indentscope = {};
-      jump = {};
-      # jump2d = {};
       move = {};
       notify = {};
-      operators = {};
+      operators = {
+        # The `gs` prefix conflicts with custom mappings for mini.surround
+        sort.prefix = "g\\";
+      };
       pairs = {};
       snippets = {};
       splitjoin = {};
       starter = {};
       statusline = {};
-      surround = {};
+      surround = {
+        # Use the `gs` prefix to reserve the `s` key for flash.nvim
+        mappings = {
+          add = "gsa";
+          delete = "gsd";
+          find = "gsf";
+          find_left = "gsF";
+          highlight = "gsh";
+          replace = "gsr";
+          update_n_lines = "gsn";
+        };
+      };
       tabline = {};
     };
   };
