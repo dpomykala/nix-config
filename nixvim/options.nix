@@ -54,8 +54,9 @@
     splitright = true;
     # Allow the cursor to move past EOL in the visual block mode
     virtualedit = "block";
+    # WARN: Does not play nice with some of noice.nvim / snacks.nvim windows
     # Make floating windows slightly transparent
-    winblend = 10;
+    # winblend = 10;
 
     # INDENTATION
 

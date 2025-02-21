@@ -16,25 +16,25 @@
       mode = "n";
       key = "<Leader>mf";
       action = "<Cmd>lua MiniMap.toggle_focus()<CR>";
-      options = {desc = "Focus map";};
+      options.desc = "Focus map";
     }
     {
       mode = "n";
       key = "<Leader>mr";
       action = "<Cmd>lua MiniMap.refresh()<CR>";
-      options = {desc = "Refresh map";};
+      options.desc = "Refresh map";
     }
     {
       mode = "n";
       key = "<Leader>ms";
       action = "<Cmd>lua MiniMap.toggle_side()<CR>";
-      options = {desc = "Toggle map side";};
+      options.desc = "Toggle map side";
     }
     {
       mode = "n";
       key = "<Leader>mt";
       action = "<Cmd>lua MiniMap.toggle()<CR>";
-      options = {desc = "Toggle map";};
+      options.desc = "Toggle map";
     }
   ];
 }

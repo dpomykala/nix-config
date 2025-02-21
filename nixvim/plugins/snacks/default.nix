@@ -6,6 +6,10 @@
       input = {
         enabled = true;
       };
+      # NOTE: Used by noice.nvim
+      notifier = {
+        enabled = true;
+      };
       picker = {
         enabled = true;
       };

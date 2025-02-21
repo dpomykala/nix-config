@@ -24,6 +24,11 @@
       }
       {
         mode = "n";
+        keys = "<Leader>n";
+        desc = "+Noice";
+      }
+      {
+        mode = "n";
         keys = "<Leader>m";
         desc = "+Map";
       }
