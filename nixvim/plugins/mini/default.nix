@@ -7,7 +7,7 @@
     ./files.nix
     ./hipatterns.nix
     ./map.nix
-    ./pick.nix
+    # ./pick.nix
   ];
 
   plugins.mini = {

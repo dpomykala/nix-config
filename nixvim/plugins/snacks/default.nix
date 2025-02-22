@@ -1,18 +1,15 @@
 {...}: {
+  imports = [
+    ./picker.nix
+  ];
+
   plugins.snacks = {
     enable = true;
 
     settings = {
-      input = {
-        enabled = true;
-      };
+      input.enabled = true;
       # NOTE: Used by noice.nvim
-      notifier = {
-        enabled = true;
-      };
-      picker = {
-        enabled = true;
-      };
+      notifier.enabled = true;
     };
   };
 }
