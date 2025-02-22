@@ -10,10 +10,8 @@
         };
       };
       presets = {
+        cmdline_output_to_split = true;
         long_message_to_split = true;
-      };
-      redirect = {
-        view = "split";
       };
       routes = [
         # Show messages when recording macros
@@ -70,7 +68,7 @@
     }
     {
       mode = "c";
-      key = "<S-Enter>";
+      key = "<S-CR>";
       action.__raw = ''
         function()
           require("noice").redirect(vim.fn.getcmdline())

@@ -136,10 +136,9 @@
     - c - messages displayed when using the insert completion menu
     - I - the intro message displayed when starting (Neo)Vim
     - s - messages displayed when wrapping search results
-    - S - the search count message in the command line
     - W - messages displayed when writing a file
     */
-    shortmess.__raw = "vim.opt.shortmess:append('cIsSW')";
+    shortmess.__raw = "vim.opt.shortmess:append('cIsW')";
     # Set how long (in ms) to wait for a mapped sequence (default is 1000)
     timeoutlen = 300;
     # Decrease the update time (this value is used by different plugins)
