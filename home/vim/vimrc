@@ -188,13 +188,21 @@ set visualbell t_vb=
 
 " --- Mappings ---
 
-" Set the leader key
 let mapleader=" "
+let maplocalleader = ","
 
-" Quit the insert mode
-inoremap jj <esc>
-inoremap jk <esc>
-inoremap kj <esc>
+" Enter the command mode with `;`
+nnoremap ; :
+xnoremap ; :
+nnoremap : ;
+xnoremap : ;
+
+" Maintain visual selection when changing indentation
+xnoremap < <gv
+xnoremap > >gv
+
+" Stop the highlighting of search matches
+nnoremap <Esc> <Cmd>nohlsearch<CR>
 
 " Use Ctrl + w/h/j/k/l for switching windows
 nnoremap <C-h> <C-w>h
@@ -203,21 +211,11 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-;> <C-w><C-w>
 
-" Keep the visual selection when changing the indentation
-vnoremap < <gv
-vnoremap > >gv
+" Quit the insert mode
+inoremap jj <Esc>
+inoremap jk <Esc>
+inoremap kj <Esc>
 
 " Use U for REDO
 nnoremap U <C-r>
-
-" Move faster with J/K
-nnoremap J 5j
-nnoremap K 5k
-
-" Re-map the join command
-nnoremap \ J
-vnoremap \ J
-
-" Remove the search highlight
-nnoremap <Leader>/ :nohlsearch<CR>
 
