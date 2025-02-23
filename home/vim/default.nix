@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   programs.vim = {
     enable = true;
 
@@ -9,12 +13,17 @@
       vimPlugins.vim-airline
     ];
 
-    extraConfig = builtins.readFile ./vimrc;
+    extraConfig = lib.concatStringsSep "\n" [
+      (builtins.readFile ./options.vim)
+      (builtins.readFile ./keymaps.vim)
+    ];
   };
 
   # Create directories for Vim swap files and undo files
   xdg.stateFile."vim/swap/.keep".text = "";
   xdg.stateFile."vim/undo/.keep".text = "";
+
+  # Custom ftplugins with configurtion for specific file types
 
   xdg.configFile."vim/after/ftplugin/gitcommit.vim".text = ''
     setlocal colorcolumn=51,73
