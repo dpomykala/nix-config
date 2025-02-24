@@ -29,7 +29,7 @@
       action = ">gv";
     }
 
-    # Stop the highlighting of search matches
+    # Stop the highlighting of search results
     {
       mode = "n";
       key = "<Esc>";

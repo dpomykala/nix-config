@@ -10,7 +10,6 @@
         };
       };
       presets = {
-        cmdline_output_to_split = true;
         long_message_to_split = true;
       };
       routes = [

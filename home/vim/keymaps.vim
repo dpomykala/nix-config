@@ -13,7 +13,7 @@ xnoremap : ;
 xnoremap < <gv
 xnoremap > >gv
 
-" Stop the highlighting of search matches
+" Stop the highlighting of search results
 nnoremap <Esc> <Cmd>nohlsearch<CR>
 
 " Use Ctrl + w/h/j/k/l for switching windows

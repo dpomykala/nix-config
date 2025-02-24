@@ -6,8 +6,11 @@
     ./diff.nix
     ./files.nix
     ./hipatterns.nix
+    ./icons.nix
     ./map.nix
+    ./operators.nix
     # ./pick.nix
+    ./surround.nix
   ];
 
   plugins.mini = {
@@ -27,31 +30,14 @@
       extra = {};
       files = {};
       git = {};
-      icons = {};
       indentscope = {};
       move = {};
       notify = {};
-      operators = {
-        # The `gs` prefix conflicts with custom mappings for mini.surround
-        sort.prefix = "g\\";
-      };
       pairs = {};
       snippets = {};
       splitjoin = {};
       starter = {};
       statusline = {};
-      surround = {
-        # Use the `gs` prefix to reserve the `s` key for flash.nvim
-        mappings = {
-          add = "gsa";
-          delete = "gsd";
-          find = "gsf";
-          find_left = "gsF";
-          highlight = "gsh";
-          replace = "gsr";
-          update_n_lines = "gsn";
-        };
-      };
       tabline = {};
     };
   };
