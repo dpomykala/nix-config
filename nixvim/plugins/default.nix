@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./flash.nix
+    ./lsp.nix
     ./mini
     ./noice.nix
     ./snacks

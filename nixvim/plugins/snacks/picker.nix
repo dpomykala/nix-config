@@ -1,19 +1,10 @@
-{...}: {
+{lib, ...}: {
   plugins.snacks.settings.picker = {
     enabled = true;
   };
 
   keymaps = let
-    mkNormCmdMap = {
-      key,
-      cmd,
-      desc,
-    }: {
-      mode = "n";
-      key = key;
-      action = "<Cmd>${cmd}<CR>";
-      options.desc = desc;
-    };
+    inherit (lib.custom.nixvim) mkNormCmdMap;
   in [
     (mkNormCmdMap {
       key = "<Leader>f;";

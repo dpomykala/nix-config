@@ -50,6 +50,13 @@
   }: let
     supportedSystems = ["x86_64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
+    # Extend the default lib with custom functions
+    lib = nixpkgs.lib.extend (final: prev: {
+      custom = import ./lib {lib = final;};
+    });
+    # Extend the lib used for NixVim with the default NixVim lib
+    libForNixvim = lib.extend nixvim.lib.overlay;
   in {
     darwinConfigurations."MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
       specialArgs = {inherit self;};
@@ -110,11 +117,15 @@
     };
 
     packages = forAllSystems (system: let
-      nixvimLib = nixvim.lib.${system};
+      # nixvimLib = nixvim.lib.${system};
       nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
         inherit system;
         module = import ./nixvim;
-        extraSpecialArgs = {inherit inputs;};
+        extraSpecialArgs = {
+          inherit inputs;
+          # Use the custom (extended) lib
+          lib = libForNixvim;
+        };
       };
     in {
       # Run NixVim as the default program for this flake with `nix run`
