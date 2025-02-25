@@ -1,16 +1,18 @@
-{...}: {
+{lib, ...}: {
   plugins.noice = {
     enable = true;
 
     settings = {
       lsp = {
-        override = {
+        override = lib.nixvim.toRawKeys {
           "vim.lsp.util.convert_input_to_markdown_lines" = true;
           "vim.lsp.util.stylize_markdown" = true;
         };
       };
       presets = {
         long_message_to_split = true;
+        # Add a border to hover docs and signature help
+        lsp_doc_border = true;
       };
       routes = [
         # Show messages when recording macros

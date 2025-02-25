@@ -1,6 +1,6 @@
 {...}: {
   opts = {
-    # APPEARANCE
+    # APPEARANCE {{{
 
     # Hide some markup text (e.g. in Markdown)
     conceallevel = 2;
@@ -57,8 +57,9 @@
     # WARN: Does not play nice with some of noice.nvim / snacks.nvim windows
     # Make floating windows slightly transparent
     # winblend = 10;
+    # }}}
 
-    # INDENTATION
+    # INDENTATION {{{
 
     # Use soft tabs (spaces) instead of hard tabs (\t) for indentation
     expandtab = true;
@@ -72,15 +73,17 @@
     softtabstop = -1;
     # Set the tab width for both soft and hard tabs
     tabstop = 2;
+    # }}}
 
-    # SEARCHING
+    # SEARCHING {{{
 
     # Use case-insensitive search by default (unless `\C` is used)
     ignorecase = true;
     # Use case-sensitive search if any of the characters are uppercase
     smartcase = true;
+    # }}}
 
-    # WRAPPING
+    # WRAPPING {{{
 
     # Indent wrapped lines to match line start
     breakindent = true;
@@ -90,8 +93,9 @@
     showbreak = "↪ ";
     # Don't wrap long lines
     wrap = false;
+    # }}}
 
-    # STATUS/COMMAND LINE
+    # STATUS/COMMAND LINE {{{
 
     # Use the global status line
     laststatus = 3;
@@ -103,29 +107,33 @@
     wildignore = "*.docx,*.exe,*.flv,*.gif,*.img,*.jpg,*.pdf,*.png,*.pyc,*.xlsx";
     # Set the command line completion mode
     wildmode = "longest:full,full";
+    # }}}
 
-    # COMPLETION
+    # COMPLETION {{{
 
     # Configure insert mode completion
     completeopt = "menuone,noselect,fuzzy";
     # Infer letter cases for insert mode completion (requires `ignorecase`)
     infercase = true;
+    # }}}
 
-    # FOLDING
+    # FOLDING {{{
 
     # Always start editing a buffer with all folds open
     foldlevelstart = 99;
 
     # NOTE: Other folding options are configured together with Treesitter
+    # }}}
 
-    # FILES
+    # FILES {{{
 
     # Use persistent undo history (save to a file)
     undofile = true;
     # Don't make a backup before overwriting a file
     writebackup = false;
+    # }}}
 
-    # OTHER
+    # OTHER {{{
 
     # Confirm to save changes before exiting a modified buffer
     confirm = true;
@@ -143,5 +151,8 @@
     timeoutlen = 300;
     # Decrease the update time (this value is used by different plugins)
     updatetime = 200;
+    # }}}
   };
 }
+# vim: foldmethod=marker
+

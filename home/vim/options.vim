@@ -1,5 +1,3 @@
-" vim: foldmethod=marker
-
 " SPECIAL OPTIONS {{{
 
 " Enable file types (detection, plugins and indentation)
@@ -185,4 +183,6 @@ set timeoutlen=300
 " Disable the bell sound (set the visual bell to do nothing)
 set visualbell t_vb=
 " }}}
+
+" vim: foldmethod=marker
 
