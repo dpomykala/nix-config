@@ -1,6 +1,20 @@
 {...}: {
   plugins.mini.modules.clue = {
     clues = [
+      # Generate pre-configured clues
+      {__raw = "require('mini.clue').gen_clues.builtin_completion()";}
+      {__raw = "require('mini.clue').gen_clues.g()";}
+      {__raw = "require('mini.clue').gen_clues.marks()";}
+      {__raw = "require('mini.clue').gen_clues.registers()";}
+      {
+        __raw = ''
+          require('mini.clue').gen_clues.windows(
+            { submode_move = true, submode_navigate = true, submode_resize = true }
+          )
+        '';
+      }
+      {__raw = "require('mini.clue').gen_clues.z()";}
+
       # Descriptions for <Leader> mapping groups
       {
         mode = "n";
@@ -24,13 +38,35 @@
       }
       {
         mode = "n";
-        keys = "<Leader>n";
-        desc = "+Noice";
+        keys = "<Leader>l";
+        desc = "+LSP";
       }
       {
         mode = "n";
         keys = "<Leader>m";
         desc = "+Map";
+      }
+      {
+        mode = "n";
+        keys = "<Leader>n";
+        desc = "+Noice";
+      }
+
+      # Custom mappings
+      {
+        mode = "n";
+        keys = "gl";
+        desc = "+LSP";
+      }
+      {
+        mode = "n";
+        keys = "gs";
+        desc = "Surround";
+      }
+      {
+        mode = "x";
+        keys = "gs";
+        desc = "Surround";
       }
 
       # Submodes for previous / next (mini.bracketed)
@@ -114,20 +150,6 @@
         keys = "[u";
         postkeys = "[";
       }
-
-      # Generate pre-configured clues
-      {__raw = "require('mini.clue').gen_clues.builtin_completion()";}
-      {__raw = "require('mini.clue').gen_clues.g()";}
-      {__raw = "require('mini.clue').gen_clues.marks()";}
-      {__raw = "require('mini.clue').gen_clues.registers()";}
-      {
-        __raw = ''
-          require('mini.clue').gen_clues.windows(
-            { submode_move = true, submode_navigate = true, submode_resize = true }
-          )
-        '';
-      }
-      {__raw = "require('mini.clue').gen_clues.z()";}
     ];
 
     triggers = [
