@@ -3,12 +3,9 @@
   lib,
   ...
 }: let
-  snacksPickerEnabled =
-    config.plugins.snacks.enable
-    && config.plugins.snacks.settings ? picker
-    && config.plugins.snacks.settings.picker.enabled;
+  inherit (lib.custom.nixvim) hasSnacksModule mkNormCmdMap;
 
-  inherit (lib.custom.nixvim) mkNormCmdMap;
+  hasSnacksPicker = hasSnacksModule config "picker";
 in {
   plugins.lsp = {
     enable = true;
@@ -35,7 +32,7 @@ in {
             desc = "LS stop";
           })
         ]
-        ++ lib.optionals snacksPickerEnabled [
+        ++ lib.optionals hasSnacksPicker [
           (mkNormCmdMap {
             key = "gD";
             cmd = "lua Snacks.picker.lsp_declarations()";
@@ -95,7 +92,7 @@ in {
             desc = "Rename";
           };
         }
-        // lib.optionalAttrs (!snacksPickerEnabled) {
+        // lib.optionalAttrs (!hasSnacksPicker) {
           gD = {
             action = "declaration";
             desc = "Goto declaration (LSP)";
