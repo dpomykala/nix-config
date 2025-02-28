@@ -45,6 +45,14 @@
       tlrc
       tokei
       uv
+
+      # Linters / formatters
+      alejandra
+      nodePackages.prettier
+      ruff
+      shellcheck
+      shfmt
+      stylua
     ];
   };
 

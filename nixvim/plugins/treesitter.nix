@@ -50,9 +50,8 @@
   };
 
   /*
-  Configure folding manually as the `plugins.treesitter.folding`
-  option sets `foldexpr` to `nvim_treesitter#foldexpr()` which
-  does not seem to work
+  Configure folding manually as the `plugins.treesitter.folding` option
+  sets `foldexpr` to `nvim_treesitter#foldexpr()` which does not work
   */
   opts = {
     # Use Treesitter based folding

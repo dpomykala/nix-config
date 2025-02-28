@@ -23,6 +23,11 @@
       }
       {
         mode = "n";
+        keys = "<Leader>c";
+        desc = "+Code";
+      }
+      {
+        mode = "n";
         keys = "<Leader>e";
         desc = "+Explore";
       }
@@ -55,6 +60,11 @@
       # Custom mappings
       {
         mode = "n";
+        keys = "gl";
+        desc = "+LSP";
+      }
+      {
+        mode = "x";
         keys = "gl";
         desc = "+LSP";
       }

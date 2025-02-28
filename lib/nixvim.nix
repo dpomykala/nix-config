@@ -1,6 +1,6 @@
-{lib}: rec {
+{lib}: let
   inherit (lib) attrByPath;
-
+in rec {
   mkCmdMap = mode: {
     key,
     cmd,
@@ -12,7 +12,9 @@
     options.desc = desc;
   };
 
-  mkNormCmdMap = mkCmdMap "n";
+  nCmdMap = mkCmdMap "n";
+  xCmdMap = mkCmdMap "x";
+  nxCmdMap = mkCmdMap ["n" "x"];
 
   /*
   Check if the given module from the snacks.nvim plugin is enabled.

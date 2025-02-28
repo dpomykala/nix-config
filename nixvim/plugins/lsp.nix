@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  inherit (lib.custom.nixvim) hasSnacksModule mkNormCmdMap;
+  inherit (lib.custom.nixvim) hasSnacksModule nCmdMap;
 
   hasSnacksPicker = hasSnacksModule config "picker";
 in {
@@ -16,54 +16,54 @@ in {
       extra =
         [
           # Language servers mappings
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "<Leader>ll";
             cmd = "LspLog";
             desc = "LS logs";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "<Leader>lr";
             cmd = "Lsprestart";
             desc = "LS restart";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "<Leader>lS";
             cmd = "LspStop";
             desc = "LS stop";
           })
         ]
         ++ lib.optionals hasSnacksPicker [
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "gD";
             cmd = "lua Snacks.picker.lsp_declarations()";
             desc = "Goto declaration (LSP)";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "gd";
             cmd = "lua Snacks.picker.lsp_definitions()";
             desc = "Goto definition (LSP)";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "gli";
             cmd = "lua Snacks.picker.lsp_implementations()";
             desc = "Goto implementation";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "glr";
             cmd = "lua Snacks.picker.lsp_references()";
             desc = "References";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "glS";
             cmd = "lua Snacks.picker.lsp_workspace_symbols()";
             desc = "Symbols (workspace)";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "gls";
             cmd = "lua Snacks.picker.lsp_symbols()";
             desc = "Symbols (buffer)";
           })
-          (mkNormCmdMap {
+          (nCmdMap {
             key = "glt";
             cmd = "lua Snacks.picker.lsp_type_definitions()";
             desc = "Goto type definition";
@@ -86,6 +86,11 @@ in {
           gla = {
             action = "code_action";
             desc = "Actions";
+          };
+          glf = {
+            mode = ["n" "x"];
+            action = "format";
+            desc = "Format file/range (LSP)";
           };
           glR = {
             action = "rename";
@@ -136,12 +141,12 @@ in {
   # Global mappings (available also if there is no LS attached)
   keymaps = [
     # Language servers mappings
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>li";
       cmd = "check lspconfig";
       desc = "LS info";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>ls";
       cmd = "LspStart";
       desc = "LS start";

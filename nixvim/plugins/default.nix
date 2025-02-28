@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./conform.nix
     ./flash.nix
     ./lsp.nix
     ./mini

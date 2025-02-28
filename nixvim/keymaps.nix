@@ -5,7 +5,7 @@
   };
 
   keymaps = let
-    inherit (lib.custom.nixvim) mkNormCmdMap;
+    inherit (lib.custom.nixvim) nCmdMap;
   in [
     # Enter the command mode with `;`
     {
@@ -32,18 +32,16 @@
     }
 
     # Stop the highlighting of search results
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Esc>";
       cmd = "nohlsearch";
     })
 
-    # Diagnostics
-    {
-      mode = "x";
-      key = "<Leader>df";
-      action = "<C-w>d";
-      options.desc = "Diagnostics (line)";
-    }
-    # TODO: Toggle diagnostics (enable/disable)
+    # Show diagnostics for the current line
+    (nCmdMap {
+      key = "<Leader>cd";
+      cmd = "lua vim.diagnostic.open_float()";
+      desc = "Diagnostics (line)";
+    })
   ];
 }

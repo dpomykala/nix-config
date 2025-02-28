@@ -12,7 +12,7 @@
     };
     virtual_text = {
       prefix = "■";
-      spacing = 2;
+      spacing = 4;
     };
   };
 }

@@ -5,166 +5,166 @@
 
   # NOTE: Some picker keymaps may be defined in other places (e.g. LSP config)
   keymaps = let
-    inherit (lib.custom.nixvim) mkNormCmdMap;
+    inherit (lib.custom.nixvim) nCmdMap;
   in [
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>f;";
       cmd = "lua Snacks.picker.command_history()";
       desc = "Command history";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>f/";
       cmd = "lua Snacks.picker.search_history()";
       desc = "Search history";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>f'";
       cmd = "lua Snacks.picker.marks()";
       desc = "Marks";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>f\"";
       cmd = "lua Snacks.picker.registers()";
       desc = "Registers";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>f<CR>";
       cmd = "lua Snacks.picker.resume()";
       desc = "Resume";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fa";
       cmd = "lua Snacks.picker.autocmds()";
       desc = "Autocommands";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fb";
       cmd = "lua Snacks.picker.buffers()";
       desc = "Buffers";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fC";
       cmd = "lua Snacks.picker.colorschemes()";
       desc = "Colorschemes";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fc";
       cmd = "lua Snacks.picker.commands()";
       desc = "Commands";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fD";
       cmd = "lua Snacks.picker.diagnostics()";
       desc = "Diagnostics (cwd)";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fd";
       cmd = "lua Snacks.picker.diagnostics_buffer()";
       desc = "Diagnostics (buffer)";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fF";
       cmd = "lua Snacks.picker.files()";
       desc = "Files";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>ff";
       cmd = "lua Snacks.picker.smart()";
       desc = "Files (smart)";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fg";
       cmd = "lua Snacks.picker.grep()";
       desc = "Grep";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fH";
       cmd = "lua Snacks.picker.highlights()";
       desc = "Highlights";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fh";
       cmd = "lua Snacks.picker.help()";
       desc = "Help";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fi";
       cmd = "lua Snacks.picker.icons()";
       desc = "Icons";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fj";
       cmd = "lua Snacks.picker.jumps()";
       desc = "Jumps";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fk";
       cmd = "lua Snacks.picker.keymaps()";
       desc = "Keymaps";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fL";
       cmd = "lua Snacks.picker.loclist()";
       desc = "Location list";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fl";
       cmd = "lua Snacks.picker.lines()";
       desc = "Buffer lines";
     })
     # FIXME: Does not work?
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fm";
       cmd = "lua Snacks.picker.man()";
       desc = "Man pages";
     })
     # FIXME: Does not work?
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fn";
       cmd = "lua Snacks.picker.notifications()";
       desc = "Notifications";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fo";
       cmd = "lua Snacks.picker.grep_buffers()";
       desc = "Grep (open buffers)";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fP";
       cmd = "lua Snacks.picker.pickers()";
       desc = "Pickers";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fp";
       cmd = "lua Snacks.picker.projects()";
       desc = "Projects";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fq";
       cmd = "lua Snacks.picker.qflist()";
       desc = "Quickfix list";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fr";
       cmd = "lua Snacks.picker.recent()";
       desc = "Recent files";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fs";
       cmd = "lua Snacks.picker.spelling()";
       desc = "Spelling";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fu";
       cmd = "lua Snacks.picker.undo()";
       desc = "Undotree";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fw";
       cmd = "lua Snacks.picker.grep_word()";
       desc = "Grep for word";
     })
-    (mkNormCmdMap {
+    (nCmdMap {
       key = "<Leader>fz";
       cmd = "lua Snacks.picker.zoxide()";
       desc = "Files (zoxide)";
