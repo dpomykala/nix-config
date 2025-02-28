@@ -11,9 +11,15 @@ in {
         lsp_format = "fallback";
       };
 
-      format_on_save = {
-        timeout_ms = 500; # Default: 1000
-      };
+      format_on_save.__raw = ''
+        function(bufnr)
+          -- Disable formatting on save with a global or buffer-local variable
+          if vim.g.autoformat_disabled or vim.b[bufnr].autoformat_disabled then
+            return
+          end
+          return {timeout_ms = 500} -- Default: 1000
+        end
+      '';
 
       formatters_by_ft =
         {
@@ -41,6 +47,16 @@ in {
 
   keymaps = [
     (nCmdMap {
+      key = "\\F";
+      cmd = "AutoformatToggle";
+      desc = "Toggle formatting";
+    })
+    (nCmdMap {
+      key = "\\f";
+      cmd = "AutoformatBufferToggle";
+      desc = "Toggle formatting (buffer)";
+    })
+    (nCmdMap {
       key = "<Leader>cF";
       cmd = "ConformInfo";
       desc = "Formatters info";
@@ -55,5 +71,29 @@ in {
   opts = {
     # Use conform.nvim for built-in formatting operations (e.g. with `gq`)
     formatexpr = "v:lua.require'conform'.formatexpr()";
+  };
+
+  userCommands = {
+    AutoformatToggle = {
+      command.__raw = ''
+        function()
+          vim.g.autoformat_disabled = not vim.g.autoformat_disabled
+          local status = not vim.g.autoformat_disabled and "enabled" or "disabled"
+          print("Formatting on save is globally " .. status)
+        end
+      '';
+      desc = "Toggle automatic formatting on save (globally)";
+    };
+
+    AutoformatBufferToggle = {
+      command.__raw = ''
+        function()
+          vim.b.autoformat_disabled = not vim.b.autoformat_disabled
+          local status = not vim.b.autoformat_disabled and "enabled" or "disabled"
+          print("Formatting on save is locally " .. status)
+        end
+      '';
+      desc = "Toggle automatic formatting on save for the current buffer";
+    };
   };
 }
