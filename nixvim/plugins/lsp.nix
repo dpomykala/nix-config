@@ -135,6 +135,24 @@ in {
       html.enable = true;
       lua_ls.enable = true;
       pyright.enable = true;
+
+      typos_lsp = {
+        enable = true;
+
+        # Render typos as warnings
+        extraOptions.init_options.diagnosticSeverity = "Warning";
+
+        # Disable typos LSP in help pages
+        onAttach.function = ''
+          -- Use schedule to make sure that a file type is already set
+          vim.schedule(function()
+            if vim.bo[bufnr].filetype == "help" then
+              vim.lsp.buf_detach_client(bufnr, client.id)
+              return
+            end
+          end)
+        '';
+      };
     };
   };
 

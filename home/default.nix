@@ -53,6 +53,7 @@
       shellcheck
       shfmt
       stylua
+      typos
     ];
   };
 
