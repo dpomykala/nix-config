@@ -59,7 +59,6 @@
     libForNixvim = lib.extend nixvim.lib.overlay;
   in {
     darwinConfigurations."MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
-      specialArgs = {inherit self;};
       modules = [
         nix-homebrew.darwinModules.nix-homebrew
         {
@@ -102,30 +101,37 @@
         # The entrypoint for the nix-darwin configuration
         ./darwin
       ];
+
+      specialArgs = {inherit self;};
     };
 
     # The standalone Home Manager configuration
     # This can also be used on platforms other than NixOS and Darwin
     # FIXME: Hardcoded username
     homeConfigurations."dp" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages."x86_64-darwin";
+      extraSpecialArgs = {inherit self;};
+
       modules = [
         # The entrypoint for the Home Manager configuration
         ./home
       ];
-      extraSpecialArgs = {inherit self;};
+
+      pkgs = nixpkgs.legacyPackages."x86_64-darwin";
     };
 
     packages = forAllSystems (system: let
       # nixvimLib = nixvim.lib.${system};
       nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
         inherit system;
-        module = import ./nixvim;
+
         extraSpecialArgs = {
-          inherit inputs;
+          inherit self;
+
           # Use the custom (extended) lib
           lib = libForNixvim;
         };
+
+        module = import ./nixvim;
       };
     in {
       # Run NixVim as the default program for this flake with `nix run`

@@ -1,6 +1,6 @@
 {
-  inputs,
   pkgs,
+  self,
   ...
 }: {
   imports = [
@@ -13,5 +13,5 @@
   ];
 
   # Use the Neovim Nightly build
-  package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  package = self.inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
 }

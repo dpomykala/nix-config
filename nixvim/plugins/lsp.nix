@@ -1,6 +1,8 @@
 {
   config,
   lib,
+  pkgs,
+  self,
   ...
 }: let
   inherit (lib.custom.nixvim) hasSnacksModule nCmdMap;
@@ -133,7 +135,31 @@ in {
 
     servers = {
       html.enable = true;
+
       lua_ls.enable = true;
+
+      nixd = {
+        enable = true;
+
+        settings = let
+          flake = ''(builtins.getFlake "${self}")'';
+        in {
+          formatting.command = ["alejandra"];
+          nixpkgs.expr = "import ${flake}.inputs.nixpkgs {}";
+          options = {
+            home-manager.expr = ''
+              let configs = ${flake}.homeConfigurations;
+              in (builtins.head (builtins.attrValues configs)).options
+            '';
+            nix-darwin.expr = ''
+              let configs = ${flake}.darwinConfigurations;
+              in (builtins.head (builtins.attrValues configs)).options
+            '';
+            nixvim.expr = "${flake}.packages.${pkgs.system}.nvim.options";
+          };
+        };
+      };
+
       pyright.enable = true;
 
       typos_lsp = {
