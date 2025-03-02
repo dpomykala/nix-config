@@ -37,6 +37,33 @@
       cmd = "nohlsearch";
     })
 
+    # Add a semicolon at the EOL and return to the previous position
+    {
+      mode = "i";
+      key = "<M-;>";
+      action = "<Esc>m`A;<Esc>``a";
+      options.desc = "Smart semicolon";
+    }
+    {
+      mode = "n";
+      key = "<M-;>";
+      action = "m`A;<Esc>``";
+      options.desc = "Smart semicolon";
+    }
+    # Add a comma at the EOL and return to the previous position
+    {
+      mode = "i";
+      key = "<M-,>";
+      action = "<Esc>m`A,<Esc>``a";
+      options.desc = "Smart comma";
+    }
+    {
+      mode = "n";
+      key = "<M-,>";
+      action = "m`A,<Esc>``";
+      options.desc = "Smart comma";
+    }
+
     # Show diagnostics for the current line
     (nCmdMap {
       key = "<Leader>cd";

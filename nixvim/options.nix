@@ -53,7 +53,7 @@
     splitbelow = true;
     # New vertical splits are created to the right of the current window
     splitright = true;
-    # Allow the cursor to move past EOL in the visual block mode
+    # Allow the cursor to move past the EOL in the visual block mode
     virtualedit = "block";
     # WARN: Does not play nice with some of noice.nvim / snacks.nvim windows
     # Make floating windows slightly transparent

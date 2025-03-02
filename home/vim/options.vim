@@ -38,7 +38,7 @@ set splitbelow
 set splitright
 " Use 24-bit RGB colors
 set termguicolors
-" Allow the cursor to move past EOL in the visual block mode
+" Allow the cursor to move past the EOL in the visual block mode
 set virtualedit=block
 " }}}
 
