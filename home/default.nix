@@ -52,6 +52,7 @@
       ruff
       shellcheck
       shfmt
+      statix
       stylua
       typos
     ];

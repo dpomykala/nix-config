@@ -46,13 +46,13 @@
     plugins = with pkgs; [
       # https://github.com/jeffreytse/zsh-vi-mode
       {
+        inherit (zsh-vi-mode) src;
         name = "zsh-vi-mode";
-        src = zsh-vi-mode.src;
       }
       # https://github.com/MichaelAquilina/zsh-you-should-use
       {
+        inherit (zsh-you-should-use) src;
         name = "zsh-you-should-use";
-        src = zsh-you-should-use.src;
       }
     ];
   };

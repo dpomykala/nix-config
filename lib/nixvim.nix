@@ -6,8 +6,7 @@ in rec {
     cmd,
     desc ? "",
   }: {
-    mode = mode;
-    key = key;
+    inherit key mode;
     action = "<Cmd>${cmd}<CR>";
     options.desc = desc;
   };

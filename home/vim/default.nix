@@ -19,24 +19,27 @@
     ];
   };
 
-  # Create directories for Vim swap files and undo files
-  xdg.stateFile."vim/swap/.keep".text = "";
-  xdg.stateFile."vim/undo/.keep".text = "";
+  xdg = {
+    # Create directories for Vim swap files and undo files
+    stateFile."vim/swap/.keep".text = "";
+    stateFile."vim/undo/.keep".text = "";
 
-  # Custom ftplugins with configurtion for specific file types
+    # Custom ftplugins with configuration for specific file types
+    configFile = {
+      "vim/after/ftplugin/gitcommit.vim".text = ''
+        setlocal colorcolumn=51,73
+        setlocal spell
+        setlocal textwidth=72
+      '';
 
-  xdg.configFile."vim/after/ftplugin/gitcommit.vim".text = ''
-    setlocal colorcolumn=51,73
-    setlocal spell
-    setlocal textwidth=72
-  '';
+      "vim/after/ftplugin/just.vim".text = ''
+        setlocal tabstop=4
+      '';
 
-  xdg.configFile."vim/after/ftplugin/just.vim".text = ''
-    setlocal tabstop=4
-  '';
-
-  # NOTE: `noexpandtab` is already set in the default ftplugin for make
-  xdg.configFile."vim/after/ftplugin/make.vim".text = ''
-    setlocal tabstop=4
-  '';
+      # NOTE: `noexpandtab` is already set in the default ftplugin for make
+      "vim/after/ftplugin/make.vim".text = ''
+        setlocal tabstop=4
+      '';
+    };
+  };
 }

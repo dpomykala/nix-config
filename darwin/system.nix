@@ -91,7 +91,7 @@
         # Disable the press-and-hold accents menu
         ApplePressAndHoldEnabled = false;
 
-        # Allways show file extensions in Finder
+        # Always show file extensions in Finder
         # The finder.AppleShowAllExtensions option does not work, use this instead
         AppleShowAllExtensions = true;
 

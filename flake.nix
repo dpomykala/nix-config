@@ -134,9 +134,9 @@
         module = import ./nixvim;
       };
     in {
+      inherit nvim;
       # Run NixVim as the default program for this flake with `nix run`
       default = nvim;
-      nvim = nvim;
     });
 
     # TODO: Add checks for NixVim?
