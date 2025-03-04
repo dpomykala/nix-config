@@ -142,25 +142,55 @@ in {
         enable = true;
 
         settings = let
-          flake = ''(builtins.getFlake "${self}")'';
+          flake =
+            # nix
+            ''(builtins.getFlake "${self}")'';
         in {
           formatting.command = ["alejandra"];
-          nixpkgs.expr = "import ${flake}.inputs.nixpkgs {}";
+          nixpkgs.expr =
+            # nix
+            "import ${flake}.inputs.nixpkgs {}";
           options = {
-            home-manager.expr = ''
-              let configs = ${flake}.homeConfigurations;
-              in (builtins.head (builtins.attrValues configs)).options
-            '';
-            nix-darwin.expr = ''
-              let configs = ${flake}.darwinConfigurations;
-              in (builtins.head (builtins.attrValues configs)).options
-            '';
-            nixvim.expr = "${flake}.packages.${pkgs.system}.nvim.options";
+            home-manager.expr =
+              # nix
+              ''
+                let configs = ${flake}.homeConfigurations;
+                in (builtins.head (builtins.attrValues configs)).options
+              '';
+            nix-darwin.expr =
+              # nix
+              ''
+                let configs = ${flake}.darwinConfigurations;
+                in (builtins.head (builtins.attrValues configs)).options
+              '';
+            nixvim.expr =
+              # nix
+              "${flake}.packages.${pkgs.system}.nvim.options";
           };
         };
       };
 
-      pyright.enable = true;
+      pyright = {
+        enable = true;
+
+        settings = {
+          pyright = {
+            # Disable Pyright's import organizer in favor of Ruff
+            disableOrganizeImports = true;
+          };
+        };
+      };
+
+      ruff = {
+        enable = true;
+
+        # Disable Ruff's hover in favor of Pyright
+        onAttach.function =
+          # lua
+          ''
+            client.server_capabilities.hoverProvider = false
+          '';
+      };
 
       typos_lsp = {
         enable = true;
@@ -169,15 +199,17 @@ in {
         extraOptions.init_options.diagnosticSeverity = "Warning";
 
         # Disable typos LSP in help pages
-        onAttach.function = ''
-          -- Use schedule to make sure that a file type is already set
-          vim.schedule(function()
-            if vim.bo[bufnr].filetype == "help" then
-              vim.lsp.buf_detach_client(bufnr, client.id)
-              return
-            end
-          end)
-        '';
+        onAttach.function =
+          # lua
+          ''
+            -- Use schedule to make sure that a file type is already set
+            vim.schedule(function()
+              if vim.bo[bufnr].filetype == "help" then
+                vim.lsp.buf_detach_client(bufnr, client.id)
+                return
+              end
+            end)
+          '';
       };
     };
   };

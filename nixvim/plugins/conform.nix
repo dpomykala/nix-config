@@ -21,12 +21,12 @@ in {
         end
       '';
 
+      # NOTE: LSP formatting is used for some languages (e.g. Python)
       formatters_by_ft =
         {
           just = ["just"];
           lua = ["stylua"];
           nix = ["alejandra"];
-          python = ["ruff_organize_imports" "ruff_format"];
         }
         # File types formatted using prettier
         // genAttrs [

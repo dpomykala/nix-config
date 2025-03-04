@@ -26,20 +26,26 @@
 
     # Custom ftplugins with configuration for specific file types
     configFile = {
-      "vim/after/ftplugin/gitcommit.vim".text = ''
-        setlocal colorcolumn=51,73
-        setlocal spell
-        setlocal textwidth=72
-      '';
+      "vim/after/ftplugin/gitcommit.vim".text =
+        # vim
+        ''
+          setlocal colorcolumn=51,73
+          setlocal spell
+          setlocal textwidth=72
+        '';
 
-      "vim/after/ftplugin/just.vim".text = ''
-        setlocal tabstop=4
-      '';
+      "vim/after/ftplugin/just.vim".text =
+        # vim
+        ''
+          setlocal tabstop=4
+        '';
 
       # NOTE: `noexpandtab` is already set in the default ftplugin for make
-      "vim/after/ftplugin/make.vim".text = ''
-        setlocal tabstop=4
-      '';
+      "vim/after/ftplugin/make.vim".text =
+        # vim
+        ''
+          setlocal tabstop=4
+        '';
     };
   };
 }
