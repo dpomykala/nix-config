@@ -27,6 +27,11 @@
         desc = "+Code";
       }
       {
+        mode = "x";
+        keys = "<Leader>c";
+        desc = "+Code";
+      }
+      {
         mode = "n";
         keys = "<Leader>e";
         desc = "+Explore";
@@ -38,6 +43,11 @@
       }
       {
         mode = "n";
+        keys = "<Leader>f";
+        desc = "+Find";
+      }
+      {
+        mode = "x";
         keys = "<Leader>f";
         desc = "+Find";
       }

@@ -5,7 +5,7 @@
 
   # NOTE: Some picker keymaps may be defined in other places (e.g. LSP config)
   keymaps = let
-    inherit (lib.custom.nixvim) nCmdMap;
+    inherit (lib.custom.nixvim) nCmdMap nxCmdMap;
   in [
     (nCmdMap {
       key = "<Leader>f;";
@@ -159,10 +159,10 @@
       cmd = "lua Snacks.picker.undo()";
       desc = "Undotree";
     })
-    (nCmdMap {
+    (nxCmdMap {
       key = "<Leader>fw";
       cmd = "lua Snacks.picker.grep_word()";
-      desc = "Grep for word";
+      desc = "Grep for word(s)";
     })
     (nCmdMap {
       key = "<Leader>fz";
