@@ -1,4 +1,4 @@
-{...}: {
+_: {
   plugins.mini.modules.pick = {};
 
   keymaps = [

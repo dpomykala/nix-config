@@ -1,4 +1,4 @@
-{...}: {
+_: {
   plugins.mini.modules.basics = {
     # Manage options manually
     options.basic = false;

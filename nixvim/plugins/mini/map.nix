@@ -1,4 +1,4 @@
-{...}: {
+_: {
   plugins.mini.modules.map = {
     integrations = [
       {__raw = "require('mini.map').gen_integration.builtin_search()";}

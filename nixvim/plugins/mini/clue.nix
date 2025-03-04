@@ -1,4 +1,4 @@
-{...}: {
+_: {
   plugins.mini.modules.clue = {
     clues = [
       # Generate pre-configured clues

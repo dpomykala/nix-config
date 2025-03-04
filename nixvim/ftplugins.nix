@@ -1,7 +1,7 @@
 /*
 Custom ftplugins with configuration for specific file types.
 */
-{...}: {
+_: {
   files = {
     "after/ftplugin/gitcommit.lua" = {
       localOpts = {

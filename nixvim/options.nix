@@ -1,4 +1,4 @@
-{...}: {
+_: {
   # NOTE: Some options may also be set via plugins
   opts = {
     # APPEARANCE {{{

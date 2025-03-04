@@ -1,4 +1,4 @@
-{...}: {
+_: {
   plugins.mini.modules.files = {
     windows = {preview = true;};
   };

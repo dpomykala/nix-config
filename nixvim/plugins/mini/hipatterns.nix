@@ -1,4 +1,4 @@
-{...}: {
+_: {
   plugins.mini.modules.hipatterns = {
     highlighters = {
       fixme = {
