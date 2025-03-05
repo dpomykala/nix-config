@@ -1,4 +1,4 @@
-{...}: {
+_: {
   imports = [
     ./blink.nix
     ./conform.nix
@@ -10,4 +10,6 @@
     ./snacks
     ./treesitter.nix
   ];
+
+  plugins.friendly-snippets.enable = true;
 }

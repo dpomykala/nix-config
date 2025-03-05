@@ -1,19 +1,40 @@
-{lib, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   plugins.noice = {
     enable = true;
 
-    settings = {
+    settings = let
+      inherit (lib) attrByPath;
+
+      signatureViaBlink =
+        config.plugins.blink-cmp.enable
+        && (
+          attrByPath
+          ["signature" "enabled"]
+          false
+          config.plugins.blink-cmp.settings
+        );
+    in {
       lsp = {
         override = lib.nixvim.toRawKeys {
           "vim.lsp.util.convert_input_to_markdown_lines" = true;
           "vim.lsp.util.stylize_markdown" = true;
         };
+
+        # Disable if signature help is handled by blink.cmp
+        signature.enabled = !signatureViaBlink;
       };
+
       presets = {
         long_message_to_split = true;
+
         # Add a border to hover docs and signature help
         lsp_doc_border = true;
       };
+
       routes = [
         # Show messages when recording macros
         {

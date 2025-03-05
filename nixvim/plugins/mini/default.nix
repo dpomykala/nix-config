@@ -1,4 +1,4 @@
-{...}: {
+_: {
   imports = [
     ./basics.nix
     ./bufremove.nix
