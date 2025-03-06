@@ -31,6 +31,7 @@
       htmldjango
       javascript
       json
+      jsonc
       just
       lua
       make

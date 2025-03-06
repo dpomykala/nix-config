@@ -128,6 +128,8 @@ _: {
 
     # FILES {{{
 
+    # Load local configuration (.nvim.lua, .nvimrc, .exrc) from the CWD
+    exrc = true;
     # Use persistent undo history (save to a file)
     undofile = true;
     # Don't make a backup before overwriting a file

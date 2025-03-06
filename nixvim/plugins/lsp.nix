@@ -136,6 +136,8 @@ in {
     servers = {
       html.enable = true;
 
+      jsonls.enable = true;
+
       lua_ls.enable = true;
 
       nixd = {
