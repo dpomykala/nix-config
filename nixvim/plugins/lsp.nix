@@ -25,7 +25,7 @@ in {
           })
           (nCmdMap {
             key = "<Leader>lr";
-            cmd = "Lsprestart";
+            cmd = "LspRestart";
             desc = "LS restart";
           })
           (nCmdMap {
