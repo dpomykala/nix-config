@@ -1,8 +1,4 @@
-{
-  pkgs,
-  self,
-  ...
-}: {
+{self, ...}: {
   imports = [
     ./colorschemes.nix
     ./diagnostics.nix
@@ -12,6 +8,9 @@
     ./plugins
   ];
 
-  # Use the Neovim Nightly build
-  package = self.inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  # Apply overlays for pkgs used by NixVim
+  nixpkgs.overlays = [
+    self.overlays.blink-cmp-main
+    self.overlays.neovim-nightly
+  ];
 }

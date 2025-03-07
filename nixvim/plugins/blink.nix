@@ -1,13 +1,6 @@
-{
-  pkgs,
-  self,
-  ...
-}: {
+_: {
   plugins.blink-cmp = {
     enable = true;
-
-    # TODO: Use overlay instead?
-    package = self.inputs.blink-cmp.packages.${pkgs.system}.blink-cmp;
 
     settings = {
       appearance = {
@@ -25,7 +18,7 @@
         # menu.draw.treesitter = ["lsp"];
       };
 
-      # FIXME: Show documentation together with a signature?
+      # TODO: Show documentation together with a signature?
       signature.enabled = true;
     };
   };
