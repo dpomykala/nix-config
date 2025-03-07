@@ -1,5 +1,6 @@
 _: {
   imports = [
+    ./animate.nix
     ./basics.nix
     ./bufremove.nix
     ./clue.nix
@@ -7,6 +8,7 @@ _: {
     ./files.nix
     ./hipatterns.nix
     ./icons.nix
+    ./indentscope.nix
     ./map.nix
     ./operators.nix
     # ./pick.nix
@@ -21,7 +23,6 @@ _: {
 
     modules = {
       ai = {};
-      animate = {};
       align = {};
       bracketed = {};
       # TODO: Can it be replaced with the built-in functionality?
@@ -30,11 +31,8 @@ _: {
       extra = {};
       files = {};
       git = {};
-      indentscope = {};
       move = {};
-      notify = {};
       pairs = {};
-      snippets = {};
       splitjoin = {};
       starter = {};
       statusline = {};
