@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "bat-catppuccin-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1734996624,
+        "narHash": "sha256-6fWoCH90IGumAMc4buLRWL0N61op+AuMNN9CAR9/OdI=",
+        "owner": "catppuccin",
+        "repo": "bat",
+        "rev": "699f60fc8ec434574ca7451b444b880430319941",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "bat",
+        "type": "github"
+      }
+    },
     "blink-cmp": {
       "inputs": {
         "fenix": "fenix",
@@ -36,6 +52,22 @@
         "owner": "Homebrew",
         "ref": "4.4.23",
         "repo": "brew",
+        "type": "github"
+      }
+    },
+    "delta-catppuccin-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1735675170,
+        "narHash": "sha256-04po0A7bVMsmYdJcKL6oL39RlMLij1lRKvWl5AUXJ7Q=",
+        "owner": "catppuccin",
+        "repo": "delta",
+        "rev": "e9e21cffd98787f1b59e6f6e42db599f9b8ab399",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "delta",
         "type": "github"
       }
     },
@@ -544,7 +576,9 @@
     },
     "root": {
       "inputs": {
+        "bat-catppuccin-theme": "bat-catppuccin-theme",
         "blink-cmp": "blink-cmp",
+        "delta-catppuccin-theme": "delta-catppuccin-theme",
         "home-manager": "home-manager",
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",

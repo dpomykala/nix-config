@@ -33,12 +33,21 @@
     };
 
     nixvim.url = "github:nix-community/nixvim";
-
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
+    # Neovim plugins
     blink-cmp = {
       url = "github:Saghen/blink.cmp";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    bat-catppuccin-theme = {
+      url = "github:catppuccin/bat";
+      flake = false;
+    };
+    delta-catppuccin-theme = {
+      url = "github:catppuccin/delta";
+      flake = false;
     };
   };
 

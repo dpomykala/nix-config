@@ -1,5 +1,6 @@
 _: {
   imports = [
+    ./git.nix
     ./picker.nix
   ];
 
