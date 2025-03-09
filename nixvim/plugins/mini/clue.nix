@@ -75,6 +75,11 @@ _: {
       # Custom mappings
       {
         mode = "n";
+        keys = "\\g";
+        desc = "+Toggle Git options";
+      }
+      {
+        mode = "n";
         keys = "gh";
         desc = "+Git hunks";
       }
