@@ -19,6 +19,8 @@ _: {
     # Open the default editor (either Vim or Neovim)
     v = "\${EDITOR:-vim}";
 
+    lg = "lazygit";
+
     # PYTHON
 
     py = "python";

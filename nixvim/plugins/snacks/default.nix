@@ -1,6 +1,8 @@
 _: {
   imports = [
     ./git.nix
+    ./gitbrowse.nix
+    ./lazygit.nix
     ./picker.nix
   ];
 

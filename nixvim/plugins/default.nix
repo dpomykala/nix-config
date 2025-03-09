@@ -3,6 +3,7 @@ _: {
     ./blink.nix
     ./conform.nix
     ./flash.nix
+    ./gitsigns.nix
     ./lint.nix
     ./lsp.nix
     ./mini

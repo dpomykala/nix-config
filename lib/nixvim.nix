@@ -1,19 +1,48 @@
 {lib}: let
   inherit (lib) attrByPath;
 in rec {
-  mkCmdMap = mode: {
+  mkMapper = {
+    mode ? "n",
+    action_prefix ? "",
+    action_suffix ? "",
+  }: {
     key,
-    cmd,
+    action,
     desc ? "",
   }: {
     inherit key mode;
-    action = "<Cmd>${cmd}<CR>";
+
+    action =
+      if lib.any (item: item != "") [action_prefix action_suffix]
+      # If prefix or suffix specified - concatenate strings
+      then lib.concatStrings [action_prefix action action_suffix]
+      # Otherwise, leave as is (it may be raw lua code)
+      else action;
+
     options.desc = desc;
   };
 
-  nCmdMap = mkCmdMap "n";
-  xCmdMap = mkCmdMap "x";
-  nxCmdMap = mkCmdMap ["n" "x"];
+  mkCmdMapper = mode: {
+    key,
+    cmd,
+    desc ? "",
+  }:
+    mkMapper {
+      inherit mode;
+      action_prefix = "<Cmd>";
+      action_suffix = "<CR>";
+    } {
+      inherit key desc;
+      action = cmd;
+    };
+
+  nMap = mkMapper {};
+  xMap = mkMapper {mode = "x";};
+  nxMap = mkMapper {mode = ["n" "x"];};
+
+  nCmdMap = mkCmdMapper "n";
+  xCmdMap = mkCmdMapper "x";
+  nxCmdMap = mkCmdMapper ["n" "x"];
 
   /*
   Check if the given module from the snacks.nvim plugin is enabled.

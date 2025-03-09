@@ -42,6 +42,11 @@ _: {
         desc = "+Git";
       }
       {
+        mode = "x";
+        keys = "<Leader>g";
+        desc = "+Git";
+      }
+      {
         mode = "n";
         keys = "<Leader>f";
         desc = "+Find";
@@ -68,6 +73,16 @@ _: {
       }
 
       # Custom mappings
+      {
+        mode = "n";
+        keys = "gh";
+        desc = "+Git hunks";
+      }
+      {
+        mode = "x";
+        keys = "gh";
+        desc = "+Git hunks";
+      }
       {
         mode = "n";
         keys = "gl";

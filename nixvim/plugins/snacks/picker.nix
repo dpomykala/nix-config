@@ -169,5 +169,43 @@
       cmd = "lua Snacks.picker.zoxide()";
       desc = "Files (zoxide)";
     })
+
+    # Git
+
+    (nCmdMap {
+      key = "<Leader>gb";
+      cmd = "lua Snacks.picker.git_branches()";
+      desc = "Branches";
+    })
+    (nCmdMap {
+      key = "<Leader>gL";
+      cmd = "lua Snacks.picker.git_log_line()";
+      desc = "Log (line)";
+    })
+    (nCmdMap {
+      key = "<Leader>gl";
+      cmd = "lua Snacks.picker.git_log()";
+      desc = "Log";
+    })
+    (nCmdMap {
+      key = "<Leader>gS";
+      cmd = "lua Snacks.picker.git_stash()";
+      desc = "Stash";
+    })
+    (nCmdMap {
+      key = "<Leader>gs";
+      cmd = "lua Snacks.picker.git_status()";
+      desc = "Status";
+    })
+    (nCmdMap {
+      key = "<Leader>gd";
+      cmd = "lua Snacks.picker.git_diff()";
+      desc = "Diff (hunks)";
+    })
+    (nCmdMap {
+      key = "<Leader>gf";
+      cmd = "lua Snacks.picker.git_log_file()";
+      desc = "Log (file)";
+    })
   ];
 }
