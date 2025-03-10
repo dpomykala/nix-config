@@ -40,6 +40,10 @@
       url = "github:Saghen/blink.cmp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    snacks-nvim = {
+      url = "github:folke/snacks.nvim";
+      flake = false;
+    };
 
     bat-catppuccin-theme = {
       url = "github:catppuccin/bat";

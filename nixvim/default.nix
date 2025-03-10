@@ -12,5 +12,6 @@
   nixpkgs.overlays = [
     self.overlays.blink-cmp-main
     self.overlays.neovim-nightly
+    self.overlays.snacks-nvim-main
   ];
 }
