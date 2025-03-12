@@ -4,6 +4,7 @@
     ./fzf.nix
     ./git.nix
     ./karabiner
+    ./lazygit.nix
     ./mise.nix
     ./nvim.nix
     # FIXME: MacOS specific?

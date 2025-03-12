@@ -3,13 +3,15 @@
   lib,
   self,
   ...
-}: {
+}: let
+  deltaCatppuccinFlavor = "catppuccin-macchiato";
+in {
   programs.git = {
     enable = true;
 
     aliases = lib.optionalAttrs config.programs.git.delta.enable {
       # Show a side-by-side diff in delta
-      diffs = "-c delta.features='catppuccin-macchiato side-by-side' diff";
+      diffs = "-c delta.features='${deltaCatppuccinFlavor} side-by-side' diff";
     };
 
     extraConfig = {
@@ -61,7 +63,7 @@
     #   contents.user.email = "me@example-company.com";
     # }
     includes = lib.optionals config.programs.git.delta.enable [
-      # Theme for delta
+      # Catppuccin theme for delta
       {path = "${self.inputs.delta-catppuccin-theme}/catppuccin.gitconfig";}
     ];
 
@@ -76,23 +78,9 @@
       enable = true;
 
       options = {
-        features = "catppuccin-macchiato";
+        features = deltaCatppuccinFlavor;
         line-numbers = true;
         navigate = true;
-      };
-    };
-  };
-
-  # https://github.com/jesseduffield/lazygit
-  programs.lazygit = {
-    enable = true;
-
-    settings = {
-      # Use delta as a diff pager
-      # NOTE: Requires delta to be installed
-      git.paging = {
-        colorArg = "always";
-        pager = "delta --dark --paging=never --line-numbers";
       };
     };
   };
