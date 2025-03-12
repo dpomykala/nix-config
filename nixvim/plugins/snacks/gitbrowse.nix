@@ -1,9 +1,9 @@
-{lib, ...}: let
-  inherit (lib.custom.nixvim) nxCmdMap nxMap;
-in {
+{lib, ...}: {
   plugins.snacks.settings.gitbrowse.enabled = true;
 
-  keymaps = [
+  keymaps = let
+    inherit (lib.custom.nixvim) nxCmdMap nxMap;
+  in [
     (nxCmdMap {
       key = "<Leader>go";
       cmd = "lua Snacks.gitbrowse.open()";

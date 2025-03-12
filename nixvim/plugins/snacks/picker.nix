@@ -1,5 +1,30 @@
-{lib, ...}: {
-  plugins.snacks.settings.picker.enabled = true;
+{
+  config,
+  lib,
+  ...
+}: {
+  plugins.snacks.settings.picker = let
+    deltaFeatures =
+      if config.colorschemes.catppuccin.enable
+      then "catppuccin-${config.colorschemes.catppuccin.settings.flavour}"
+      else "";
+  in {
+    enabled = true;
+
+    # Use delta for previewing diffs and Git output
+    # NOTE: Requires delta to be installed and configured
+    previewers = {
+      diff = {
+        builtin = false;
+        # Override features to disable some options (e.g. line numbers)
+        cmd = ["delta" "--features" deltaFeatures];
+      };
+      git = {
+        builtin = false;
+        args = ["-c" "delta.line-numbers=false"];
+      };
+    };
+  };
 
   # NOTE: Some picker keymaps may be defined in other places (e.g. LSP config)
   keymaps = let

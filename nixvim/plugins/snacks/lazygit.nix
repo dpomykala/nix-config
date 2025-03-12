@@ -1,9 +1,9 @@
-{lib, ...}: let
-  inherit (lib.custom.nixvim) nCmdMap;
-in {
+{lib, ...}: {
   plugins.snacks.settings.lazygit.enabled = true;
 
-  keymaps = [
+  keymaps = let
+    inherit (lib.custom.nixvim) nCmdMap;
+  in [
     # NOTE: Requires Lazygit with an initialized config file
     (nCmdMap {
       key = "<Leader>gg";
