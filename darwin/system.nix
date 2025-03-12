@@ -1,6 +1,11 @@
 {self, ...}: {
-  # Enable sudo authentication with Touch ID
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local = {
+    enable = true;
+
+    # Enable sudo authentication with Touch ID / Apple Watch
+    touchIdAuth = true;
+    watchIdAuth = true;
+  };
 
   system = {
     # The version used for backwards compatibility
