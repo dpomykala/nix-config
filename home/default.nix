@@ -36,6 +36,7 @@
       httpie
       jq
       just
+      lazydocker
       # NOTE: nh does not support nix-darwin (only NixOS and Home Manager)
       nh
       # TODO: Can it be completely replaced with uv?
