@@ -1,20 +1,23 @@
-_: {
+{lib, ...}: {
   plugins.mini.modules.files = {
-    windows = {preview = true;};
+    windows = {
+      preview = true;
+      width_preview = 50;
+    };
   };
 
-  keymaps = [
-    {
-      mode = "n";
-      key = "-";
-      action = "<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>";
-      options.desc = "Explore files (buffer)";
-    }
-    {
-      mode = "n";
+  keymaps = let
+    inherit (lib.custom.nixvim) nCmdMap;
+  in [
+    (nCmdMap {
+      key = "<Leader>ef";
+      cmd = "lua MiniFiles.open(vim.api.nvim_buf_get_name(0))";
+      desc = "MiniFiles (buffer)";
+    })
+    (nCmdMap {
       key = "<Leader>ed";
-      action = "<Cmd>lua MiniFiles.open()<CR>";
-      options.desc = "Explore files (cwd)";
-    }
+      cmd = "lua MiniFiles.open()";
+      desc = "MiniFiles (cwd)";
+    })
   ];
 }

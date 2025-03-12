@@ -1,7 +1,5 @@
 {lib, ...}: {
-  plugins.snacks.settings.picker = {
-    enabled = true;
-  };
+  plugins.snacks.settings.picker.enabled = true;
 
   # NOTE: Some picker keymaps may be defined in other places (e.g. LSP config)
   keymaps = let
@@ -112,13 +110,11 @@
       cmd = "lua Snacks.picker.lines()";
       desc = "Buffer lines";
     })
-    # FIXME: Does not work?
     (nCmdMap {
       key = "<Leader>fm";
       cmd = "lua Snacks.picker.man()";
       desc = "Man pages";
     })
-    # FIXME: Does not work?
     (nCmdMap {
       key = "<Leader>fn";
       cmd = "lua Snacks.picker.notifications()";

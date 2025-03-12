@@ -1,5 +1,6 @@
 _: {
   imports = [
+    ./explorer.nix
     ./git.nix
     ./gitbrowse.nix
     ./lazygit.nix
