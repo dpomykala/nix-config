@@ -31,3 +31,15 @@ inoremap kj <Esc>
 " Use U for REDO
 nnoremap U <C-r>
 
+" Center a view and open folds when searching or scrolling
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap <C-d> <C-d>zzzv
+nnoremap <C-u> <C-u>zzzv
+nnoremap <C-f> <C-f>zzzv
+nnoremap <C-b> <C-b>zzzv
+
+" Use H and L to move to the start or end of the line
+nnoremap H ^
+nnoremap L $
+
