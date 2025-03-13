@@ -9,6 +9,7 @@ _: {
     ./mini
     ./noice.nix
     ./snacks
+    ./todo-comments.nix
     ./treesitter.nix
   ];
 

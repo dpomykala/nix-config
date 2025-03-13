@@ -88,8 +88,8 @@
             # Apple Silicon Only
             #enableRosetta = true;
 
-            # FIXME: Hardcoded username
             # User owning the Homebrew prefix
+            # FIXME: Hardcoded username
             user = "dp";
 
             # Use declarative tap management

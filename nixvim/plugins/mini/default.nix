@@ -25,7 +25,6 @@ _: {
       # TODO: Can it be replaced with the built-in functionality?
       comment = {};
       cursorword = {};
-      extra = {};
       files = {};
       move = {};
       pairs = {};

@@ -21,6 +21,7 @@ in {
           if vim.g.autoformat_disable or vim.b[bufnr].autoformat_disable then
             return
           end
+          -- FIXME: Increase timeout (e.g. for prettier 500 ms is not enough)?
           return {timeout_ms = 500} -- Default: 1000
         end
       '';

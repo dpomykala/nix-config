@@ -55,10 +55,6 @@ _: {
     splitright = true;
     # Allow the cursor to move past the EOL in the visual block mode
     virtualedit = "block";
-    # WARN: Does not play nice with some of noice.nvim / snacks.nvim windows
-    # Make floating windows slightly transparent
-    # winblend = 10;
-    # }}}
 
     # INDENTATION {{{
 
@@ -120,10 +116,10 @@ _: {
 
     # FOLDING {{{
 
+    # NOTE: Other folding options are configured together with Treesitter
+
     # Always start editing a buffer with all folds open
     foldlevelstart = 99;
-
-    # NOTE: Other folding options are configured together with Treesitter
     # }}}
 
     # FILES {{{

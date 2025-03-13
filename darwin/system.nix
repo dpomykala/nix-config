@@ -33,11 +33,13 @@
         largesize = 95;
 
         # TODO: Specify items in the Dock
+
         #persistent-apps = [
 
         #];
 
         # TODO: Specify items in the Dock
+
         #persistent-others = [
 
         #];
