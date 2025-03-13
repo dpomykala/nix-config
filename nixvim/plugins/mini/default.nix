@@ -2,7 +2,6 @@ _: {
   imports = [
     ./animate.nix
     ./basics.nix
-    ./bufremove.nix
     ./clue.nix
     ./files.nix
     ./hipatterns.nix

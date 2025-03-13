@@ -1,5 +1,6 @@
 _: {
   imports = [
+    ./bufdelete.nix
     ./explorer.nix
     ./git.nix
     ./gitbrowse.nix
