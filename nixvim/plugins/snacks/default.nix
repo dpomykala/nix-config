@@ -6,6 +6,7 @@ _: {
     ./gitbrowse.nix
     ./lazygit.nix
     ./picker.nix
+    ./rename.nix
     ./scratch.nix
   ];
 

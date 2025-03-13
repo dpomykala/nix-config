@@ -34,7 +34,7 @@ _: {
       {
         mode = "n";
         keys = "<Leader>e";
-        desc = "+Explore";
+        desc = "+Edit/Explore";
       }
       {
         mode = "n";
