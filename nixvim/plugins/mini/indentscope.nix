@@ -9,8 +9,8 @@ _: {
       event = "FileType";
       pattern = "help";
       callback.__raw = ''
-        function(event)
-          vim.b[event.buf].miniindentscope_disable = true
+        function(args)
+          vim.b[args.buf].miniindentscope_disable = true
         end
       '';
       desc = "Disable MiniIndentscope in help pages";
@@ -21,8 +21,8 @@ _: {
       event = "User";
       pattern = "SnacksDashboardOpened";
       callback.__raw = ''
-        function(event)
-          vim.b[event.buf].miniindentscope_disable = true
+        function(args)
+          vim.b[args.buf].miniindentscope_disable = true
         end
       '';
       desc = "Disable MiniIndentscope in the snacks.nvim dashboard";

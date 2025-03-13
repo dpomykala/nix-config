@@ -75,38 +75,38 @@ _: {
       # Custom mappings
       {
         mode = "n";
+        keys = "gh";
+        desc = "+Git hunks";
+      }
+      {
+        mode = "x";
+        keys = "gh";
+        desc = "+Git hunks";
+      }
+      {
+        mode = "n";
+        keys = "gl";
+        desc = "+LSP";
+      }
+      {
+        mode = "x";
+        keys = "gl";
+        desc = "+LSP";
+      }
+      {
+        mode = "n";
+        keys = "gs";
+        desc = "Surround";
+      }
+      {
+        mode = "x";
+        keys = "gs";
+        desc = "Surround";
+      }
+      {
+        mode = "n";
         keys = "\\g";
         desc = "+Toggle Git options";
-      }
-      {
-        mode = "n";
-        keys = "gh";
-        desc = "+Git hunks";
-      }
-      {
-        mode = "x";
-        keys = "gh";
-        desc = "+Git hunks";
-      }
-      {
-        mode = "n";
-        keys = "gl";
-        desc = "+LSP";
-      }
-      {
-        mode = "x";
-        keys = "gl";
-        desc = "+LSP";
-      }
-      {
-        mode = "n";
-        keys = "gs";
-        desc = "Surround";
-      }
-      {
-        mode = "x";
-        keys = "gs";
-        desc = "Surround";
       }
 
       # Submodes for previous / next (mini.bracketed)

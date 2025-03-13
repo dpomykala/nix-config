@@ -6,8 +6,8 @@
       event = "User";
       pattern = "MiniFilesActionRename";
       callback.__raw = ''
-        function(event)
-          Snacks.rename.on_rename_file(event.data.from, event.data.to)
+        function(args)
+          Snacks.rename.on_rename_file(args.data.from, args.data.to)
         end
       '';
     }

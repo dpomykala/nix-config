@@ -13,7 +13,7 @@ in {
 
       format_on_save.__raw = ''
         function(bufnr)
-          -- Disable formatting on save with a global or buffer-local variable
+          -- Disable automatic formatting with a global or buffer-local variable
           if vim.g.autoformat_disable or vim.b[bufnr].autoformat_disable then
             return
           end
@@ -47,16 +47,6 @@ in {
 
   keymaps = [
     (nCmdMap {
-      key = "\\F";
-      cmd = "AutoformatToggle";
-      desc = "Toggle formatting";
-    })
-    (nCmdMap {
-      key = "\\f";
-      cmd = "AutoformatBufferToggle";
-      desc = "Toggle formatting (buffer)";
-    })
-    (nCmdMap {
       key = "<Leader>cF";
       cmd = "ConformInfo";
       desc = "Formatters info";
@@ -65,6 +55,16 @@ in {
       key = "<Leader>cf";
       cmd = "lua require('conform').format()";
       desc = "Format file/range";
+    })
+    (nCmdMap {
+      key = "\\F";
+      cmd = "AutoformatToggle";
+      desc = "Toggle formatting";
+    })
+    (nCmdMap {
+      key = "\\f";
+      cmd = "AutoformatBufferToggle";
+      desc = "Toggle formatting (buffer)";
     })
   ];
 
@@ -79,10 +79,10 @@ in {
         function()
           vim.g.autoformat_disable = not vim.g.autoformat_disable
           local status = not vim.g.autoformat_disable and "enabled" or "disabled"
-          print("Formatting on save is globally " .. status)
+          print("Auto-formatting (global): " .. status)
         end
       '';
-      desc = "Toggle automatic formatting on save (globally)";
+      desc = "Toggle automatic formatting (globally)";
     };
 
     AutoformatBufferToggle = {
@@ -90,10 +90,10 @@ in {
         function()
           vim.b.autoformat_disable = not vim.b.autoformat_disable
           local status = not vim.b.autoformat_disable and "enabled" or "disabled"
-          print("Formatting on save is locally " .. status)
+          print("Auto-formatting (buffer): " .. status)
         end
       '';
-      desc = "Toggle automatic formatting on save for the current buffer";
+      desc = "Toggle automatic formatting for the current buffer";
     };
   };
 }
