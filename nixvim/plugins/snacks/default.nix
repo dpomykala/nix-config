@@ -1,6 +1,7 @@
 _: {
   imports = [
     ./bufdelete.nix
+    ./dashboard.nix
     ./explorer.nix
     ./git.nix
     ./gitbrowse.nix

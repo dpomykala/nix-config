@@ -30,7 +30,6 @@ _: {
       move = {};
       pairs = {};
       splitjoin = {};
-      starter = {};
       statusline = {};
       tabline = {};
     };

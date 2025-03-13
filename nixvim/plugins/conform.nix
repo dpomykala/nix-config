@@ -14,7 +14,7 @@ in {
       format_on_save.__raw = ''
         function(bufnr)
           -- Disable formatting on save with a global or buffer-local variable
-          if vim.g.autoformat_disabled or vim.b[bufnr].autoformat_disabled then
+          if vim.g.autoformat_disable or vim.b[bufnr].autoformat_disable then
             return
           end
           return {timeout_ms = 500} -- Default: 1000
@@ -77,8 +77,8 @@ in {
     AutoformatToggle = {
       command.__raw = ''
         function()
-          vim.g.autoformat_disabled = not vim.g.autoformat_disabled
-          local status = not vim.g.autoformat_disabled and "enabled" or "disabled"
+          vim.g.autoformat_disable = not vim.g.autoformat_disable
+          local status = not vim.g.autoformat_disable and "enabled" or "disabled"
           print("Formatting on save is globally " .. status)
         end
       '';
@@ -88,8 +88,8 @@ in {
     AutoformatBufferToggle = {
       command.__raw = ''
         function()
-          vim.b.autoformat_disabled = not vim.b.autoformat_disabled
-          local status = not vim.b.autoformat_disabled and "enabled" or "disabled"
+          vim.b.autoformat_disable = not vim.b.autoformat_disable
+          local status = not vim.b.autoformat_disable and "enabled" or "disabled"
           print("Formatting on save is locally " .. status)
         end
       '';
