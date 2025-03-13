@@ -31,31 +31,6 @@
     inherit (lib.custom.nixvim) nCmdMap nxCmdMap;
   in [
     (nCmdMap {
-      key = "<Leader>f;";
-      cmd = "lua Snacks.picker.command_history()";
-      desc = "Command history";
-    })
-    (nCmdMap {
-      key = "<Leader>f/";
-      cmd = "lua Snacks.picker.search_history()";
-      desc = "Search history";
-    })
-    (nCmdMap {
-      key = "<Leader>f'";
-      cmd = "lua Snacks.picker.marks()";
-      desc = "Marks";
-    })
-    (nCmdMap {
-      key = "<Leader>f\"";
-      cmd = "lua Snacks.picker.registers()";
-      desc = "Registers";
-    })
-    (nCmdMap {
-      key = "<Leader>f<CR>";
-      cmd = "lua Snacks.picker.resume()";
-      desc = "Resume";
-    })
-    (nCmdMap {
       key = "<Leader>fa";
       cmd = "lua Snacks.picker.autocmds()";
       desc = "Autocommands";
@@ -189,6 +164,31 @@
       key = "<Leader>fz";
       cmd = "lua Snacks.picker.zoxide()";
       desc = "Files (zoxide)";
+    })
+    (nCmdMap {
+      key = "<Leader>f\"";
+      cmd = "lua Snacks.picker.registers()";
+      desc = "Registers";
+    })
+    (nCmdMap {
+      key = "<Leader>f'";
+      cmd = "lua Snacks.picker.marks()";
+      desc = "Marks";
+    })
+    (nCmdMap {
+      key = "<Leader>f.";
+      cmd = "lua Snacks.picker.resume()";
+      desc = "Resume";
+    })
+    (nCmdMap {
+      key = "<Leader>f/";
+      cmd = "lua Snacks.picker.search_history()";
+      desc = "Search history";
+    })
+    (nCmdMap {
+      key = "<Leader>f;";
+      cmd = "lua Snacks.picker.command_history()";
+      desc = "Command history";
     })
 
     # Git
