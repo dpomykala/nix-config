@@ -69,6 +69,19 @@
       action = "<C-b>zzzv";
     }
 
+    # Use H and L to move to the start or end of the line
+
+    {
+      mode = "n";
+      key = "H";
+      action = "^";
+    }
+    {
+      mode = "n";
+      key = "L";
+      action = "$";
+    }
+
     # Add a semicolon at the EOL and return to the previous position
     {
       mode = "i";
