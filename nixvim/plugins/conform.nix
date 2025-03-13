@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   inherit (lib) genAttrs;
   inherit (lib.custom.nixvim) nCmdMap nxCmdMap;
 in {
@@ -44,6 +48,15 @@ in {
         // genAttrs ["bash" "sh"] (_: ["shellcheck" "shfmt"]);
     };
   };
+
+  extraPackages = with pkgs; [
+    alejandra
+    just
+    nodePackages.prettier
+    shellcheck
+    shfmt
+    stylua
+  ];
 
   keymaps = [
     (nCmdMap {

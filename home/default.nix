@@ -43,20 +43,11 @@
       # TODO: Can it be completely replaced with uv?
       pipx
       ripgrep
+      ruff
       sd
       tlrc
       tokei
       uv
-
-      # Linters / formatters
-      alejandra
-      nodePackages.prettier
-      ruff
-      shellcheck
-      shfmt
-      statix
-      stylua
-      typos
     ];
   };
 

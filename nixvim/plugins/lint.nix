@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   plugins.lint = {
     enable = true;
 
@@ -16,6 +20,10 @@
       nix = ["statix"];
     };
   };
+
+  extraPackages = with pkgs; [
+    statix
+  ];
 
   keymaps = let
     inherit (lib.custom.nixvim) nCmdMap;
