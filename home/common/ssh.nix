@@ -1,10 +1,12 @@
-# This setup allows for managing all SSH keys using 1Password.
-#
-# Requirements:
-#   1. The 1Password desktop app must be installed.
-#   2. The SSH agent must be enabled in the 1Password app.
-#
-# See: https://developer.1password.com/docs/ssh
+/*
+This setup allows for managing all SSH keys using 1Password.
+
+Requirements:
+  1. The 1Password desktop app must be installed.
+  2. The SSH agent must be enabled in the 1Password app.
+
+See: https://developer.1password.com/docs/ssh
+*/
 {config, ...}: let
   # Use the 1Password SSH agent
   ssh_agent_socket =

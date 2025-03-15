@@ -67,7 +67,7 @@
     nixvim,
     ...
   }: let
-    supportedSystems = ["x86_64-darwin"];
+    supportedSystems = ["x86_64-darwin" "x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
     # Extend the default lib with custom functions
@@ -105,18 +105,6 @@
           };
         }
 
-        # For reference: Home Manager can be used as a nix-darwin module
-        # This allows to run Home Manager when running darwin-rebuild
-        # I prefer to use a standalone Home Manager setup instead
-        #home-manager.darwinModules.home-manager
-        #{
-        #  home-manager = {
-        #    useGlobalPkgs = true;
-        #    useUserPackages = true;
-        #    users.dp = import ./home;
-        #  };
-        #}
-
         # The entrypoint for the nix-darwin configuration
         ./darwin
       ];
@@ -124,18 +112,19 @@
       specialArgs = {inherit self;};
     };
 
-    # The standalone Home Manager configuration
-    # This can also be used on platforms other than NixOS and Darwin
-    # FIXME: Hardcoded username
-    homeConfigurations."dp" = home-manager.lib.homeManagerConfiguration {
-      extraSpecialArgs = {inherit self;};
+    # The standalone Home Manager configurations
+    homeConfigurations = {
+      "dp@mbp-13" = home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {inherit self;};
+        modules = [(./. + "/home/configs/dp@mbp-13.nix")];
+        pkgs = nixpkgs.legacyPackages."x86_64-darwin";
+      };
 
-      modules = [
-        # The entrypoint for the Home Manager configuration
-        ./home
-      ];
-
-      pkgs = nixpkgs.legacyPackages."x86_64-darwin";
+      "dp@ubuntu-vm" = home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {inherit self;};
+        modules = [(./. + "/home/configs/dp@ubuntu-vm.nix")];
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      };
     };
 
     packages = forAllSystems (system: let

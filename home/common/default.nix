@@ -1,9 +1,11 @@
+/*
+Configuration common for all hosts.
+*/
 {pkgs, ...}: {
   imports = [
     ./bat.nix
     ./fzf.nix
     ./git.nix
-    ./karabiner
     ./lazygit.nix
     ./mise.nix
     ./nvim.nix
@@ -18,15 +20,7 @@
     ./zsh
   ];
 
-  # FIXME: Hardcoded username?
   home = {
-    username = "dp";
-    # FIXME: Use host-specific files?
-    homeDirectory =
-      if pkgs.stdenv.isDarwin
-      then "/Users/dp"
-      else "/home/dp";
-
     # The version used for backwards compatibility
     stateVersion = "24.11";
 
@@ -52,7 +46,7 @@
   };
 
   # Let Home Manager install and manage itself
-  # This option only works with a standalone Home Manager setup
+  # NOTE: This option only works with a standalone Home Manager setup
   programs.home-manager.enable = true;
 
   # Set XDG environment variables
