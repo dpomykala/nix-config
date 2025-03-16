@@ -1,4 +1,33 @@
-{config, ...}: {
+{
+  config,
+  self,
+  ...
+}: {
+  nix-homebrew = let
+    inherit (self.inputs) homebrew-bundle homebrew-cask homebrew-core;
+  in {
+    # Install Homebrew under the default prefix
+    enable = true;
+
+    # Apple Silicon Only
+    # enableRosetta = true;
+
+    # User owning the Homebrew prefix
+    # FIXME: Hardcoded username
+    user = "dp";
+
+    # Use declarative tap management
+    taps = {
+      "homebrew/homebrew-bundle" = homebrew-bundle;
+      "homebrew/homebrew-cask" = homebrew-cask;
+      "homebrew/homebrew-core" = homebrew-core;
+    };
+
+    # Enable fully-declarative tap management
+    # Only taps declared in this configuration are allowed
+    mutableTaps = false;
+  };
+
   homebrew = {
     enable = true;
 
@@ -53,7 +82,7 @@
     };
 
     # Remove all formulae not listed in this configuration
-    # DOES NOT work for applications installed via masApps
+    # WARN: DOES NOT work for applications installed via masApps
     onActivation.cleanup = "zap";
   };
 }

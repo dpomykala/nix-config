@@ -56,15 +56,12 @@
   };
 
   outputs = inputs @ {
-    self,
-    nixpkgs,
+    home-manager,
     nix-darwin,
     nix-homebrew,
-    homebrew-bundle,
-    homebrew-core,
-    homebrew-cask,
-    home-manager,
+    nixpkgs,
     nixvim,
+    self,
     ...
   }: let
     supportedSystems = ["x86_64-darwin" "x86_64-linux"];
@@ -77,43 +74,22 @@
     # Extend the lib used for NixVim with the default NixVim lib
     libForNixvim = lib.extend nixvim.lib.overlay;
   in {
-    darwinConfigurations."MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
-      modules = [
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            # Install Homebrew under the default prefix
-            enable = true;
+    darwinConfigurations = {
+      # NOTE: Names should match the `scutil --get LocalHostName` command output
 
-            # Apple Silicon Only
-            #enableRosetta = true;
-
-            # User owning the Homebrew prefix
-            # FIXME: Hardcoded username
-            user = "dp";
-
-            # Use declarative tap management
-            taps = {
-              "homebrew/homebrew-bundle" = homebrew-bundle;
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-            };
-
-            # Enable fully-declarative tap management
-            # Only taps declared in this configuration are allowed
-            mutableTaps = false;
-          };
-        }
-
-        # The entrypoint for the nix-darwin configuration
-        ./darwin
-      ];
-
-      specialArgs = {inherit self;};
+      "MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
+        modules = [
+          nix-homebrew.darwinModules.nix-homebrew
+          ./darwin
+        ];
+        specialArgs = {inherit self;};
+      };
     };
 
     # The standalone Home Manager configurations
     homeConfigurations = {
+      # NOTE: Hostnames should match the `hostname` command output
+
       "dp@mbp-13" = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {inherit self;};
         modules = [(./. + "/home/configs/dp@mbp-13.nix")];
