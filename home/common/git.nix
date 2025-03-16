@@ -60,19 +60,10 @@ in {
       "*.log"
     ];
 
-    # To specify different Git identity (e.g. for work) add to `includes`:
-    # {
-    #   condition = "hasconfig:remote.*.url:git@git.example-company.com/**";
-    #   contents.user.email = "me@example-company.com";
-    # }
     includes = lib.optionals config.programs.git.delta.enable [
       # Catppuccin theme for delta
       {path = "${self.inputs.delta-catppuccin-theme}/catppuccin.gitconfig";}
     ];
-
-    # TODO: Do not hardcode user-specific data?
-    userName = "Damian Pomykała";
-    userEmail = "168227269+dpomykala@users.noreply.github.com";
 
     # Configuration for 3rd party tools (integrations)
 
