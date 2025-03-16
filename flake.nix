@@ -77,10 +77,10 @@
     darwinConfigurations = {
       # NOTE: Names should match the `scutil --get LocalHostName` command output
 
-      "MacBook-Pro-Damian" = nix-darwin.lib.darwinSystem {
+      "mbp-13" = nix-darwin.lib.darwinSystem {
         modules = [
           nix-homebrew.darwinModules.nix-homebrew
-          ./darwin
+          ./system/hosts/mbp-13
         ];
         specialArgs = {inherit self;};
       };

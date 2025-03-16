@@ -1,13 +1,12 @@
 _: {
   imports = [
-    ./core.nix
     ./homebrew.nix
+    ./nix.nix
     ./system.nix
   ];
 
   # System-wide packages
-  environment.systemPackages = [
-  ];
+  environment.systemPackages = [];
 
   programs.zsh = {
     # Do not call compinit in the system-wide config (/etc/zshrc)

@@ -20,7 +20,6 @@
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
 
-    # TODO: Defaults via nix-darwin or via home-manager (target.darwin.defaults)?
     defaults = {
       dock = {
         # Automatically hide and show the Dock
@@ -32,17 +31,9 @@
         # Set the size of the magnified icons in the Dock (16 - 128)
         largesize = 95;
 
-        # TODO: Specify items in the Dock
+        # persistent-apps = [];
 
-        #persistent-apps = [
-
-        #];
-
-        # TODO: Specify items in the Dock
-
-        #persistent-others = [
-
-        #];
+        # persistent-others = [];
 
         # Set the size of the icons in the Dock (16 - 128)
         tilesize = 35;
