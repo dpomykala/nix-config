@@ -20,6 +20,11 @@
   in
     lib.optionals hasSnacksPicker [
       (nCmdMap {
+        key = "<Leader>fT";
+        cmd = "lua Snacks.picker.todo_comments({keywords = {'TODO', 'FIX', 'FIXME'}})";
+        desc = "TODOs (strict)";
+      })
+      (nCmdMap {
         key = "<Leader>ft";
         cmd = "lua Snacks.picker.todo_comments()";
         desc = "TODOs";
