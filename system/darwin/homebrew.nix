@@ -26,7 +26,6 @@
     enable = true;
 
     casks = [
-      # GUI applications
       "1password"
       #"adobe-acrobat-reader"
       #"arc"
@@ -48,13 +47,6 @@
       "visual-studio-code"
       #"vlc"
       "wezterm"
-
-      # Nerd Fonts used by the WezTerm, Starship etc.
-      # Homebrew by default installs fonts per-user in ~/Library/Fonts
-      # TODO: Install system-wide using nix-darwin's fonts.packages?
-      "font-fira-code-nerd-font"
-      "font-hack-nerd-font"
-      "font-jetbrains-mono-nerd-font"
     ];
 
     # Applications from the Mac App Store (login required)

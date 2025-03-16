@@ -4,6 +4,7 @@ Configuration common for all hosts.
 {pkgs, ...}: {
   imports = [
     ./bat.nix
+    ./fonts.nix
     ./fzf.nix
     ./git.nix
     ./lazygit.nix
