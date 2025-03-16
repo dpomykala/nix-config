@@ -1,5 +1,11 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   plugins.snacks.settings.lazygit.enabled = true;
+
+  extraPackages = with pkgs; [lazygit];
 
   keymaps = let
     inherit (lib.custom.nixvim) nCmdMap;
