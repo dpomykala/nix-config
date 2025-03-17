@@ -1,38 +1,35 @@
-_: {
+{lib, ...}: {
   plugins.flash = {
     enable = true;
   };
 
-  keymaps = [
-    {
-      mode = ["n" "x" "o"];
+  keymaps = let
+    inherit (lib.custom.nixvim) cCmdMap noxCmdMap oCmdMap oxCmdMap;
+  in [
+    (noxCmdMap {
       key = "s";
-      action = "<Cmd>lua require('flash').jump()<CR>";
-      options.desc = "Flash";
-    }
-    {
-      mode = ["n" "x" "o"];
+      cmd = "lua require('flash').jump()";
+      desc = "Flash";
+    })
+    (noxCmdMap {
       key = "S";
-      action = "<Cmd>lua require('flash').treesitter()<CR>";
-      options.desc = "Flash Treesitter";
-    }
-    {
-      mode = "o";
+      cmd = "lua require('flash').treesitter()";
+      desc = "Flash Treesitter";
+    })
+    (oCmdMap {
       key = "r";
-      action = "<Cmd>lua require('flash').remote()<CR>";
-      options.desc = "Remote Flash";
-    }
-    {
-      mode = ["x" "o"];
+      cmd = "lua require('flash').remote()";
+      desc = "Remote Flash";
+    })
+    (oxCmdMap {
       key = "R";
-      action = "<Cmd>lua require('flash').treesitter_search()<CR>";
-      options.desc = "Treesitter Search";
-    }
-    {
-      mode = "c";
+      cmd = "lua require('flash').treesitter_search()";
+      desc = "Treesitter Search";
+    })
+    (cCmdMap {
       key = "<C-s>";
-      action = "<Cmd>lua require('flash').toggle()<CR>";
-      options.desc = "Toggle Flash Search";
-    }
+      cmd = "lua require('flash').toggle()";
+      desc = "Toggle Flash Search";
+    })
   ];
 }

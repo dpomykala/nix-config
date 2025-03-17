@@ -36,13 +36,19 @@ in rec {
       action = cmd;
     };
 
+  cMap = mkMapper {mode = "c";};
+  iMap = mkMapper {mode = "i";};
   nMap = mkMapper {};
   xMap = mkMapper {mode = "x";};
   nxMap = mkMapper {mode = ["n" "x"];};
 
+  cCmdMap = mkCmdMapper "c";
   nCmdMap = mkCmdMapper "n";
   xCmdMap = mkCmdMapper "x";
+  noxCmdMap = mkCmdMapper ["n" "o" "x"];
   nxCmdMap = mkCmdMapper ["n" "x"];
+  oCmdMap = mkCmdMapper ["o"];
+  oxCmdMap = mkCmdMapper ["o" "x"];
 
   /*
   Check if the given module from the snacks.nvim plugin is enabled.

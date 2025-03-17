@@ -45,58 +45,48 @@
     };
   };
 
-  keymaps = [
-    {
-      mode = "n";
+  keymaps = let
+    inherit (lib.custom.nixvim) cMap nCmdMap;
+  in [
+    (nCmdMap {
       key = "<Leader>na";
-      action = "<Cmd>Noice all<CR>";
-      options.desc = "History (all)";
-    }
-    {
-      mode = "n";
+      cmd = "Noice all";
+      desc = "History (all)";
+    })
+    (nCmdMap {
       key = "<Leader>nd";
-      action = "<Cmd>Noice dismiss<CR>";
-      options.desc = "Dismiss all";
-    }
-    {
-      mode = "n";
+      cmd = "Noice dismiss";
+      desc = "Dismiss all";
+    })
+    (nCmdMap {
       key = "<Leader>nD";
-      action = "<Cmd>Noice disable<CR>";
-      options.desc = "Disable";
-    }
-    {
-      mode = "n";
+      cmd = "Noice disable";
+      desc = "Disable";
+    })
+    (nCmdMap {
       key = "<Leader>ne";
-      action = "<Cmd>Noice errors<CR>";
-      options.desc = "Errors";
-    }
-    {
-      mode = "n";
+      cmd = "Noice errors";
+      desc = "Errors";
+    })
+    (nCmdMap {
       key = "<Leader>nE";
-      action = "<Cmd>Noice enable<CR>";
-      options.desc = "Enable";
-    }
-    {
-      mode = "n";
+      cmd = "Noice enable";
+      desc = "Enable";
+    })
+    (nCmdMap {
       key = "<Leader>nh";
-      action = "<Cmd>Noice history<CR>";
-      options.desc = "History";
-    }
-    {
-      mode = "n";
+      cmd = "Noice history";
+      desc = "History";
+    })
+    (nCmdMap {
       key = "<Leader>nl";
-      action = "<Cmd>Noice last<CR>";
-      options.desc = "Last message";
-    }
-    {
-      mode = "c";
+      cmd = "Noice last";
+      desc = "Last message";
+    })
+    (cMap {
       key = "<S-CR>";
-      action.__raw = ''
-        function()
-          require("noice").redirect(vim.fn.getcmdline())
-        end
-      '';
-      options.desc = "Redirect Cmdline";
-    }
+      action = "lua require('noice').redirect(vim.fn.getcmdline())";
+      desc = "Redirect cmdline";
+    })
   ];
 }

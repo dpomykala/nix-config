@@ -5,31 +5,27 @@
   };
 
   keymaps = let
-    inherit (lib.custom.nixvim) nCmdMap;
+    inherit (lib.custom.nixvim) iMap nCmdMap nMap nxMap xMap;
   in [
     # Enter the command mode with `;`
-    {
-      mode = ["n" "x"];
+    (nxMap {
       key = ";";
       action = ":";
-    }
-    {
-      mode = ["n" "x"];
+    })
+    (nxMap {
       key = ":";
       action = ";";
-    }
+    })
 
     # Maintain visual selection when changing indentation
-    {
-      mode = "x";
+    (xMap {
       key = "<";
       action = "<gv";
-    }
-    {
-      mode = "x";
+    })
+    (xMap {
       key = ">";
       action = ">gv";
-    }
+    })
 
     # Stop the highlighting of search results
     (nCmdMap {
@@ -38,72 +34,60 @@
     })
 
     # Center a view and open folds when searching or scrolling
-    {
-      mode = "n";
+    (nMap {
       key = "n";
       action = "nzzzv";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "N";
       action = "Nzzzv";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "<C-d>";
       action = "<C-d>zzzv";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "<C-u>";
       action = "<C-u>zzzv";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "<C-f>";
       action = "<C-f>zzzv";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "<C-b>";
       action = "<C-b>zzzv";
-    }
+    })
 
     # Use H and L to move to the start or end of the line
 
-    {
-      mode = "n";
+    (nMap {
       key = "H";
       action = "^";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "L";
       action = "$";
-    }
+    })
 
     # Add a semicolon at the EOL and return to the previous position
-    {
-      mode = "i";
+    (iMap {
       key = "<M-;>";
       action = "<Esc>m`A;<Esc>``a";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "<M-;>";
       action = "m`A;<Esc>``";
-    }
+    })
     # Add a comma at the EOL and return to the previous position
-    {
-      mode = "i";
+    (iMap {
       key = "<M-,>";
       action = "<Esc>m`A,<Esc>``a";
-    }
-    {
-      mode = "n";
+    })
+    (nMap {
       key = "<M-,>";
       action = "m`A,<Esc>``";
-    }
+    })
 
     # Show diagnostics for the current line
     (nCmdMap {

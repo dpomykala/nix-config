@@ -1,4 +1,4 @@
-_: {
+{lib, ...}: {
   plugins.mini.modules.map = {
     integrations = [
       {__raw = "require('mini.map').gen_integration.builtin_search()";}
@@ -11,30 +11,28 @@ _: {
     };
   };
 
-  keymaps = [
-    {
-      mode = "n";
+  keymaps = let
+    inherit (lib.custom.nixvim) nCmdMap;
+  in [
+    (nCmdMap {
       key = "<Leader>mf";
-      action = "<Cmd>lua MiniMap.toggle_focus()<CR>";
-      options.desc = "Focus map";
-    }
-    {
-      mode = "n";
+      cmd = "lua MiniMap.toggle_focus()";
+      desc = "Focus";
+    })
+    (nCmdMap {
       key = "<Leader>mr";
-      action = "<Cmd>lua MiniMap.refresh()<CR>";
-      options.desc = "Refresh map";
-    }
-    {
-      mode = "n";
+      cmd = "lua MiniMap.refresh()";
+      desc = "Refresh";
+    })
+    (nCmdMap {
       key = "<Leader>ms";
-      action = "<Cmd>lua MiniMap.toggle_side()<CR>";
-      options.desc = "Toggle map side";
-    }
-    {
-      mode = "n";
+      cmd = "lua MiniMap.toggle_side()";
+      desc = "Toggle side";
+    })
+    (nCmdMap {
       key = "<Leader>mt";
-      action = "<Cmd>lua MiniMap.toggle()<CR>";
-      options.desc = "Toggle map";
-    }
+      cmd = "lua MiniMap.toggle()";
+      desc = "Toggle";
+    })
   ];
 }
