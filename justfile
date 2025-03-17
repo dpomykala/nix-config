@@ -17,9 +17,9 @@ home:
 nvim:
     nix run .#nvim
 
-# Update the lock file (optionally provide specific input(s))
+# Update the lock file and commit (optionally provide specific input(s))
 update *INPUTS:
-    nix flake update {{ INPUTS }}
+    nix flake update --commit-lock-file {{ INPUTS }}
 
 # Open a development shell
 dev:
