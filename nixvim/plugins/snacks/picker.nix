@@ -11,18 +11,54 @@
   in {
     enabled = true;
 
+    actions = lib.optionalAttrs config.plugins.persistence.enable {
+      # Custom picker action to load session using persistence.nvim
+      # This is a modified version of the `load_session` action from snacks.picker
+      load_persistence_session.__raw = ''
+        function(picker, item)
+          -- Original implementation
+          -- https://github.com/folke/snacks.nvim/blob/bc0630e43be5699bb94dadc302c0d21615421d93/lua/snacks/picker/actions.lua#L544-L561
+          picker:close()
+          if not item then
+            return
+          end
+          local dir = item.file
+          local session_loaded = false
+          vim.api.nvim_create_autocmd("SessionLoadPost", {
+            once = true,
+            callback = function()
+              session_loaded = true
+            end,
+          })
+          vim.defer_fn(function()
+            if not session_loaded then
+              Snacks.picker.files()
+            end
+          end, 100)
+          vim.fn.chdir(dir)
+
+          -- Modified part - try to restore session using persistence.nvim
+          require("persistence").load()
+        end
+      '';
+    };
+
     # Use delta for previewing diffs and Git output
     # NOTE: Requires delta to be installed and configured
     previewers = {
       diff = {
         builtin = false;
-        # Override features to disable some options (e.g. line numbers)
         cmd = ["delta" "--features" deltaFeatures];
       };
       git = {
         builtin = false;
         args = ["-c" "delta.line-numbers=false"];
       };
+    };
+
+    sources = lib.optionalAttrs config.plugins.persistence.enable {
+      projects.confirm = "load_persistence_session";
+      zoxide.confirm = "load_persistence_session";
     };
   };
 
