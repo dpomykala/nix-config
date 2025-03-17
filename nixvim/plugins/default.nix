@@ -8,6 +8,7 @@ _: {
     ./lsp.nix
     ./mini
     ./noice.nix
+    ./persistence.nix
     ./snacks
     ./todo-comments.nix
     ./treesitter.nix

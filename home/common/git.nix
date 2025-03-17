@@ -45,6 +45,9 @@ in {
       ".nvimrc"
       ".exrc"
 
+      # Project local session for Neovim (mini.sessions)
+      ".session.nvim"
+
       # JetBrains IDEs
       ".idea"
 

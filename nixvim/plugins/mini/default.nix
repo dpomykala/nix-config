@@ -9,6 +9,7 @@ _: {
     ./indentscope.nix
     ./map.nix
     ./operators.nix
+    # ./sessions.nix
     ./surround.nix
   ];
 

@@ -34,7 +34,7 @@ _: {
       {
         mode = "n";
         keys = "<Leader>e";
-        desc = "+Edit/Explore";
+        desc = "+Edit";
       }
       {
         mode = "n";
@@ -70,6 +70,11 @@ _: {
         mode = "n";
         keys = "<Leader>n";
         desc = "+Noice";
+      }
+      {
+        mode = "n";
+        keys = "<Leader>s";
+        desc = "+Session";
       }
 
       # Custom mappings
