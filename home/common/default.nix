@@ -46,6 +46,9 @@ Configuration common to all hosts.
     ];
   };
 
+  # Allow installation of software with an unfree license
+  nixpkgs.config.allowUnfree = true;
+
   # Let Home Manager install and manage itself
   # NOTE: This option only works with a standalone Home Manager setup
   programs.home-manager.enable = true;
