@@ -46,7 +46,6 @@
       #"tunnelblick"
       "visual-studio-code"
       #"vlc"
-      "wezterm"
     ];
 
     # Applications from the Mac App Store (login required)

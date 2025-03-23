@@ -32,6 +32,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Support for OpenGL on non-NixOS Linux distributions
+    nixGL = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixvim.url = "github:nix-community/nixvim";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 

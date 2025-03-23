@@ -145,28 +145,28 @@ in {
 
         settings = let
           flake =
-            # nix
+            # Nix
             ''(builtins.getFlake "${self}")'';
         in {
           formatting.command = ["alejandra"];
           nixpkgs.expr =
-            # nix
+            # Nix
             "import ${flake}.inputs.nixpkgs {}";
           options = {
             home-manager.expr =
-              # nix
+              # Nix
               ''
                 let configs = ${flake}.homeConfigurations;
                 in (builtins.head (builtins.attrValues configs)).options
               '';
             nix-darwin.expr =
-              # nix
+              # Nix
               ''
                 let configs = ${flake}.darwinConfigurations;
                 in (builtins.head (builtins.attrValues configs)).options
               '';
             nixvim.expr =
-              # nix
+              # Nix
               "${flake}.packages.${pkgs.system}.nvim.options";
           };
         };
@@ -188,7 +188,7 @@ in {
 
         # Disable Ruff's hover in favor of Pyright
         onAttach.function =
-          # lua
+          # Lua
           ''
             client.server_capabilities.hoverProvider = false
           '';
@@ -202,7 +202,7 @@ in {
 
         # Disable typos LSP in help pages
         onAttach.function =
-          # lua
+          # Lua
           ''
             -- Use schedule to make sure that a file type is already set
             vim.schedule(function()

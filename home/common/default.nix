@@ -1,5 +1,5 @@
 /*
-Configuration common for all hosts.
+Configuration common to all hosts.
 */
 {pkgs, ...}: {
   imports = [
@@ -15,7 +15,7 @@ Configuration common for all hosts.
     ./starship.nix
     ./thefuck.nix
     ./vim
-    ./wezterm
+    ./wezterm.nix
     ./yazi.nix
     ./zoxide.nix
     ./zsh
