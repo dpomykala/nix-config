@@ -142,8 +142,6 @@
           nh
           stow
         ];
-
-        shellHook = ''exec zsh'';
       };
     });
 
