@@ -53,7 +53,7 @@
 
           config.keys = {
             {
-              key = "\\",
+              key = "|",
               mods = "SUPER|SHIFT",
               action = act.SplitHorizontal{domain =  "CurrentPaneDomain"},
             },
@@ -66,8 +66,8 @@
               key = "h",
               mods = "SUPER|SHIFT",
               action = act.ActivatePaneDirection("Left"),
+            },
             {
-              },
               key = "j",
               mods = "SUPER|SHIFT",
               action = act.ActivatePaneDirection("Down"),
