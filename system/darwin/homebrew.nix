@@ -50,7 +50,6 @@
 
     # Applications from the Mac App Store (login required)
     # Applications installed in this way must be uninstalled manually
-    # This option automatically installs the mas CLI tool (via brew)
     # To search for an application ID: mas search "1Password"
     masApps = {
       "1Password for Safari" = 1569813296;

@@ -56,7 +56,7 @@ in {
 
     # Rules for the general "Host *" section
     extraConfig = ''
-      IdentityAgent ${ssh_agent_socket}
+      IdentityAgent "${ssh_agent_socket}"
 
       # Only use the identities specified explicitly in the config file
       # IdentitiesOnly yes
