@@ -10,7 +10,6 @@ Configuration common to all hosts.
     ./lazygit.nix
     ./mise.nix
     ./nvim.nix
-    # FIXME: MacOS specific?
     ./ssh.nix
     ./starship.nix
     ./thefuck.nix
