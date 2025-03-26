@@ -5,7 +5,7 @@ _: {
 
   # Aliases compatible across all shells
   # NOTE: Aliases relating to some tools are set in dedicated modules
-  programs.shellAliases = {
+  home.shellAliases = {
     # GENERAL
 
     # Clear the terminal output
