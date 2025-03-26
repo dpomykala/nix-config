@@ -4,12 +4,13 @@ Configuration common to all hosts.
 {pkgs, ...}: {
   imports = [
     ./bat.nix
+    ./eza.nix
     ./fonts.nix
     ./fzf.nix
     ./git.nix
     ./lazygit.nix
     ./mise.nix
-    ./nvim.nix
+    ./shell
     ./ssh.nix
     ./starship.nix
     ./thefuck.nix
@@ -17,7 +18,6 @@ Configuration common to all hosts.
     ./wezterm.nix
     ./yazi.nix
     ./zoxide.nix
-    ./zsh
   ];
 
   home = {
@@ -26,7 +26,6 @@ Configuration common to all hosts.
 
     packages = with pkgs; [
       dust
-      eza
       fd
       httpie
       jq

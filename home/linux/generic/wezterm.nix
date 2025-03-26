@@ -7,7 +7,7 @@ WezTerm configuration for generic Linux hosts.
   ...
 }: {
   # Use a custom option to extend the common configuration
-  # See: home/common/wezterm.nix
+  # See: ../../common/wezterm.nix
   custom.wezterm.extraConfigExtended = lib.concatStringsSep "\n" (
     [
       # Lua

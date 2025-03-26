@@ -9,9 +9,9 @@
       self.packages.${pkgs.system}.nvim
     ];
 
-    sessionVariables = {
-      # Set Neovim as the default editor
-      EDITOR = "nvim";
-    };
+    # Set Neovim as the default editor
+    sessionVariables.EDITOR = "nvim";
+
+    shellAliases.v = "nvim";
   };
 }

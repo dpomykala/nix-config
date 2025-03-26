@@ -19,4 +19,6 @@ Lazygit: https://github.com/jesseduffield/lazygit
         };
       };
   };
+
+  home.shellAliases.lg = "lazygit";
 }

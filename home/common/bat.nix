@@ -13,4 +13,7 @@
       };
     };
   };
+
+  # Use bat instead of cat
+  home.shellAliases.cat = "bat";
 }

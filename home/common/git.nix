@@ -86,4 +86,24 @@ in {
       };
     };
   };
+
+  home.shellAliases = {
+    ga = "git add";
+    gb = "git branch";
+    gc = "git checkout";
+    gd = "git diff";
+    gf = "git fetch";
+    gl = "git log";
+    gr = "git restore";
+    gs = "git status";
+    gcm = "git commit";
+    gds = "gd --staged";
+    glg = "git log --graph";
+    gll = "git log --oneline";
+    gpl = "git pull";
+    gps = "git push";
+    grr = "git reset";
+    grs = "gr --staged";
+    gst = "git stash";
+  };
 }

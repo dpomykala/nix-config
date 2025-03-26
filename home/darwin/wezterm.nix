@@ -3,7 +3,7 @@ WezTerm configuration for Darwin hosts.
 */
 _: {
   # Use a custom option to extend the common configuration
-  # See: home/common/wezterm.nix
+  # See: ../common/wezterm.nix
   custom.wezterm.extraConfigExtended =
     # Lua
     ''
