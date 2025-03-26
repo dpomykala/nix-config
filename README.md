@@ -48,6 +48,7 @@ the future, I plan to extend this documentation to be more beginner friendly.**
 - Add more settings for MacOS (e.g. for Safari)?
 - Extend configuration for generic Linux hosts (e.g. more tools)?
 - Test on WSL?
+- Explore options for secrets management?
 - Create NixOS configuration?
 - nix-darwin: allow to set the config dir for Starship?
 - nix-darwin: `/share/zsh` added to `environment.pathsToLink` by default?
