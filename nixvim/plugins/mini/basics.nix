@@ -13,9 +13,11 @@ _: {
     };
 
     # Disable gO/go mappings - can be replaced with built-in [ / ] + <Space>
-    luaConfig.post.__raw = ''
-      vim.keympa.del("n", "gO")
-      vim.keympa.del("n", "go")
-    '';
+    luaConfig.post =
+      # Lua
+      ''
+        vim.keymap.del("n", "gO")
+        vim.keymap.del("n", "go")
+      '';
   };
 }
