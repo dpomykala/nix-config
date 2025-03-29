@@ -73,6 +73,16 @@ _: {
       }
       {
         mode = "n";
+        keys = "<Leader>r";
+        desc = "+Replace";
+      }
+      {
+        mode = "x";
+        keys = "<Leader>r";
+        desc = "+Replace";
+      }
+      {
+        mode = "n";
         keys = "<Leader>s";
         desc = "+Session";
       }
@@ -206,6 +216,16 @@ _: {
       {
         mode = "x";
         keys = "<Leader>";
+      }
+
+      # Local leader triggers
+      {
+        mode = "n";
+        keys = "<Localleader>";
+      }
+      {
+        mode = "x";
+        keys = "<Localleader>";
       }
 
       # Built-in completion

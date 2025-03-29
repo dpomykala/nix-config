@@ -1,8 +1,10 @@
-{
-  config,
-  lib,
-  ...
-}: {
+/*
+gx.nvim - better implementation of the built-in gx.
+
+https://nix-community.github.io/nixvim/plugins/gx
+https://github.com/chrishrb/gx.nvim
+*/
+{lib, ...}: {
   plugins.gx = {
     enable = true;
 
@@ -10,16 +12,11 @@
   };
 
   keymaps = let
-    inherit (lib.custom.nixvim) hasMiniModule nxCmdMap;
-
-    key =
-      if (hasMiniModule config "operators")
-      # Use `go` as `gx` is used by mini.operators
-      then "go"
-      else "gx";
+    inherit (lib.custom.nixvim) nxCmdMap;
   in [
+    # Use `go` as `gx` might be used by mini.operators
     (nxCmdMap {
-      key = "${key}";
+      key = "go";
       cmd = "Browse";
       desc = "Open in browser";
     })

@@ -4,6 +4,7 @@ _: {
     ./conform.nix
     ./flash.nix
     ./gitsigns.nix
+    ./grug-far.nix
     ./gx.nix
     ./lint.nix
     ./lsp.nix
