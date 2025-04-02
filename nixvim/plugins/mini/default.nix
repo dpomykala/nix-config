@@ -23,8 +23,6 @@ _: {
       ai = {};
       align = {};
       bracketed = {};
-      # TODO: Can it be replaced with the built-in functionality?
-      comment = {};
       cursorword = {};
       files = {};
       move = {};
