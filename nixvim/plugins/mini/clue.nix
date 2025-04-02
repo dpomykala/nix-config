@@ -1,232 +1,180 @@
-_: {
-  plugins.mini.modules.clue = {
-    clues = [
-      # Generate pre-configured clues
-      {__raw = "require('mini.clue').gen_clues.builtin_completion()";}
-      {__raw = "require('mini.clue').gen_clues.g()";}
-      {__raw = "require('mini.clue').gen_clues.marks()";}
-      {__raw = "require('mini.clue').gen_clues.registers()";}
-      {
-        __raw = ''
-          require('mini.clue').gen_clues.windows(
-            { submode_move = true, submode_navigate = true, submode_resize = true }
+{
+  config,
+  lib,
+  ...
+}: {
+  plugins.mini.modules.clue = let
+    inherit (lib.custom.nixvim) hasMiniModule hasSnacksModule;
+
+    # Generate clues or triggers
+    genMiniClueAttrs = {
+      mode,
+      keys,
+      desc ? null,
+    }:
+      lib.concatMap (
+        mode:
+          map (
+            keys:
+              {inherit mode keys;}
+              // lib.optionalAttrs (desc != null) {inherit desc;}
           )
-        '';
-      }
-      {__raw = "require('mini.clue').gen_clues.z()";}
+          (lib.toList keys)
+      )
+      (lib.toList mode);
 
-      # Descriptions for <Leader> mapping groups
-      {
-        mode = "n";
-        keys = "<Leader>b";
-        desc = "+Buffer";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>c";
-        desc = "+Code";
-      }
-      {
-        mode = "x";
-        keys = "<Leader>c";
-        desc = "+Code";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>e";
-        desc = "+Edit";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>g";
-        desc = "+Git";
-      }
-      {
-        mode = "x";
-        keys = "<Leader>g";
-        desc = "+Git";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>f";
-        desc = "+Find";
-      }
-      {
-        mode = "x";
-        keys = "<Leader>f";
-        desc = "+Find";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>l";
-        desc = "+LSP";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>m";
-        desc = "+Map";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>n";
-        desc = "+Noice";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>r";
-        desc = "+Replace";
-      }
-      {
-        mode = "x";
-        keys = "<Leader>r";
-        desc = "+Replace";
-      }
-      {
-        mode = "n";
-        keys = "<Leader>s";
-        desc = "+Session";
-      }
+    # Generate clues for submodes
+    genSubmodeClues = {
+      mode,
+      postKeys,
+      submodeKey,
+    }:
+      lib.concatMap (
+        mode:
+          lib.concatMap (
+            postkeys:
+              map (submodeKey: {
+                inherit mode postkeys;
+                keys = postkeys + submodeKey;
+              })
+              (lib.toList submodeKey)
+          )
+          (lib.toList postKeys)
+      )
+      (lib.toList mode);
 
-      # Custom mappings
-      {
-        mode = "n";
-        keys = "gh";
-        desc = "+Git hunks";
-      }
-      {
-        mode = "x";
-        keys = "gh";
-        desc = "+Git hunks";
-      }
-      {
-        mode = "n";
-        keys = "gl";
-        desc = "+LSP";
-      }
-      {
-        mode = "x";
-        keys = "gl";
-        desc = "+LSP";
-      }
-      {
-        mode = "n";
-        keys = "gs";
-        desc = "Surround";
-      }
-      {
-        mode = "x";
-        keys = "gs";
-        desc = "Surround";
-      }
-      {
-        mode = "n";
-        keys = "\\g";
-        desc = "+Toggle Git options";
-      }
+    hasMiniBracketed = hasMiniModule config "bracketed";
+    hasMiniFiles = hasMiniModule config "files";
+    hasMiniMap = hasMiniModule config "map";
+    hasMiniSurround = hasMiniModule config "surround";
+    hasSnacksBufdelete = hasSnacksModule config "bufdelete";
+    hasSnacksExplorer = hasSnacksModule config "explorer";
+    hasSnacksGit = hasSnacksModule config "git";
+    hasSnacksGitbrowse = hasSnacksModule config "gitbrowse";
+    hasSnacksLazygit = hasSnacksModule config "lazygit";
+    hasSnacksPicker = hasSnacksModule config "picker";
+    hasSnacksRename = hasSnacksModule config "rename";
+    hasSnacksScratch = hasSnacksModule config "scratch";
+  in {
+    clues =
+      lib.flatten [
+        # Generate pre-configured clues
+        {__raw = "require('mini.clue').gen_clues.builtin_completion()";}
+        {__raw = "require('mini.clue').gen_clues.g()";}
+        {__raw = "require('mini.clue').gen_clues.marks()";}
+        {__raw = "require('mini.clue').gen_clues.registers()";}
+        {
+          __raw = ''
+            require('mini.clue').gen_clues.windows(
+              { submode_move = true, submode_navigate = true, submode_resize = true }
+            )
+          '';
+        }
+        {__raw = "require('mini.clue').gen_clues.z()";}
 
-      # Submodes for previous / next (mini.bracketed)
-      {
-        mode = "n";
-        keys = "]b";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[b";
-        postkeys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]w";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[w";
-        postkeys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]c";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[c";
-        postkeys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]d";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[d";
-        postkeys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]h";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[h";
-        postkeys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]j";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[j";
-        postkeys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]q";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[q";
-        postkeys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]u";
-        postkeys = "]";
-      }
-      {
-        mode = "n";
-        keys = "[u";
-        postkeys = "[";
-      }
-    ];
+        # Descriptions for <Leader> mapping groups
+        (lib.optional (hasSnacksBufdelete || hasSnacksScratch) {
+          mode = "n";
+          keys = "<Leader>b";
+          desc = "+Buffer";
+        })
+        (genMiniClueAttrs {
+          mode = ["n" "x"];
+          keys = "<Leader>c";
+          desc = "+Code";
+        })
+        (lib.optional (
+            hasMiniFiles || hasSnacksExplorer || hasSnacksRename
+          ) {
+            mode = "n";
+            keys = "<Leader>e";
+            desc = "+Edit";
+          })
+        (lib.optionals (
+            hasSnacksGitbrowse || hasSnacksLazygit || hasSnacksPicker
+          )
+          genMiniClueAttrs {
+            mode = ["n" "x"];
+            keys = "<Leader>g";
+            desc = "+Git";
+          })
+        (lib.optionals (
+            config.plugins.todo-comments.enable || hasSnacksPicker
+          )
+          genMiniClueAttrs {
+            mode = ["n" "x"];
+            keys = "<Leader>f";
+            desc = "+Find";
+          })
+        (lib.optional config.plugins.lsp.enable {
+          mode = "n";
+          keys = "<Leader>l";
+          desc = "+LSP";
+        })
+        (lib.optional hasMiniMap {
+          mode = "n";
+          keys = "<Leader>m";
+          desc = "+Map";
+        })
+        (lib.optional config.plugins.noice.enable {
+          mode = "n";
+          keys = "<Leader>n";
+          desc = "+Noice";
+        })
+        (lib.optionals config.plugins.grug-far.enable genMiniClueAttrs {
+          mode = ["n" "x"];
+          keys = "<Leader>r";
+          desc = "+Replace";
+        })
+        (lib.optional config.plugins.persistence.enable {
+          mode = "n";
+          keys = "<Leader>s";
+          desc = "+Session";
+        })
 
-    triggers = [
+        # Custom mapping groups
+        (lib.optionals (
+            config.plugins.gitsigns.enable || hasSnacksGit
+          )
+          genMiniClueAttrs {
+            mode = ["n" "x"];
+            keys = "gh";
+            desc = "+Git hunks";
+          })
+        (lib.optionals config.plugins.lsp.enable genMiniClueAttrs {
+          mode = ["n" "x"];
+          keys = "gl";
+          desc = "+LSP";
+        })
+        (lib.optionals hasMiniSurround genMiniClueAttrs {
+          mode = ["n" "x"];
+          keys = "gs";
+          desc = "Surround";
+        })
+        {
+          mode = "n";
+          keys = "\\g";
+          desc = "+Toggle Git options";
+        }
+      ]
+      ++ lib.optionals hasMiniBracketed genSubmodeClues {
+        mode = "n";
+        postKeys = ["[" "]"];
+        submodeKey = ["b" "c" "d" "h" "j" "q" "u" "w"];
+      };
+
+    triggers = lib.flatten [
       # Leader triggers
-      {
-        mode = "n";
+      (genMiniClueAttrs {
+        mode = ["n" "x"];
         keys = "<Leader>";
-      }
-      {
-        mode = "x";
-        keys = "<Leader>";
-      }
+      })
 
       # Local leader triggers
-      {
-        mode = "n";
+      (genMiniClueAttrs {
+        mode = ["n" "x"];
         keys = "<Localleader>";
-      }
-      {
-        mode = "x";
-        keys = "<Localleader>";
-      }
+      })
 
       # Built-in completion
       {
@@ -235,70 +183,34 @@ _: {
       }
 
       # `g` key
-      {
-        mode = "n";
+      (genMiniClueAttrs {
+        mode = ["n" "o" "x"];
         keys = "g";
-      }
-      {
-        mode = "x";
-        keys = "g";
-      }
+      })
 
       # Marks
-      {
-        mode = "n";
-        keys = "'";
-      }
-      {
-        mode = "n";
-        keys = "`";
-      }
-      {
-        mode = "x";
-        keys = "'";
-      }
-      {
-        mode = "x";
-        keys = "`";
-      }
+      (genMiniClueAttrs {
+        mode = ["n" "x"];
+        keys = ["'" "`"];
+      })
 
-      # Previous / next (mini.bracketed)
-      {
-        mode = "n";
-        keys = "[";
-      }
-      {
-        mode = "x";
-        keys = "[";
-      }
-      {
-        mode = "n";
-        keys = "]";
-      }
-      {
-        mode = "x";
-        keys = "[";
-      }
+      # Backward / Forward (e.g. mappings from mini.bracketed)
+      (genMiniClueAttrs {
+        mode = ["n" "o" "x"];
+        keys = ["[" "]"];
+      })
 
       # Registers
-      {
-        mode = "n";
+      (genMiniClueAttrs {
+        mode = ["n" "x"];
         keys = "\"";
-      }
-      {
-        mode = "x";
-        keys = "\"";
-      }
-      {
-        mode = "i";
+      })
+      (genMiniClueAttrs {
+        mode = ["c" "i"];
         keys = "<C-r>";
-      }
-      {
-        mode = "c";
-        keys = "<C-r>";
-      }
+      })
 
-      # Toggling options (mini.basics)
+      # Toggling options (e.g. mappings from mini.basics)
       {
         mode = "n";
         keys = "\\";
@@ -311,14 +223,10 @@ _: {
       }
 
       # `z` key
-      {
-        mode = "n";
+      (genMiniClueAttrs {
+        mode = ["n" "x"];
         keys = "z";
-      }
-      {
-        mode = "x";
-        keys = "z";
-      }
+      })
     ];
 
     window = {

@@ -60,7 +60,6 @@
     })
 
     # Use H and L to move to the start or end of the line
-
     (nMap {
       key = "H";
       action = "^";

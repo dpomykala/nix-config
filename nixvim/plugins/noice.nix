@@ -54,24 +54,24 @@
       desc = "History (all)";
     })
     (nCmdMap {
-      key = "<Leader>nd";
-      cmd = "Noice dismiss";
-      desc = "Dismiss all";
-    })
-    (nCmdMap {
       key = "<Leader>nD";
       cmd = "Noice disable";
       desc = "Disable";
     })
     (nCmdMap {
-      key = "<Leader>ne";
-      cmd = "Noice errors";
-      desc = "Errors";
+      key = "<Leader>nd";
+      cmd = "Noice dismiss";
+      desc = "Dismiss all";
     })
     (nCmdMap {
       key = "<Leader>nE";
       cmd = "Noice enable";
       desc = "Enable";
+    })
+    (nCmdMap {
+      key = "<Leader>ne";
+      cmd = "Noice errors";
+      desc = "Errors";
     })
     (nCmdMap {
       key = "<Leader>nh";
