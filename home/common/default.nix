@@ -14,6 +14,7 @@ Configuration common to all hosts.
     ./ssh.nix
     ./starship.nix
     ./thefuck.nix
+    ./uv.nix
     ./vim
     ./wezterm.nix
     ./yazi.nix
@@ -34,14 +35,11 @@ Configuration common to all hosts.
       lazydocker
       # NOTE: nh does not support nix-darwin (only NixOS and Home Manager)
       nh
-      # TODO: Can it be completely replaced with uv?
-      pipx
       ripgrep
       ruff
       sd
       tlrc
       tokei
-      uv
     ];
   };
 
