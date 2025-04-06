@@ -28,6 +28,7 @@ Configuration common to all hosts.
       dust
       fd
       httpie
+      hurl
       jq
       just
       lazydocker
