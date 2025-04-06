@@ -35,6 +35,7 @@ Configuration common to all hosts.
       lazydocker
       # NOTE: nh does not support nix-darwin (only NixOS and Home Manager)
       nh
+      posting
       ripgrep
       ruff
       sd

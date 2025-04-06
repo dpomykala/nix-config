@@ -22,8 +22,6 @@
   };
 
   config = {
-    custom.uv.tools = [];
-
     home = let
       localBin = "$HOME/.local/bin";
       script =
