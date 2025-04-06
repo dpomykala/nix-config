@@ -1,13 +1,12 @@
 _: {
   programs.mise = {
     enable = true;
-    enableZshIntegration = true;
 
     globalConfig = {
       tools = {
         python = "latest";
-        elixir = "latest";
-        erlang = "latest";
+        # elixir = "latest";
+        # erlang = "latest";
       };
 
       # FIXME: Use programs.mise.settings instead?
