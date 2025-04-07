@@ -10,6 +10,7 @@ _: {
     ./map.nix
     ./operators.nix
     # ./sessions.nix
+    ./statusline.nix
     ./surround.nix
   ];
 
@@ -28,7 +29,6 @@ _: {
       move = {};
       pairs = {};
       splitjoin = {};
-      statusline = {};
       tabline = {};
     };
   };

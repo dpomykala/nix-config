@@ -34,14 +34,6 @@
         # Add a border to hover docs and signature help
         lsp_doc_border = true;
       };
-
-      routes = [
-        # Show messages when recording macros
-        {
-          view = "notify";
-          filter.event = "msg_showmode";
-        }
-      ];
     };
   };
 
