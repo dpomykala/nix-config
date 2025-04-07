@@ -6,6 +6,7 @@ _: {
     ./gitsigns.nix
     ./grug-far.nix
     ./gx.nix
+    ./kulala.nix
     ./lint.nix
     ./lsp.nix
     ./mini

@@ -121,6 +121,11 @@
           keys = "<Leader>n";
           desc = "+Noice";
         })
+        (lib.optionals config.plugins.kulala.enable genMiniClueAttrs {
+          mode = ["n" "x"];
+          keys = "<Leader>R";
+          desc = "+REST";
+        })
         (lib.optionals config.plugins.grug-far.enable genMiniClueAttrs {
           mode = ["n" "x"];
           keys = "<Leader>r";

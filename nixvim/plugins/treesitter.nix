@@ -29,6 +29,7 @@
       gitignore
       html
       htmldjango
+      http
       javascript
       json
       jsonc
