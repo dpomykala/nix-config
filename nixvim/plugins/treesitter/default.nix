@@ -1,4 +1,9 @@
 {pkgs, ...}: {
+  imports = [
+    ./context.nix
+    ./textobjects.nix
+  ];
+
   plugins.treesitter = {
     enable = true;
 

@@ -14,8 +14,7 @@ _: {
     ./persistence.nix
     ./snacks
     ./todo-comments.nix
-    ./treesitter-context.nix
-    ./treesitter.nix
+    ./treesitter
   ];
 
   plugins = {
