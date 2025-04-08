@@ -73,6 +73,11 @@
         {__raw = "require('mini.clue').gen_clues.z()";}
 
         # Descriptions for <Leader> mapping groups
+        (lib.optionals config.plugins.avante.enable genMiniClueAttrs {
+          mode = ["n" "x"];
+          keys = "<Leader>a";
+          desc = "+AI";
+        })
         (lib.optional (hasSnacksBufdelete || hasSnacksScratch) {
           mode = "n";
           keys = "<Leader>b";

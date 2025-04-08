@@ -1,5 +1,6 @@
 _: {
   imports = [
+    ./avante.nix
     ./blink.nix
     ./conform.nix
     ./flash.nix
