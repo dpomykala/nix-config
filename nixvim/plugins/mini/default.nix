@@ -1,5 +1,6 @@
 _: {
   imports = [
+    ./ai.nix
     ./animate.nix
     ./basics.nix
     ./clue.nix
@@ -21,7 +22,6 @@ _: {
     mockDevIcons = true;
 
     modules = {
-      ai = {};
       align = {};
       bracketed = {};
       cursorword = {};
