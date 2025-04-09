@@ -73,11 +73,11 @@
         {__raw = "require('mini.clue').gen_clues.z()";}
 
         # Descriptions for <Leader> mapping groups
-        (lib.optionals config.plugins.avante.enable genMiniClueAttrs {
+        (lib.optionals config.plugins.avante.enable (genMiniClueAttrs {
           mode = ["n" "x"];
           keys = "<Leader>a";
           desc = "+AI";
-        })
+        }))
         (lib.optional (hasSnacksBufdelete || hasSnacksScratch) {
           mode = "n";
           keys = "<Leader>b";
@@ -88,29 +88,25 @@
           keys = "<Leader>c";
           desc = "+Code";
         })
-        (lib.optional (
-            hasMiniFiles || hasSnacksExplorer || hasSnacksRename
-          ) {
-            mode = "n";
-            keys = "<Leader>e";
-            desc = "+Edit";
-          })
-        (lib.optionals (
-            hasSnacksGitbrowse || hasSnacksLazygit || hasSnacksPicker
-          )
+        (lib.optional (hasMiniFiles || hasSnacksExplorer || hasSnacksRename) {
+          mode = "n";
+          keys = "<Leader>e";
+          desc = "+Edit";
+        })
+        (lib.optionals (hasSnacksGitbrowse || hasSnacksLazygit || hasSnacksPicker) (
           genMiniClueAttrs {
             mode = ["n" "x"];
             keys = "<Leader>g";
             desc = "+Git";
-          })
-        (lib.optionals (
-            config.plugins.todo-comments.enable || hasSnacksPicker
-          )
+          }
+        ))
+        (lib.optionals (config.plugins.todo-comments.enable || hasSnacksPicker) (
           genMiniClueAttrs {
             mode = ["n" "x"];
             keys = "<Leader>f";
             desc = "+Find";
-          })
+          }
+        ))
         (lib.optional config.plugins.lsp.enable {
           mode = "n";
           keys = "<Leader>l";
@@ -126,16 +122,16 @@
           keys = "<Leader>n";
           desc = "+Noice";
         })
-        (lib.optionals config.plugins.kulala.enable genMiniClueAttrs {
+        (lib.optionals config.plugins.kulala.enable (genMiniClueAttrs {
           mode = ["n" "x"];
           keys = "<Leader>R";
           desc = "+REST";
-        })
-        (lib.optionals config.plugins.grug-far.enable genMiniClueAttrs {
+        }))
+        (lib.optionals config.plugins.grug-far.enable (genMiniClueAttrs {
           mode = ["n" "x"];
           keys = "<Leader>r";
           desc = "+Replace";
-        })
+        }))
         (lib.optional config.plugins.persistence.enable {
           mode = "n";
           keys = "<Leader>s";
@@ -143,35 +139,34 @@
         })
 
         # Custom mapping groups
-        (lib.optionals (
-            config.plugins.gitsigns.enable || hasSnacksGit
-          )
+        (lib.optionals (config.plugins.gitsigns.enable || hasSnacksGit) (
           genMiniClueAttrs {
             mode = ["n" "x"];
             keys = "gh";
             desc = "+Git hunks";
-          })
-        (lib.optionals config.plugins.lsp.enable genMiniClueAttrs {
+          }
+        ))
+        (lib.optionals config.plugins.lsp.enable (genMiniClueAttrs {
           mode = ["n" "x"];
           keys = "gl";
           desc = "+LSP";
-        })
-        (lib.optionals hasMiniSurround genMiniClueAttrs {
+        }))
+        (lib.optionals hasMiniSurround (genMiniClueAttrs {
           mode = ["n" "x"];
           keys = "gs";
           desc = "Surround";
-        })
+        }))
         {
           mode = "n";
           keys = "\\g";
           desc = "+Toggle Git options";
         }
       ]
-      ++ lib.optionals hasMiniBracketed genSubmodeClues {
+      ++ lib.optionals hasMiniBracketed (genSubmodeClues {
         mode = "n";
         postKeys = ["[" "]"];
         submodeKey = ["b" "c" "d" "h" "j" "q" "u" "w"];
-      };
+      });
 
     triggers = lib.flatten [
       # Leader triggers
