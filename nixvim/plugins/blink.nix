@@ -37,6 +37,11 @@ https://github.com/Saghen/blink.cmp
             "buffer"
           ];
 
+        per_filetype = {
+          # Provided by codecompanion.nvim
+          codecompanion = ["codecompanion"];
+        };
+
         providers = {
           avante = lib.mkIf config.plugins.avante.enable {
             module = "blink-cmp-avante";
