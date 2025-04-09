@@ -42,7 +42,7 @@ https://github.com/yetone/avante.nvim
           };
         };
       }
-      // lib.optionalAttr hasSnacksPicker {
+      // lib.optionalAttrs hasSnacksPicker {
         file_selector.provider = "snacks";
       };
   };

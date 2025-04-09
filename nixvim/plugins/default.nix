@@ -1,8 +1,7 @@
 _: {
   imports = [
-    # ./avante.nix
+    ./ai
     ./blink.nix
-    ./codecompanion.nix
     ./conform.nix
     ./flash.nix
     ./gitsigns.nix
