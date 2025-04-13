@@ -8,11 +8,10 @@ These are my _dotfiles on steroids_ 🚀 created using [Nix].
 - Managing [Homebrew] installed software on MacOS with nix-darwin.
 - Managing user configuration with [Home Manager].
 - Standalone Home Manager setup with support for non-NixOS Linux.
-- Standalone [NixVim] setup with fully configured Neovim.
+- Custom [Neovim configuration] using [NixVim].
 - Declarative and reproducible configuration based on Nix [flake](flake.nix).
-- Neovim exposed as a flake package that can be used on its own.
 - Awesome tools for development and day-to-day use.
-- Flexible, modular and extendable structure.
+- Flexible, modular and easy to extend structure.
 - Support for multi-host and multi-user configurations.
 - Clean and well documented code.
 - Development shell for bootstrapping.
@@ -35,9 +34,10 @@ You should _at least_ replace files in the following directories:
 These should be files related to your hosts and users. Remember to also
 change all references, e.g. in `flake.nix`.
 
-If you are a beginner, you should probably first familiarize yourself with
-topics such as Nix (with flakes), nix-darwin, Home Manager and NixVim. **In
-the future, I plan to extend this documentation to be more beginner friendly.**
+If you are new to the Nix world, you should probably first familiarize
+yourself with topics such as Nix (with flakes), nix-darwin, Home Manager
+and NixVim. **In the future, I plan to extend this documentation to be more
+beginner friendly.**
 
 ## ✅ TODO
 
@@ -57,6 +57,7 @@ the future, I plan to extend this documentation to be more beginner friendly.**
 [home manager]: https://github.com/nix-community/home-manager
 [homebrew]: https://brew.sh
 [just]: https://github.com/casey/just
+[neovim configuration]: https://github.com/dpomykala/nix-nvim
 [nix-darwin]: https://github.com/LnL7/nix-darwin
 [nix]: https://nix.dev
 [nixvim]: https://github.com/nix-community/nixvim
