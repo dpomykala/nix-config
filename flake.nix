@@ -38,17 +38,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim.url = "github:nix-community/nixvim";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
-    # Neovim plugins
-    blink-cmp = {
-      url = "github:Saghen/blink.cmp";
+    # Neovim (NixVim) configuration: https://github.com/dpomykala/nix-nvim
+    nix-nvim = {
+      url = "github:dpomykala/nix-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    snacks-nvim = {
-      url = "github:folke/snacks.nvim";
-      flake = false;
     };
 
     bat-catppuccin-theme = {
@@ -61,24 +54,16 @@
     };
   };
 
-  outputs = inputs @ {
+  outputs = {
     home-manager,
     nix-darwin,
     nix-homebrew,
     nixpkgs,
-    nixvim,
     self,
     ...
   }: let
     supportedSystems = ["x86_64-darwin" "x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-    # Extend the default lib with custom functions
-    lib = nixpkgs.lib.extend (final: prev: {
-      custom = import ./lib {lib = final;};
-    });
-    # Extend the lib used for NixVim with the default NixVim lib
-    libForNixvim = lib.extend nixvim.lib.overlay;
   in {
     darwinConfigurations = {
       # NOTE: Names should match the `scutil --get LocalHostName` command output
@@ -109,28 +94,6 @@
       };
     };
 
-    packages = forAllSystems (system: let
-      # nixvimLib = nixvim.lib.${system};
-      nvim = nixvim.legacyPackages.${system}.makeNixvimWithModule {
-        inherit system;
-
-        extraSpecialArgs = {
-          inherit self;
-
-          # Use the custom (extended) lib
-          lib = libForNixvim;
-        };
-
-        module = import ./nixvim;
-      };
-    in {
-      inherit nvim;
-      # Run NixVim as the default program for this flake with `nix run`
-      default = nvim;
-    });
-
-    # TODO: Add checks for NixVim?
-
     # Run development environment with `nix develop`
     devShells = forAllSystems (system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -147,8 +110,5 @@
 
     # Format Nix files with `nix fmt .`
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
-    # Export custom overlays
-    overlays = import ./overlays {inherit inputs;};
   };
 }

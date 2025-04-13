@@ -15,10 +15,6 @@ darwin:
 home:
     nh home switch .
 
-# Build and run Neovim (NixVim)
-nvim:
-    nix run .#nvim
-
 # Update the lock file and commit (optionally provide specific input(s))
 update *INPUTS:
     nix flake update --commit-lock-file {{ INPUTS }}

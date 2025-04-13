@@ -5,8 +5,8 @@
 }: {
   home = {
     packages = [
-      # Use the NixVim derivation from this flake
-      self.packages.${pkgs.system}.nvim
+      # Use the custom Neovim (NixVim) configuration
+      self.inputs.nix-nvim.packages.${pkgs.system}.default
     ];
 
     # Set Neovim as the default editor
