@@ -11,6 +11,7 @@ Configuration common to all hosts.
     ./lazygit.nix
     ./mise.nix
     ./shell
+    ./sops.nix
     ./ssh.nix
     ./starship.nix
     ./thefuck.nix

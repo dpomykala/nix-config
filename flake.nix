@@ -38,7 +38,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Neovim (NixVim) configuration: https://github.com/dpomykala/nix-nvim
+    # Custom NixVim configuration: https://github.com/dpomykala/nix-nvim
     nix-nvim = {
       url = "github:dpomykala/nix-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,6 +51,12 @@
     delta-catppuccin-theme = {
       url = "github:catppuccin/delta";
       flake = false;
+    };
+
+    # Secrets management with SOPS
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -100,9 +106,11 @@
     in {
       default = pkgs.mkShellNoCC {
         packages = with pkgs; [
+          age
           alejandra
           just
           nh
+          sops
           stow
         ];
       };
