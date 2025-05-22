@@ -29,7 +29,7 @@
     };
 
     # Extra configuration added to .zshrc
-    initExtra = ''
+    initContent = ''
       # Use Vim key bindings
       setopt VI
     '';
