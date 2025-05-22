@@ -63,7 +63,6 @@
   outputs = {
     home-manager,
     nix-darwin,
-    nix-homebrew,
     nixpkgs,
     self,
     ...
@@ -75,10 +74,7 @@
       # NOTE: Names should match the `scutil --get LocalHostName` command output
 
       "mbp-13" = nix-darwin.lib.darwinSystem {
-        modules = [
-          nix-homebrew.darwinModules.nix-homebrew
-          ./system/hosts/mbp-13
-        ];
+        modules = [./system/hosts/mbp-13];
         specialArgs = {inherit self;};
       };
     };

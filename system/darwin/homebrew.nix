@@ -2,11 +2,14 @@
   config,
   self,
   ...
-}: {
-  # NOTE: nix-homebrew options are provided by the flake input
-  nix-homebrew = let
-    inherit (self.inputs) homebrew-bundle homebrew-cask homebrew-core;
-  in {
+}: let
+  inherit (self.inputs) homebrew-bundle homebrew-cask homebrew-core nix-homebrew;
+in {
+  imports = [
+    nix-homebrew.darwinModules.nix-homebrew
+  ];
+
+  nix-homebrew = {
     # Install Homebrew under the default prefix
     enable = true;
 
