@@ -42,6 +42,7 @@ Configuration common to all hosts.
       sd
       tlrc
       tokei
+      (pkgs.callPackage ../../apps/organize-tool.nix {})
     ];
   };
 
