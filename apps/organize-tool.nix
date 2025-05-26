@@ -27,7 +27,7 @@ https://github.com/tfeldmann/organize
 
     src = fetchFromGitHub {
       owner = "dmkskn";
-      repo = "${pname}";
+      repo = pname;
       rev = "v${version}";
       hash = "sha256-oA63nq3RzD7pozQirqx6SpUR/fdkGB1dNlxM9yDPvqU=";
     };
@@ -47,7 +47,7 @@ https://github.com/tfeldmann/organize
 
     src = fetchFromGitHub {
       owner = "dmkskn";
-      repo = "${pname}";
+      repo = pname;
       rev = "v${version}";
       hash = "sha256-WHXETLG7F9faf3amahorGUivd1qGVDO7sCl61ymdmRY=";
     };
@@ -86,7 +86,7 @@ https://github.com/tfeldmann/organize
 
     src = fetchFromGitHub {
       owner = "tfeldmann";
-      repo = "${pname}";
+      repo = pname;
       rev = "v${version}";
       hash = "sha256-ONB6G5peAy0Ov84H4Z4aXO7rXlKohN4wyAP8Tv/rpTw=";
     };
@@ -137,7 +137,7 @@ in
       "rich"
     ];
 
-    # Make sure that runtimes dependencies are available
+    # Make sure that runtime dependencies are available
     makeWrapperArgs = [
       "--prefix"
       "PATH"
