@@ -34,13 +34,5 @@ in {
     sessionVariables.SOPS_AGE_KEY_FILE = age_keys;
   };
 
-  sops = {
-    age.keyFile = age_keys;
-
-    secrets.example-secrets = {
-      key = "";
-      path = "${config.home.homeDirectory}/example-secrets.yaml";
-      sopsFile = ../../example-secrets.yaml;
-    };
-  };
+  sops.age.keyFile = age_keys;
 }

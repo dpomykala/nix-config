@@ -85,7 +85,7 @@
 
       "dp@mbp-13" = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {inherit self;};
-        modules = [(./. + "/home/configs/dp@mbp-13.nix")];
+        modules = [(./. + "/home/configs/dp@mbp-13")];
         pkgs = nixpkgs.legacyPackages."x86_64-darwin";
       };
 
