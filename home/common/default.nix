@@ -36,18 +36,27 @@ Configuration common to all hosts.
       lazydocker
       # NOTE: nh does not support nix-darwin (only NixOS and Home Manager)
       nh
+      organize-tool
       posting
       ripgrep
       ruff
       sd
       tlrc
       tokei
-      (pkgs.callPackage ../../apps/organize-tool.nix {})
     ];
   };
 
-  # Allow installation of software with an unfree license
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    # Allow installation of software with an unfree license
+    config.allowUnfree = true;
+
+    # Apply overlays
+    overlays = let
+      overlays = import ../../overlays {};
+    in [
+      overlays.apps
+    ];
+  };
 
   # Let Home Manager install and manage itself
   # NOTE: This option only works with a standalone Home Manager setup
