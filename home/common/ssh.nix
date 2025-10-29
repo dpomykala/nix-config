@@ -28,7 +28,8 @@ in {
   # See: https://developer.1password.com/docs/ssh/agent/config
   xdg.configFile."1Password/ssh/agent.toml".text = ''
     [[ssh-keys]]
-    vault = "Private"
+    # Add all SSH keys from an account with this sign-in address
+    account = "my.1password.com"
   '';
 
   programs.ssh = {
