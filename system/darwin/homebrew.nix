@@ -33,7 +33,7 @@ in {
       #"adobe-acrobat-reader"
       #"arc"
       #"brave-browser"
-      "docker"
+      "docker-desktop"
       #"firefox"
       #"google-chrome"
       "jetbrains-toolbox"
