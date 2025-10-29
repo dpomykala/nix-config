@@ -69,8 +69,8 @@
     darwinConfigurations = {
       # NOTE: Names should match the `scutil --get LocalHostName` command output
 
-      "mbp-13" = nix-darwin.lib.darwinSystem {
-        modules = [./system/hosts/mbp-13];
+      "mbp-16" = nix-darwin.lib.darwinSystem {
+        modules = [./system/hosts/mbp-16];
         specialArgs = {inherit self;};
       };
     };
@@ -79,9 +79,9 @@
     homeConfigurations = {
       # NOTE: Hostnames should match the `hostname` command output
 
-      "dp@mbp-13" = home-manager.lib.homeManagerConfiguration {
+      "dp@mbp-16" = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {inherit self;};
-        modules = [(./. + "/home/configs/dp@mbp-13")];
+        modules = [(./. + "/home/configs/dp@mbp-16")];
         pkgs = nixpkgs.legacyPackages."x86_64-darwin";
       };
 
