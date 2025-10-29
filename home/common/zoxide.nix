@@ -1,7 +1,6 @@
 _: {
   programs.zoxide = {
     enable = true;
-    enableZshIntegration = true;
 
     # Options to pass when calling zoxide init
     options = [

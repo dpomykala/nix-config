@@ -18,7 +18,6 @@
 in {
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
 
     # Catppuccin Macchiato color scheme for fzf
     # https://github.com/catppuccin/fzf

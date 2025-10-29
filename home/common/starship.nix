@@ -1,7 +1,6 @@
 _: {
   programs.starship = {
     enable = true;
-    enableZshIntegration = true;
 
     settings = {
       # Get editor completions based on the config schema
