@@ -1,11 +1,12 @@
-_: {
+{config, ...}: {
   imports = [
     ../../darwin
   ];
 
   # User owning the Homebrew prefix
-  # NOTE: nix-homebrew options are provided by the flake input
-  nix-homebrew.user = "dp";
+  nix-homebrew.user = "${config.system.primaryUser}";
 
   nixpkgs.hostPlatform = "x86_64-darwin";
+
+  system.primaryUser = "dp";
 }
