@@ -1,4 +1,8 @@
-{self, ...}: {
+{
+  config,
+  self,
+  ...
+}: {
   security.pam.services.sudo_local = {
     enable = true;
 
@@ -16,8 +20,8 @@
 
     # Scripts executed when booting or rebuilding the system
     activationScripts.postActivation.text = ''
-      # Reload the system settings to avoid the need for a reboot
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+      # Reload the settings as the primary user to avoid the need for a re-login
+      sudo -u ${config.system.primaryUser} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
 
     defaults = {
