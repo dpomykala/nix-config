@@ -33,33 +33,32 @@ in {
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
 
     # Rules for specific hosts
     # The order of blocks is not guaranteed unless DAG functions are used
-    # matchBlocks = {
-    #   # Common configuration for all GitHub hosts
-    #   "github.com* gh*" = {
-    #     hostname = "github.com";
-    #     user = "git";
-    #   };
-    #
-    #   # Default GitHub account (e.g. for work)
-    #   "github.com gh" = {
-    #     identityFile = "~/.ssh/id_ed25519_github_work.pub";
-    #   };
-    #
-    #   # Secondary GitHub account (e.g. personal)
-    #   "github.com-personal gh-personal" = {
-    #     identityFile = "~/.ssh/id_ed25519_github_personal.pub";
-    #   };
-    # };
-
-    # Rules for the general "Host *" section
-    extraConfig = ''
-      IdentityAgent "${ssh_agent_socket}"
-
-      # Only use the identities specified explicitly in the config file
-      # IdentitiesOnly yes
-    '';
+    matchBlocks = {
+      # Global config for all hosts
+      "*" = {
+        identityAgent = ssh_agent_socket;
+        # Only use the identities specified explicitly in the config file
+        identitiesOnly = true;
+      };
+      # # Common configuration for all GitHub hosts
+      # "github.com* gh*" = {
+      #   hostname = "github.com";
+      #   user = "git";
+      # };
+      #
+      # # Default GitHub account (e.g. for work)
+      # "github.com gh" = {
+      #   identityFile = "~/.ssh/id_ed25519_github_work.pub";
+      # };
+      #
+      # # Secondary GitHub account (e.g. personal)
+      # "github.com-personal gh-personal" = {
+      #   identityFile = "~/.ssh/id_ed25519_github_personal.pub";
+      # };
+    };
   };
 }
