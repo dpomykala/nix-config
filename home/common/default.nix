@@ -10,11 +10,11 @@ Configuration common to all hosts.
     ./git.nix
     ./lazygit.nix
     ./mise.nix
+    ./pay-respects.nix
     ./shell
     ./sops.nix
     ./ssh.nix
     ./starship.nix
-    ./thefuck.nix
     ./uv.nix
     ./vim
     ./wezterm.nix
