@@ -15,7 +15,7 @@
     configurationRevision = self.rev or self.dirtyRev or null;
 
     # Scripts executed when booting or rebuilding the system
-    activationScripts.postUserActivation.text = ''
+    activationScripts.postActivation.text = ''
       # Reload the system settings to avoid the need for a reboot
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
