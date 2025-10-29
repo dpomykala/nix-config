@@ -9,7 +9,7 @@ default:
 # Build and activate a Darwin system configuration
 [macos]
 darwin:
-    darwin-rebuild switch --flake .
+    sudo -H darwin-rebuild switch --flake .
 
 # Build and activate a Home Manager configuration
 home:
