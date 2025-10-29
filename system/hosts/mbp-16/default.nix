@@ -3,6 +3,8 @@
     ../../darwin
   ];
 
+  networking.hostName = "mbp-16";
+
   # User owning the Homebrew prefix
   nix-homebrew.user = "${config.system.primaryUser}";
 
