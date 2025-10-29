@@ -141,7 +141,7 @@
         };
         # The .GlobalPreferences plist file is used for Apple Global Domain
         # The domains located in the ByHost subdirectory require the full path
-        "~/Library/Preferences/ByHost/.GlobalPreferences" = {
+        "~${config.system.primaryUser}/Library/Preferences/ByHost/.GlobalPreferences" = {
           # Required for Mission Control / App Exposé gesture setting values
           # to display correctly in the System Settings GUI app as a 3-finger
           # vertical swipe (up / down)
@@ -165,7 +165,7 @@
         };
 
         # The domains located in the ByHost subdirectory require the full path
-        "~/Library/Preferences/ByHost/com.apple.controlcenter" = {
+        "~${config.system.primaryUser}/Library/Preferences/ByHost/com.apple.controlcenter" = {
           # Show the battery percentage in the menu bar
           BatteryShowPercentage = true;
         };
