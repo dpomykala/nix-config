@@ -46,7 +46,7 @@ in {
       "slack"
       "spotify"
       #"the-unarchiver"
-      #"tunnelblick"
+      "tunnelblick"
       "visual-studio-code"
       #"vlc"
     ];
