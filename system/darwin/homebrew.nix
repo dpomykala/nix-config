@@ -36,6 +36,7 @@ in {
       "docker-desktop"
       #"firefox"
       #"google-chrome"
+      #"grammarly-desktop"
       "jetbrains-toolbox"
       "karabiner-elements"
       "logi-options+"
@@ -47,6 +48,7 @@ in {
       "spotify"
       #"the-unarchiver"
       "tunnelblick"
+      #"utm"
       "visual-studio-code"
       #"vlc"
     ];
