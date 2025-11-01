@@ -21,6 +21,15 @@ _: {
       "github.com-ll gh-ll" = {
         identityFile = "~/.ssh/id_ed25519_github_work_ll.pub";
       };
+
+      # Work Git server
+      "git.leanlab.pl" = {
+        extraOptions = {
+          # Allow RSA keys
+          HostkeyAlgorithms = "+ssh-rsa";
+          PubkeyAcceptedAlgorithms = "+ssh-rsa";
+        };
+      };
     };
   };
 }

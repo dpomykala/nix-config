@@ -50,8 +50,6 @@ in {
       # Global config for all hosts
       "*" = {
         identityAgent = ssh_agent_socket;
-        # Only use the identities specified explicitly in the config file
-        # identitiesOnly = true;
       };
 
       "github.com* gh*" = {
