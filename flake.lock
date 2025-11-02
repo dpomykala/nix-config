@@ -376,11 +376,11 @@
         "snacks-nvim": "snacks-nvim"
       },
       "locked": {
-        "lastModified": 1762101052,
-        "narHash": "sha256-+9vkiJZRDnQmzQxNlFkQPc5wlgxULcrxLDeEJ/7a/4g=",
+        "lastModified": 1762120846,
+        "narHash": "sha256-NIcYUCn0i2EhUTBBuIu/g2CWbz28JIdDCKiy75J+I3c=",
         "owner": "dpomykala",
         "repo": "nix-nvim",
-        "rev": "fee55d7abe06f5461ad73205a9bb9e34b6e265f8",
+        "rev": "012a2586a0f56a4c83fbc2c303730d7196534bcc",
         "type": "github"
       },
       "original": {
@@ -456,17 +456,17 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1761880412,
-        "narHash": "sha256-QoJjGd4NstnyOG4mm4KXF+weBzA2AH/7gn1Pmpfcb0A=",
+        "lastModified": 1761229794,
+        "narHash": "sha256-YkH1zHrMIFVPPbWN/smJVay/o2mLeV4Dynfn6J8MaHA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a7fc11be66bdfb5cdde611ee5ce381c183da8386",
+        "rev": "ddd7747c41a3d12106c6a8d9c81720e13460b761",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
+        "rev": "ddd7747c41a3d12106c6a8d9c81720e13460b761",
         "type": "github"
       }
     },
