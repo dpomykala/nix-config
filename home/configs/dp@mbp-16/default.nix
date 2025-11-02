@@ -18,6 +18,7 @@ _: {
       };
 
       # Secondary GitHub account (work)
+      # Usage: `git remote set-url gh-ll:<gh-user>/<gh-repo>.git`
       "github.com-ll gh-ll" = {
         identityFile = "~/.ssh/id_ed25519_github_work_ll.pub";
       };

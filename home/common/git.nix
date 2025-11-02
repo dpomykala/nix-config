@@ -59,6 +59,13 @@ in {
       # Node.js
       "node_modules"
 
+      # Env files
+      ".env"
+      ".env.local"
+
+      # Tools
+      "mise.local.toml"
+
       # General
       "*.log"
     ];
