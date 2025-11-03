@@ -1,34 +1,7 @@
-{
-  config,
-  lib,
-  self,
-  ...
-}: let
-  deltaCatppuccinFlavor = "catppuccin-macchiato";
-in {
+_: {
   programs.git = {
     enable = true;
 
-    aliases = lib.optionalAttrs config.programs.git.delta.enable {
-      # Show a side-by-side diff in delta
-      diffs = lib.concatStringsSep " " [
-        "-c delta.features='${deltaCatppuccinFlavor} defaults side-by-side'"
-        "diff"
-      ];
-    };
-
-    extraConfig = {
-      # Use different colors for moved lines in a diff
-      diff.colorMoved = true;
-
-      init.defaultBranch = "main";
-
-      merge.conflictstyle = "zdiff3";
-
-      push.autoSetupRemote = true;
-    };
-
-    # Globally ignored paths
     ignores = [
       # MacOS
       "._*"
@@ -70,27 +43,15 @@ in {
       "*.log"
     ];
 
-    includes = lib.optionals config.programs.git.delta.enable [
-      # Catppuccin theme for delta
-      {path = "${self.inputs.delta-catppuccin-theme}/catppuccin.gitconfig";}
-    ];
+    settings = {
+      # Use different colors for moved lines in a diff
+      diff.colorMoved = true;
 
-    # Configuration for 3rd party tools (integrations)
+      init.defaultBranch = "main";
 
-    # https://github.com/dandavison/delta
-    delta = {
-      enable = true;
+      merge.conflictstyle = "zdiff3";
 
-      options = {
-        features = "${deltaCatppuccinFlavor} defaults";
-
-        # Specify default options as a "feature"
-        # Features can be overridden from a cmd line with --features
-        defaults = {
-          line-numbers = true;
-          navigate = true;
-        };
-      };
+      push.autoSetupRemote = true;
     };
   };
 

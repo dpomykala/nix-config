@@ -4,6 +4,7 @@ Configuration common to all hosts.
 {pkgs, ...}: {
   imports = [
     ./bat.nix
+    ./delta.nix
     ./eza.nix
     ./fonts.nix
     ./fzf.nix
