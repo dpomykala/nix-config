@@ -23,14 +23,14 @@ For more information see: https://developer.1password.com/docs/ssh
 }: let
   inherit (lib.strings) escape;
 
-  ssh_agent_socket = escape [" "] (
+  sshAgentSocket = escape [" "] (
     if pkgs.stdenv.isLinux
     then "~/.1password/agent.sock"
     # For Darwin hosts
     else "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   );
 in {
-  home.sessionVariables.SSH_AUTH_SOCK = ssh_agent_socket;
+  home.sessionVariables.SSH_AUTH_SOCK = sshAgentSocket;
 
   # Create the 1Password SSH agent config file
   # See: https://developer.1password.com/docs/ssh/agent/config
@@ -49,12 +49,7 @@ in {
     matchBlocks = {
       # Global config for all hosts
       "*" = {
-        identityAgent = ssh_agent_socket;
-      };
-
-      "github.com* gh*" = {
-        hostname = "github.com";
-        user = "git";
+        identityAgent = sshAgentSocket;
       };
     };
   };
