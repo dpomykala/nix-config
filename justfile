@@ -3,21 +3,21 @@
 onepassword_deb_x86_64_url := "https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb"
 
 # List all recipes
-default:
-    @just --list --justfile {{ justfile() }}
+_default:
+    @just --list --unsorted --justfile {{ justfile() }}
 
 # Build and activate a Darwin system configuration
 [macos]
-darwin:
-    sudo -H darwin-rebuild switch --flake .
+darwin host="":
+    nh darwin switch {{ if host != "" { "--hostname '" + host + "' " } else { "" } }}.
 
 # Build and activate a Home Manager configuration
-home:
-    nh home switch .
+home config="":
+    nh home switch {{ if config != "" { "--configuration '" + config + "' " } else { "" } }}.
 
 # Update the lock file and commit (optionally provide specific input(s))
-update *INPUTS:
-    nix flake update --commit-lock-file {{ INPUTS }}
+update *inputs:
+    nix flake update --commit-lock-file {{ inputs }}
 
 # Open a development shell
 dev:

@@ -35,7 +35,6 @@ Configuration common to all hosts.
       jq
       just
       lazydocker
-      # NOTE: nh does not support nix-darwin (only NixOS and Home Manager)
       nh
       posting
       ripgrep
