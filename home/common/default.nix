@@ -25,7 +25,7 @@ Configuration common to all hosts.
 
   home = {
     # The version used for backwards compatibility
-    stateVersion = "24.11";
+    stateVersion = "25.11";
 
     packages = with pkgs; [
       dust
