@@ -13,7 +13,7 @@
 
   system = {
     # The version used for backwards compatibility
-    stateVersion = 5;
+    stateVersion = 6;
 
     # The Git commit hash for darwin-version
     configurationRevision = self.rev or self.dirtyRev or null;
