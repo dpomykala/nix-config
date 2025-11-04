@@ -26,21 +26,16 @@
 
     defaults = {
       dock = {
-        # Automatically hide and show the Dock
-        autohide = true;
-
         # Enable the magnification of the icons in the Dock on hover
         magnification = true;
 
         # Set the size of the magnified icons in the Dock (16 - 128)
         largesize = 95;
 
-        # persistent-apps = [];
+        # No apps in the Dock
+        persistent-apps = [];
 
         # persistent-others = [];
-
-        # Set the size of the icons in the Dock (16 - 128)
-        tilesize = 35;
 
         # Disable the Quick Note hot corner action for the bottom right corner
         wvous-br-corner = 1;
@@ -62,17 +57,14 @@
         # Set Home as the default folder for a new Finder window
         NewWindowTarget = "Home";
 
-        # Show path breadcrumbs in Finder
-        ShowPathbar = true;
-
-        # Show the status bar in Finder
-        ShowStatusBar = true;
-
         # Show the full POSIX path in the Finder window title
         _FXShowPosixPathInTitle = true;
 
         # Keep folders on top when sorting by name in Finder
         _FXSortFoldersFirst = true;
+
+        # Keep folders on top on the Desktop
+        _FXSortFoldersFirstOnDesktop = true;
       };
 
       trackpad = {
@@ -87,24 +79,18 @@
 
       # Settings for Apple Global Domain
       NSGlobalDomain = {
+        # Enable swiping left or right with two fingers to navigate backward or forward
+        AppleEnableMouseSwipeNavigateWithScrolls = true;
+        AppleEnableSwipeNavigateWithScrolls = true;
+
         # Enable full keyboard navigation using Tab and Shift-Tab (0, 2, 3)
         AppleKeyboardUIMode = 3;
-
-        # Disable the press-and-hold accents menu
-        ApplePressAndHoldEnabled = false;
-
-        # Always show file extensions in Finder
-        # The finder.AppleShowAllExtensions option does not work, use this instead
-        AppleShowAllExtensions = true;
 
         # Set how fast a key starts repeating when pressed and held (15 - 120)
         # The lower the value, the faster it starts repeating
         InitialKeyRepeat = 15;
 
-        # Set how fast a key repeats when pressed and held (2 - 120)
-        # The lower the value, the faster the key repeat (set to 120 to disable)
-        KeyRepeat = 2;
-
+        # FIXME: Does not work?
         # Use F-keys as standard function keys
         # Use Fn + F-keys for system functions
         "com.apple.keyboard.fnState" = true;
@@ -117,57 +103,47 @@
       };
 
       CustomUserPreferences = {
-        # -> Mission Control / App Exposé gestures
-        "com.apple.dock" = {
-          # Enable the Mission Control gesture on the trackpad
-          # See: TrackpadThreeFingerVertSwipeGesture / TrackpadFourFingerVertSwipeGesture
-          showMissionControlGestureEnabled = true;
+        # FIXME: Not needed anymore for Mission Conrtol / App Exposé?
 
-          # Enable the App Exposé gesture on the trackpad
-          # See: TrackpadThreeFingerVertSwipeGesture / TrackpadFourFingerVertSwipeGesture
-          showAppExposeGestureEnabled = true;
-        };
-        "com.apple.AppleMultitouchTrackpad" = {
-          # Use a 3- or 4-finger vertical swipe for Mission Control (up)
-          # and App Exposé (down)
-          TrackpadThreeFingerVertSwipeGesture = 2;
-          TrackpadFourFingerVertSwipeGesture = 2;
-        };
-        "com.apple.driver.AppleBluetoothMultitouch.trackpad" = {
-          # Use a 3- or 4-finger vertical swipe for Mission Control (up)
-          # and App Exposé (down) in an external trackpad
-          TrackpadThreeFingerVertSwipeGesture = 2;
-          TrackpadFourFingerVertSwipeGesture = 2;
-        };
-        # The .GlobalPreferences plist file is used for Apple Global Domain
-        # The domains located in the ByHost subdirectory require the full path
-        "~${config.system.primaryUser}/Library/Preferences/ByHost/.GlobalPreferences" = {
-          # Required for Mission Control / App Exposé gesture setting values
-          # to display correctly in the System Settings GUI app as a 3-finger
-          # vertical swipe (up / down)
-          "com.apple.trackpad.threeFingerVertSwipeGesture" = 2;
-          "com.apple.trackpad.fourFingerVertSwipeGesture" = 2;
-        };
-        # <- Mission Control / App Exposé gestures
+        # # -> Mission Control / App Exposé gestures
+        # "com.apple.dock" = {
+        #   # Enable the Mission Control gesture on the trackpad
+        #   # See: TrackpadThreeFingerVertSwipeGesture / TrackpadFourFingerVertSwipeGesture
+        #   showMissionControlGestureEnabled = true;
+        #
+        #   # Enable the App Exposé gesture on the trackpad
+        #   # See: TrackpadThreeFingerVertSwipeGesture / TrackpadFourFingerVertSwipeGesture
+        #   showAppExposeGestureEnabled = true;
+        # };
+        # "com.apple.AppleMultitouchTrackpad" = {
+        #   # Use a 3- or 4-finger vertical swipe for Mission Control (up)
+        #   # and App Exposé (down)
+        #   TrackpadThreeFingerVertSwipeGesture = 2;
+        #   TrackpadFourFingerVertSwipeGesture = 2;
+        # };
+        # "com.apple.driver.AppleBluetoothMultitouch.trackpad" = {
+        #   # Use a 3- or 4-finger vertical swipe for Mission Control (up)
+        #   # and App Exposé (down) in an external trackpad
+        #   TrackpadThreeFingerVertSwipeGesture = 2;
+        #   TrackpadFourFingerVertSwipeGesture = 2;
+        # };
+        # # The .GlobalPreferences plist file is used for Apple Global Domain
+        # # The domains located in the ByHost subdirectory require the full path
+        # "~${config.system.primaryUser}/Library/Preferences/ByHost/.GlobalPreferences" = {
+        #   # Required for Mission Control / App Exposé gesture setting values
+        #   # to display correctly in the System Settings GUI app as a 3-finger
+        #   # vertical swipe (up / down)
+        #   "com.apple.trackpad.threeFingerVertSwipeGesture" = 2;
+        #   "com.apple.trackpad.fourFingerVertSwipeGesture" = 2;
+        # };
+        # # <- Mission Control / App Exposé gestures
 
         "com.apple.finder" = {
           # Do not show a warning when deleting from iCloud Drive
           FXEnableRemoveFromICloudDriveWarning = false;
 
-          # Delete items from the Trash that are older than 30 days
-          FXRemoveOldTrashItems = true;
-
           # Do not show a warning when emptying the Trash
           WarnOnEmptyTrash = false;
-
-          # Keep folders on top on the Desktop
-          _FXSortFoldersFirstOnDesktop = true;
-        };
-
-        # The domains located in the ByHost subdirectory require the full path
-        "~${config.system.primaryUser}/Library/Preferences/ByHost/com.apple.controlcenter" = {
-          # Show the battery percentage in the menu bar
-          BatteryShowPercentage = true;
         };
       };
     };

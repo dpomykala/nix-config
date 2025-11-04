@@ -5,6 +5,7 @@ Configuration common to all Darwin hosts.
   imports = [
     ../common
     ./karabiner
+    ./preferences.nix
     ./wezterm.nix
   ];
 
