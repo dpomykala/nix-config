@@ -10,7 +10,10 @@
       url = "github:catppuccin/delta";
       flake = false;
     };
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,6 +30,7 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    import-tree.url = "github:vic/import-tree";
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,66 +57,17 @@
 
   outputs = inputs @ {
     flake-parts,
-    home-manager,
-    nix-darwin,
-    nixpkgs,
-    self,
+    import-tree,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [];
+      imports = [
+        inputs.flake-parts.flakeModules.modules
+        inputs.home-manager.flakeModules.home-manager
 
-      perSystem = {
-        config,
-        self',
-        inputs',
-        pkgs,
-        system,
-        ...
-      }: {
-        # Run development environment with `nix develop`
-        devShells.default = pkgs.mkShellNoCC {
-          packages = with pkgs; [
-            age
-            alejandra
-            just
-            nh
-            sops
-            stow
-          ];
-        };
-
-        # Format Nix files with `nix fmt .`
-        formatter = pkgs.alejandra;
-      };
-
-      flake = {
-        darwinConfigurations = {
-          # NOTE: Names should match the `scutil --get LocalHostName` command output
-
-          "mbp-16" = nix-darwin.lib.darwinSystem {
-            modules = [./system/hosts/mbp-16];
-            specialArgs = {inherit self;};
-          };
-        };
-
-        # The standalone Home Manager configurations
-        homeConfigurations = {
-          # NOTE: Hostnames should match the `hostname` command output
-
-          "dp@mbp-16" = home-manager.lib.homeManagerConfiguration {
-            extraSpecialArgs = {inherit self;};
-            modules = [(./. + "/home/configs/dp@mbp-16")];
-            pkgs = nixpkgs.legacyPackages."x86_64-darwin";
-          };
-
-          "dp@ubuntu-vm" = home-manager.lib.homeManagerConfiguration {
-            extraSpecialArgs = {inherit self;};
-            modules = [(./. + "/home/configs/dp@ubuntu-vm.nix")];
-            pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          };
-        };
-      };
+        # Import all modules
+        (import-tree ./modules)
+      ];
 
       # Supported systems
       systems = ["x86_64-darwin" "x86_64-linux"];
