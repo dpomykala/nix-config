@@ -10,6 +10,7 @@
       url = "github:catppuccin/delta";
       flake = false;
     };
+    flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,59 +51,70 @@
     };
   };
 
-  outputs = {
+  outputs = inputs @ {
+    flake-parts,
     home-manager,
     nix-darwin,
     nixpkgs,
     self,
     ...
-  }: let
-    supportedSystems = ["x86_64-darwin" "x86_64-linux"];
-    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-  in {
-    darwinConfigurations = {
-      # NOTE: Names should match the `scutil --get LocalHostName` command output
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      imports = [];
 
-      "mbp-16" = nix-darwin.lib.darwinSystem {
-        modules = [./system/hosts/mbp-16];
-        specialArgs = {inherit self;};
+      perSystem = {
+        config,
+        self',
+        inputs',
+        pkgs,
+        system,
+        ...
+      }: {
+        # Run development environment with `nix develop`
+        devShells.default = pkgs.mkShellNoCC {
+          packages = with pkgs; [
+            age
+            alejandra
+            just
+            nh
+            sops
+            stow
+          ];
+        };
+
+        # Format Nix files with `nix fmt .`
+        formatter = pkgs.alejandra;
       };
+
+      flake = {
+        darwinConfigurations = {
+          # NOTE: Names should match the `scutil --get LocalHostName` command output
+
+          "mbp-16" = nix-darwin.lib.darwinSystem {
+            modules = [./system/hosts/mbp-16];
+            specialArgs = {inherit self;};
+          };
+        };
+
+        # The standalone Home Manager configurations
+        homeConfigurations = {
+          # NOTE: Hostnames should match the `hostname` command output
+
+          "dp@mbp-16" = home-manager.lib.homeManagerConfiguration {
+            extraSpecialArgs = {inherit self;};
+            modules = [(./. + "/home/configs/dp@mbp-16")];
+            pkgs = nixpkgs.legacyPackages."x86_64-darwin";
+          };
+
+          "dp@ubuntu-vm" = home-manager.lib.homeManagerConfiguration {
+            extraSpecialArgs = {inherit self;};
+            modules = [(./. + "/home/configs/dp@ubuntu-vm.nix")];
+            pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          };
+        };
+      };
+
+      # Supported systems
+      systems = ["x86_64-darwin" "x86_64-linux"];
     };
-
-    # The standalone Home Manager configurations
-    homeConfigurations = {
-      # NOTE: Hostnames should match the `hostname` command output
-
-      "dp@mbp-16" = home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit self;};
-        modules = [(./. + "/home/configs/dp@mbp-16")];
-        pkgs = nixpkgs.legacyPackages."x86_64-darwin";
-      };
-
-      "dp@ubuntu-vm" = home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {inherit self;};
-        modules = [(./. + "/home/configs/dp@ubuntu-vm.nix")];
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-      };
-    };
-
-    # Run development environment with `nix develop`
-    devShells = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      default = pkgs.mkShellNoCC {
-        packages = with pkgs; [
-          age
-          alejandra
-          just
-          nh
-          sops
-          stow
-        ];
-      };
-    });
-
-    # Format Nix files with `nix fmt .`
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-  };
 }
