@@ -2,15 +2,18 @@
   description = "Darwin system and Home Manager configurations";
 
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/ddd7747c41a3d12106c6a8d9c81720e13460b761";
-
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
+    bat-catppuccin-theme = {
+      url = "github:catppuccin/bat";
+      flake = false;
+    };
+    delta-catppuccin-theme = {
+      url = "github:catppuccin/delta";
+      flake = false;
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
       flake = false;
@@ -23,33 +26,23 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Support for OpenGL on non-NixOS Linux distributions
-    nixGL = {
-      url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     # Custom NixVim configuration: https://github.com/dpomykala/nix-nvim
     nix-nvim = {
       url = "github:dpomykala/nix-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    bat-catppuccin-theme = {
-      url = "github:catppuccin/bat";
-      flake = false;
+    # Support for OpenGL on non-NixOS Linux distributions
+    nixGL = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    delta-catppuccin-theme = {
-      url = "github:catppuccin/delta";
-      flake = false;
-    };
-
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/ddd7747c41a3d12106c6a8d9c81720e13460b761";
     # Secrets management with SOPS
     sops-nix = {
       url = "github:Mic92/sops-nix";
