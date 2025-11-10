@@ -41,7 +41,7 @@ in {
       "karabiner-elements"
       "logi-options+"
       #"notion"
-      #"nvidia-geforce-now"
+      "nvidia-geforce-now"
       "obsidian"
       "raycast"
       "slack"
