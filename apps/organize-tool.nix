@@ -100,17 +100,19 @@ https://github.com/tfeldmann/organize
 in
   python3Packages.buildPythonApplication rec {
     pname = "organize-tool";
-    version = "3.3.0";
+    version = "unreleased";
+    rev = "feature/support-other-text-formats";
     pyproject = true;
 
     src = fetchFromGitHub {
-      owner = "tfeldmann";
+      inherit rev;
+
+      owner = "dpomykala";
       repo = "organize";
-      rev = "v${version}";
-      hash = "sha256-me7TF/KP7uqsLSOyU3OfCUVoi0QPC4fWzfx4UEBZOVw=";
+      hash = "sha256-WDUORzfqA/AtrXEKA8qN23cu34mKVTqGifH1oS6Todg=";
     };
 
-    build-system = with python3Packages; [poetry-core];
+    build-system = with python3Packages; [setuptools];
 
     dependencies = with python3Packages;
       [
@@ -153,7 +155,7 @@ in
     pythonImportsCheck = ["organize"];
 
     meta = {
-      changelog = "https://github.com/tfeldmann/organize/blob/v${version}/CHANGELOG.md";
+      changelog = "https://github.com/dpomykala/organize/blob/${rev}/CHANGELOG.md";
       description = "The file management automation tool";
       homepage = "https://organize.readthedocs.io";
       license = lib.licenses.mit;
