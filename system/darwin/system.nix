@@ -90,7 +90,6 @@
         # The lower the value, the faster it starts repeating
         InitialKeyRepeat = 15;
 
-        # FIXME: Does not work?
         # Use F-keys as standard function keys
         # Use Fn + F-keys for system functions
         "com.apple.keyboard.fnState" = true;
@@ -145,6 +144,9 @@
           # Do not show a warning when emptying the Trash
           WarnOnEmptyTrash = false;
         };
+
+        # Show function keys by default on the Touch Bar
+        "com.apple.touchbar.agent".PresentationModeGlobal = "functionKeys";
       };
     };
 
