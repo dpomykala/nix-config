@@ -565,7 +565,8 @@
         "nix-nvim": "nix-nvim",
         "nixGL": "nixGL",
         "nixpkgs": "nixpkgs_3",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "yazi-flavors": "yazi-flavors"
       }
     },
     "rust-analyzer-src": {
@@ -663,6 +664,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "yazi-flavors": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1763798367,
+        "narHash": "sha256-bynoDEuRLyVqTOty8Ul2vxy8YKaKHcWHAhKvYlwkKo4=",
+        "owner": "yazi-rs",
+        "repo": "flavors",
+        "rev": "ba2777491c48063413920f43efc267479a0e8de5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yazi-rs",
+        "repo": "flavors",
         "type": "github"
       }
     }
