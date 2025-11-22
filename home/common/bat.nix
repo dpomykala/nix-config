@@ -1,16 +1,19 @@
 {self, ...}: {
-  programs.bat = {
+  programs.bat = let
+    theme = "Catppuccin Macchiato";
+  in {
     enable = true;
 
-    config = {
-      theme = "Catppuccin Macchiato";
+    config.theme = theme;
+
+    syntaxes.just = {
+      src = self.inputs.just-sublime;
+      file = "Syntax/Just.sublime-syntax";
     };
 
-    themes = {
-      "Catppuccin Macchiato" = {
-        src = self.inputs.bat-catppuccin-theme;
-        file = "themes/Catppuccin Macchiato.tmTheme";
-      };
+    themes."${theme}" = {
+      src = self.inputs.bat-catppuccin-theme;
+      file = "themes/${theme}.tmTheme";
     };
   };
 
