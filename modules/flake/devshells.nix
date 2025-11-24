@@ -5,6 +5,8 @@
       packages = with pkgs; [
         age
         alejandra
+        fzf
+        jq
         just
         nh
         sops
