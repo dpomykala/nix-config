@@ -28,8 +28,9 @@
     in
       # Configure fzf-tab completion BEFORE compinit
       lib.mkIf config.programs.fzf.enable (lib.mkOrder 550 ''
-        # Disable sort when completing `git checkout`
+        # Disable sorting when completing some git commands
         zstyle ':completion:*:git-checkout:*' sort false
+        zstyle ':completion:*:git-reset:*' sort false
 
         # Use FZF_DEFAULT_OPTS for fzf-tab
         zstyle ':fzf-tab:*' use-fzf-default-opts yes
