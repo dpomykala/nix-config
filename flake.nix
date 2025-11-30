@@ -46,8 +46,7 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/ddd7747c41a3d12106c6a8d9c81720e13460b761";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # Secrets management with SOPS
     sops-nix = {
       url = "github:Mic92/sops-nix";
