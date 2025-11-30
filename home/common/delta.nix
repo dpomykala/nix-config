@@ -41,11 +41,13 @@ in {
     };
 
     lazygit.settings = {
-      # Use delta as a diff pager in Lazygit
-      git.paging = {
-        colorArg = "always";
-        pager = "delta --dark --paging=never --line-numbers";
-      };
+      git.pagers = [
+        # Use delta as a diff pager in Lazygit
+        {
+          colorArg = "always";
+          pager = "delta --dark --paging=never --line-numbers";
+        }
+      ];
     };
   };
 }
