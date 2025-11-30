@@ -4,12 +4,12 @@
     ./homebrew.nix
   ];
 
-  networking.hostName = "mbp-16";
+  networking.hostName = "mbp-14";
 
   # User owning the Homebrew prefix
   nix-homebrew.user = "${config.system.primaryUser}";
 
-  nixpkgs.hostPlatform = "x86_64-darwin";
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
   system.primaryUser = "dp";
 }

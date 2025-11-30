@@ -34,7 +34,7 @@ in {
 
         # Work Git server (Bitbucket)
         {
-          inherit (config.sops.templates.gitconfig-work-leanlab) path;
+          inherit (config.sops.templates."${gitconfigWorkLeanlabSecretFile}") path;
 
           condition = "hasconfig:remote.*.url:*//*git.leanlab.pl*/**";
         }

@@ -32,7 +32,7 @@ in {
       "1password"
       #"adobe-acrobat-reader"
       #"arc"
-      #"brave-browser"
+      "brave-browser"
       "docker-desktop"
       #"firefox"
       #"google-chrome"
@@ -40,14 +40,11 @@ in {
       "jetbrains-toolbox"
       "karabiner-elements"
       "logi-options+"
-      #"notion"
-      "nvidia-geforce-now"
+      "notion"
       "obsidian"
       "raycast"
       "slack"
-      "spotify"
       #"the-unarchiver"
-      "tunnelblick"
       #"utm"
       "visual-studio-code"
       #"vlc"
@@ -58,11 +55,8 @@ in {
     # To search for an application ID: mas search "1Password"
     masApps = {
       "1Password for Safari" = 1569813296;
-      Amphetamine = 937984704;
-      Bear = 1091189122;
       Numbers = 409203825;
       Pages = 409201541;
-      Things = 904280696;
     };
 
     # Remove all formulae not listed in this configuration

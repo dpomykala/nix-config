@@ -13,5 +13,10 @@ Darwin system configurations.
       modules = [(self + "/system/hosts/mbp-16")];
       specialArgs = {inherit self;};
     };
+
+    "mbp-14" = inputs.nix-darwin.lib.darwinSystem {
+      modules = [(self + "/system/hosts/mbp-14")];
+      specialArgs = {inherit self;};
+    };
   };
 }

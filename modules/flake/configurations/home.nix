@@ -15,6 +15,12 @@ Standalone Home Manager configurations.
       pkgs = inputs.nixpkgs.legacyPackages."x86_64-darwin";
     };
 
+    "dp@mbp-14" = inputs.home-manager.lib.homeManagerConfiguration {
+      extraSpecialArgs = {inherit self;};
+      modules = [(self + "/home/configs/dp@mbp-14")];
+      pkgs = inputs.nixpkgs.legacyPackages."aarch64-darwin";
+    };
+
     "dp@ubuntu-vm" = inputs.home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = {inherit self;};
       modules = [(self + "/home/configs/dp@ubuntu-vm.nix")];

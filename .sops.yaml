@@ -1,2 +1,11 @@
+keys:
+  - &master age1y7g3ehjwu055n3h0vz0yvudnh4p0tu849m2q64juxt9qxvpvt39q6z63la
+  - &mbp-14-dp age1lew4ss8hkajwt57ycwy33j385jrc6ftle29hr0ux089w8ycf0udq4myxpm
 creation_rules:
-  - age: age1y7g3ehjwu055n3h0vz0yvudnh4p0tu849m2q64juxt9qxvpvt39q6z63la
+  - path_regex: dp@mbp-14/secrets\.yaml
+    age:
+      - *master
+      - *mbp-14-dp
+  # Catchall
+  - age:
+      - *master
