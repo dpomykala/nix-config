@@ -99,17 +99,47 @@ your age private key(s) to `~/.config/sops/age/keys.txt`.
 
 ## Known issues
 
-### DNS resolution fails in a sandboxed build on Darwin (macOS)
+### DNS resolution fails due to stale DNS state in the Nix daemon on Darwin
+
+On Darwin (nix-darwin on macOS), Nix commands that require network access
+(e.g. `nix flake update`) _may_ fail with a DNS/network/curl error, e.g.:
+`Could not resolve hostname`.
+
+This can happen after network or DNS changes:
+
+- switching networks (Wi-Fi ↔ Ethernet)
+- connecting or disconnecting a VPN
+- waking the system from sleep
+- changing DNS settings in macOS System Settings
+
+On macOS, nix-daemon is a long-running service that inherits DNS state at startup.
+If DNS or network settings change afterward, the daemon may continue using stale
+resolver state, causing DNS failures in Nix operations.
+
+**To fix it, restart the Nix daemon:**
+
+```
+sudo launchctl kickstart -k system/org.nixos.nix-daemon
+```
+
+or
+
+```
+just restart
+```
+
+### DNS resolution fails in a sandboxed build on Darwin
 
 When all of the following conditions are met:
+
 - the host system is Darwin (nix-darwin on macOS)
 - the derivation is not cached and must be built
 - network access is required during the build (e.g. `fetchgit` used in the derivation)
 - sandboxed builds are enabled (`nix.settings.sandbox` is set to `true`)
 - there is no global DNS resolver configured on the host
 
-then the build *may* fail with a DNS error, e.g.:
-```Could not resolve host: github.com (Could not contact DNS servers)```
+then the build _may_ fail with a DNS error, e.g.:
+`Could not resolve host: github.com (Could not contact DNS servers)`.
 
 The reason is that in a sandboxed environment the standard macOS resolver
 stack is **not used**. The minimal configuration from `/etc/resolv.conf` is used
@@ -117,11 +147,12 @@ instead. If the `/etc/resolve.conf` is empty or contains only scoped (not
 global) resolvers, then it **won't work** in the sandbox.
 
 **Workarounds:**
+
 1. Temporarily disable the sandbox with `--option sandbox false` to build
-(and cache) problematic derivations. If you run a command as a non-root
-user, then make sure your user is added to `nix.settings.trusted-users`.
+   (and cache) problematic derivations. If you run a command as a non-root
+   user, then make sure your user is added to `nix.settings.trusted-users`.
 2. (Not tested) Configure a global DNS resolver, so it can be used inside
-the sandbox.
+   the sandbox.
 
 ## ✅ TODO
 

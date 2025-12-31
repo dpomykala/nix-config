@@ -45,6 +45,12 @@ iupdate: (_requires "fzf") (_requires "jq")
         nix flake update --commit-lock-file $selected_inputs
     fi
 
+# Restart the Nix daemon
+[group("Helpers")]
+[macos]
+restart:
+    sudo launchctl kickstart -k system/org.nixos.nix-daemon
+
 # Open a development shell
 [group("Helpers")]
 dev:
