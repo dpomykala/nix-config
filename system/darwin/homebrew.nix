@@ -59,9 +59,15 @@ in {
       Pages = 409201541;
     };
 
-    # Remove all formulae not listed in this configuration
-    # WARN: DOES NOT work for applications installed via masApps
-    onActivation.cleanup = "zap";
+    onActivation = {
+      # Remove all formulae/casks not listed in this configuration
+      # WARN: DOES NOT work for applications installed via masApps
+      cleanup = "zap";
+
+      # Upgrade outdated formulae/casks during nix-darwin activation
+      # NOTE: Unversioned/auto-update casks won't be upgraded by default
+      upgrade = true;
+    };
 
     # Specify the same taps as those managed by nix-homebrew
     # This prevents nix-darwin from trying to untap all taps
