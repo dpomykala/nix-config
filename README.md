@@ -101,9 +101,9 @@ your age private key(s) to `~/.config/sops/age/keys.txt`.
 
 ### DNS resolution fails due to stale DNS state in the Nix daemon on Darwin
 
-On Darwin (nix-darwin on macOS), Nix commands that require network access
-(e.g. `nix flake update`) _may_ fail with a DNS/network/curl error, e.g.:
-`Could not resolve hostname`.
+On Darwin (macOS), Nix commands that require network access (e.g. `nix flake
+update`) _may_ fail with a DNS error, e.g.: `Could not resolve hostname` or
+`Could not resolve host: github.com (Timeout while contacting DNS servers)`.
 
 This can happen after network or DNS changes:
 
@@ -112,9 +112,9 @@ This can happen after network or DNS changes:
 - waking the system from sleep
 - changing DNS settings in macOS System Settings
 
-On macOS, nix-daemon is a long-running service that inherits DNS state at startup.
-If DNS or network settings change afterward, the daemon may continue using stale
-resolver state, causing DNS failures in Nix operations.
+On macOS, nix-daemon is a long-running service that inherits DNS state at
+startup. If DNS or network settings change afterward, the daemon may continue
+using stale resolver state, causing DNS failures in Nix operations.
 
 **To fix it, restart the Nix daemon:**
 
@@ -128,18 +128,29 @@ or
 just restart
 ```
 
+If fetching source with `git` fails while building a derivation **and**
+restarting the Nix daemon does not help, you can **manually prefetch
+the failing source**:
+
+```
+nix run nixpkgs#nix-prefetch-git -- --url https://github.com/... --rev ...
+```
+
+This will download the specific repository into the Nix store. Once it is in
+the store, Nix will see it exists and skip the download step during the build.
+
 ### DNS resolution fails in a sandboxed build on Darwin
 
 When all of the following conditions are met:
 
-- the host system is Darwin (nix-darwin on macOS)
+- the host system is Darwin (macOS)
 - the derivation is not cached and must be built
-- network access is required during the build (e.g. `fetchgit` used in the derivation)
+- network access is required during the build (e.g. `fetchgit` is used)
 - sandboxed builds are enabled (`nix.settings.sandbox` is set to `true`)
 - there is no global DNS resolver configured on the host
 
-then the build _may_ fail with a DNS error, e.g.:
-`Could not resolve host: github.com (Could not contact DNS servers)`.
+then the build _may_ fail with a DNS error, e.g.: `Could not resolve host:
+github.com (Could not contact DNS servers)`.
 
 The reason is that in a sandboxed environment the standard macOS resolver
 stack is **not used**. The minimal configuration from `/etc/resolv.conf` is used
@@ -166,7 +177,6 @@ global) resolvers, then it **won't work** in the sandbox.
 - Create NixOS configuration?
 - nix-darwin: allow to set the config dir for Starship?
 - nix-darwin: `/share/zsh` added to `environment.pathsToLink` by default?
-- Home Manager: mise settings as separate file are invalid?
 
 [age]: https://github.com/FiloSottile/age
 [home manager]: https://github.com/nix-community/home-manager

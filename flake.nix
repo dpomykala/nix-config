@@ -31,6 +31,11 @@
       flake = false;
     };
     import-tree.url = "github:vic/import-tree";
+    # Used by bat to enable syntax highlighting for just
+    just-sublime = {
+      url = "github:nk9/just_sublime";
+      flake = false;
+    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,11 +59,6 @@
     };
     yazi-flavors = {
       url = "github:yazi-rs/flavors";
-      flake = false;
-    };
-    # Used by bat to enable syntax highlighting for just
-    just-sublime = {
-      url = "github:nk9/just_sublime";
       flake = false;
     };
   };
