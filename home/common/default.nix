@@ -37,11 +37,13 @@ Configuration common to all hosts.
       lazydocker
       nh
       posting
+      pv
       ripgrep
       ruff
       sd
       tlrc
       tokei
+      zstd
     ];
   };
 
