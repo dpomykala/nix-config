@@ -7,7 +7,7 @@ in {
   imports = [
     ../../hosts/mbp-16
     ../../users/dp.nix
-    ./organize-tool
+#    ./organize-tool
   ];
 
   programs.git = let
