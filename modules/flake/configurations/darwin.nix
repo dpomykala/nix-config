@@ -9,6 +9,11 @@ Darwin system configurations.
   flake.darwinConfigurations = {
     # NOTE: Names should match the `scutil --get LocalHostName` command output
 
+    "mbp-private" = inputs.nix-darwin.lib.darwinSystem {
+      modules = [(self + "/system/hosts/mbp-private")];
+      specialArgs = {inherit self;};
+    };
+
     "mbp-16" = inputs.nix-darwin.lib.darwinSystem {
       modules = [(self + "/system/hosts/mbp-16")];
       specialArgs = {inherit self;};
