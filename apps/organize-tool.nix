@@ -52,7 +52,7 @@ https://github.com/tfeldmann/organize
       hash = "sha256-WHXETLG7F9faf3amahorGUivd1qGVDO7sCl61ymdmRY=";
     };
 
-    # Use postry-core as a build backend
+    # Use poetry-core as a build backend
     # Relax requirements for xattr (pythonRelaxDeps fails with this)
     postPatch = ''
       substituteInPlace pyproject.toml \
