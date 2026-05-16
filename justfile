@@ -1,6 +1,6 @@
 # just: https://just.systems
 
-set unstable := true
+set unstable
 
 onepassword_deb_x86_64_url := "https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb"
 
