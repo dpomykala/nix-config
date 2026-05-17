@@ -1,11 +1,11 @@
 /*
-Configuration specific to the user `dp` on the host `mbp-14`.
+Configuration specific to the user `dp` on the host `mbp-positive`.
 */
 {config, ...}: let
   gitconfigWorkPositiveSecretFile = "gitconfig-work-positive";
 in {
   imports = [
-    ../../hosts/mbp-14
+    ../../hosts/mbp-positive
     ../../users/dp.nix
   ];
 

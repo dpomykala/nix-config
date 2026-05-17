@@ -14,8 +14,8 @@ Darwin system configurations.
       specialArgs = {inherit self;};
     };
 
-    "mbp-14" = inputs.nix-darwin.lib.darwinSystem {
-      modules = [(self + "/system/hosts/mbp-14")];
+    "mbp-positive" = inputs.nix-darwin.lib.darwinSystem {
+      modules = [(self + "/system/hosts/mbp-positive")];
       specialArgs = {inherit self;};
     };
   };

@@ -15,9 +15,9 @@ Standalone Home Manager configurations.
       pkgs = inputs.nixpkgs.legacyPackages."aarch64-darwin";
     };
 
-    "dp@mbp-14" = inputs.home-manager.lib.homeManagerConfiguration {
+    "dp@mbp-positive" = inputs.home-manager.lib.homeManagerConfiguration {
       extraSpecialArgs = {inherit self;};
-      modules = [(self + "/home/configs/dp@mbp-14")];
+      modules = [(self + "/home/configs/dp@mbp-positive")];
       pkgs = inputs.nixpkgs.legacyPackages."aarch64-darwin";
     };
 

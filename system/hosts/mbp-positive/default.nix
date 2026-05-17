@@ -4,7 +4,7 @@
     ./homebrew.nix
   ];
 
-  networking.hostName = "mbp-14";
+  networking.hostName = "mbp-positive";
 
   # User owning the Homebrew prefix
   nix-homebrew.user = "${config.system.primaryUser}";
