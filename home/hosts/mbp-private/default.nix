@@ -1,8 +1,13 @@
 /*
 Configuration specific to the host `mbp-private` (for all users).
 */
-_: {
+{pkgs, ...}: {
   imports = [
     ../../darwin
+  ];
+
+  home.packages = with pkgs; [
+    ollama
+    pi-coding-agent
   ];
 }
