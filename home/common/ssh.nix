@@ -46,7 +46,7 @@ in {
 
     # Rules for specific hosts
     # The order of blocks is not guaranteed unless DAG functions are used
-    matchBlocks = {
+    settings = {
       # Global config for all hosts
       "*" = {
         identityAgent = sshAgentSocket;
