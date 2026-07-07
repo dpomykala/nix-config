@@ -39,12 +39,12 @@ in {
     };
 
     # Command line options for the CTRL-T keybinding
-    fileWidgetOptions = [
+    fileWidget.options = [
       "--preview '[ -d \"{}\" ] && ${dirPreview} || ${filePreview}'"
     ];
 
     # Command line options for the OPTION-C keybinding
-    changeDirWidgetOptions = [
+    changeDirWidget.options = [
       "--preview '${dirPreview}'"
     ];
   };
