@@ -1,11 +1,25 @@
 keys:
   - &master age1y7g3ehjwu055n3h0vz0yvudnh4p0tu849m2q64juxt9qxvpvt39q6z63la
-  - &mbp-14-dp age1lew4ss8hkajwt57ycwy33j385jrc6ftle29hr0ux089w8ycf0udq4myxpm
+  - &mbp-positive age1lew4ss8hkajwt57ycwy33j385jrc6ftle29hr0ux089w8ycf0udq4myxpm
 creation_rules:
-  - path_regex: dp@mbp-14/secrets\.yaml
+  # mbp-positive host's secrets
+  - path_regex: secrets/hosts/mbp-positive\.yaml$
     age:
       - *master
-      - *mbp-14-dp
-  # Catchall
+      - *mbp-positive
+
+  # mbp-positive homes' secrets (for all users)
+  - path_regex: secrets/homes/[^/]+@mbp-positive\.yaml$
+    age:
+      - *master
+      - *mbp-positive
+
+  # Shared secrets
+  - path_regex: secrets/shared/.*\.yaml$
+    age:
+      - *master
+      - *mbp-positive
+
+  # Catchall: master can decrypt everything
   - age:
       - *master
