@@ -1,5 +1,5 @@
 # Factory for creating dendritic user modules.
-{ self, ... }: {
+_: {
   flake.factory.user =
     {
       name,
@@ -12,8 +12,6 @@
     in
     {
       darwin.${name} = { lib, ... }: {
-        imports = [ self.modules.generic.meta ];
-
         meta.user = user;
 
         config = lib.mkIf isPrimary {
@@ -22,8 +20,6 @@
       };
 
       homeManager.${name} = {
-        imports = [ self.modules.generic.meta ];
-
         meta.user = user;
 
         home.username = name;

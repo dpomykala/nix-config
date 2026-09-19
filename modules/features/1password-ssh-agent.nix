@@ -16,11 +16,7 @@
 
   For more information see: https://developer.1password.com/docs/ssh
 */
-{ self, ... }: {
-  flake.modules.darwin."1password-ssh-agent" = {
-    imports = [ self.modules.darwin."1password" ];
-  };
-
+_: {
   flake.modules.homeManager."1password-ssh-agent" =
     {
       lib,
@@ -39,8 +35,6 @@
       );
     in
     {
-      imports = [ self.modules.homeManager.ssh ];
-
       home.sessionVariables.SSH_AUTH_SOCK = sshAgentSocket;
 
       # Create the 1Password SSH agent config file
@@ -53,10 +47,14 @@
 
       # Rules for specific hosts
       # The order of blocks is not guaranteed unless DAG functions are used
-      programs.ssh.settings = {
-        # Global config for all hosts
-        "*" = {
-          identityAgent = sshAgentSocket;
+      programs.ssh = {
+        enable = lib.mkDefault true;
+
+        settings = {
+          # Global config for all hosts
+          "*" = {
+            identityAgent = sshAgentSocket;
+          };
         };
       };
     };
