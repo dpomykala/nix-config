@@ -4,7 +4,7 @@ _: {
       dust
       fd
       glab
-      # hunk
+      hunk
       jq
       just
       nh
