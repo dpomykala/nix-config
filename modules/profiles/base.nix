@@ -9,11 +9,13 @@
       with self.modules.darwin;
       [
         # Features
+        homebrew
         nix
         nixpkgs
         system
       ]
       ++ [
+        self.modules.generic.meta
         self.modules.generic.my-lib
       ];
   };
@@ -28,9 +30,11 @@
         git
         home-manager
         packages
+        sops
         xdg
       ]
       ++ [
+        self.modules.generic.meta
         self.modules.generic.my-lib
       ];
   };

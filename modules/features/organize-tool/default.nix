@@ -6,8 +6,6 @@
       ...
     }:
     {
-      imports = with self.modules.homeManager; [ sops ];
-
       home.packages = [ pkgs.organize-tool ];
 
       # Use a config file encrypted with SOPS

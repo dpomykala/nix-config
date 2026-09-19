@@ -1,14 +1,14 @@
 { self, ... }: {
-  flake.modules.homeManager.python = { pkgs, ... }: {
-    imports = [ self.modules.homeManager.mise ];
-
+  flake.modules.homeManager.python = { lib, pkgs, ... }: {
     home.packages = with pkgs; [
       ruff
       uv
     ];
 
-    programs.mise.globalConfig.tools = {
-      python = "latest";
+    programs.mise = {
+      enable = lib.mkDefault true;
+
+      globalConfig.tools.python = "latest";
     };
   };
 }

@@ -6,15 +6,6 @@
       ...
     }:
     {
-      imports =
-        with self.modules.homeManager;
-        [
-          sops
-        ]
-        ++ [
-          self.modules.generic.meta
-        ];
-
       # Lazygit: https://github.com/jesseduffield/lazygit
       # Sets `lg` wrapper by default
       programs.lazygit.enable = true;
@@ -82,23 +73,23 @@
 
         # Use an encrypted email (via an included config) if any
         (lib.mkIf (config.sops.secrets ? userEmail) {
-          programs.git.includes = [
-            {
-              path = config.sops.templates.gitconfig-work-email.path;
-            }
+          includes = [
+            { path = config.sops.templates.gitconfig-work-email.path; }
           ];
-
-          sops.templates.gitconfig-work-email.content = ''
-            [user]
-              email = "${config.sops.placeholder.userEmail}"
-          '';
         })
 
         # Use a public email if provided and there is no encrypted one
         (lib.mkIf (!(config.sops.secrets ? userEmail) && config.meta.user.email != null) {
-          programs.git.settings.user.email = config.meta.user.email;
+          settings.user.email = config.meta.user.email;
         })
       ];
+
+      sops.templates = lib.mkIf (config.sops.secrets ? userEmail) {
+        gitconfig-work-email.content = ''
+          [user]
+            email = "${config.sops.placeholder.userEmail}"
+        '';
+      };
 
       home.shellAliases = {
         ga = "git add";
