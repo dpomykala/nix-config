@@ -1,9 +1,7 @@
 { self, ... }: {
   flake.modules.darwin."1password" = {
-    imports = [ self.modules.darwin.homebrew ];
-
     homebrew = {
-      casks = [ "password" ];
+      casks = [ "1password" ];
 
       # Applications from the Mac App Store (login required)
       # Applications installed in this way must be uninstalled manually
