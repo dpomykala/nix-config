@@ -13,7 +13,7 @@
 - Use `self.factory.*` for parameterized configuration generation. Dendritic factories that generate `flake.modules` live under `modules/factories/`; the option-backed factory registry lets independent factory modules contribute to a common namespace while retaining flake-parts context such as `self`.
 - Keep SOPS credentials scope-based (`secrets/hosts`, `secrets/homes`, `secrets/shared`); feature-owned encrypted application configuration may remain next to the feature.
 - Use `nixfmt-tree` for project-wide Nix formatting.
-- Prefer explicit dependencies through `imports`; repeated and diamond imports are normal and safe.
+- Features don't import features. Shared dependencies are composed once in profiles, hosts, or homes. Use `lib.mkDefault true` for self-sufficient tool enablement.
 
 ## 1. Repository Structure
 
@@ -132,25 +132,99 @@ Hosts and homes select the appropriate class-specific user module.
 The normal dependency direction is:
 
 ```text
-feature  → feature
-profile  → feature/profile
+profile  → feature
 host     → profile/feature/user
 home     → profile/feature/user
 ```
 
-Features must not depend on higher-level profiles.
+### Features don't import features
 
-A profile may specialize another profile. For example:
+Feature modules set config values; they don't import other feature modules.
+Shared dependencies are composed once at the profile, host, or home level,
+never inside a feature's `imports`. This guarantees single-import per module
+tree and avoids duplicate option declarations.
 
-```text
-home-linux → home-linux-generic → base
+```nix
+# Wrong: feature imports another feature
+flake.modules.darwin.bear = {
+  imports = [ self.modules.darwin.homebrew ];
+  homebrew.masApps.Bear = 1091189122;
+};
+
+# Right: homebrew imported once in base profile, feature just uses options
+flake.modules.darwin.bear = {
+  homebrew.masApps.Bear = 1091189122;
+};
 ```
 
-Concrete hosts/homes select the highest-level profile appropriate for them.
+### Profile hierarchy: avoid diamonds
 
-Direct dependencies should be explicit with `imports`. Repeated imports and diamond dependencies are normal and should not be removed merely to avoid repeated reachability.
+Platform profiles (`home-darwin`, `home-linux`) import `base`. Feature bundles
+(`development`) don't import `base` — they assume it's already in the tree
+via the platform profile. Two imports converging on the same profile creates a
+diamond, causing everything in that profile to load twice:
 
-A configuration should import capabilities it directly wants even if another dependency also imports them transitively.
+```text
+Safe (tree)                          Unsafe (diamond)
+ home config                          home config
+          ↙                          /          \
+home-darwin → base       home-darwin → base    development → base
+development (features)       ↑_____________↑
+                                   duplicate
+```
+
+A profile may specialize another profile through a chain, which is fine:
+
+```text
+home-linux-generic → home-linux → base
+```
+
+Concrete hosts/homes select exactly one platform profile plus optional feature
+bundles and individual features.
+
+### lib.mkDefault for tool enablement
+
+When a feature needs a tool enabled (e.g., `python` needs `mise`, `1password-ssh-agent`
+needs `ssh`), it sets `enable = lib.mkDefault true`. This makes the feature
+self-sufficient when used alone, but the dedicated module's normal-priority
+`enable = true` takes precedence when both are in the tree. A profile can
+override with `lib.mkForce false`.
+
+```nix
+# python.nix
+flake.modules.homeManager.python = { lib, pkgs, ... }: {
+  programs.mise = {
+    enable = lib.mkDefault true;
+    globalConfig.tools.python = "latest";
+  };
+};
+```
+
+### External option providers go in profiles
+
+If a module wraps an external flake input (e.g., `sops-nix`, `nix-homebrew`)
+to provide non-built-in options, import it once in a profile — not inside
+individual features. That makes the options universally available without
+duplication.
+
+### Optional dependencies use lib.mkIf with fallback
+
+If a feature can use a dependency but doesn't require it, guard with `lib.mkIf`
+and provide a fallback. Example: `git` checks `config.sops.secrets ? userEmail`
+and falls back to `config.meta.user.email`. No import, no assertion.
+
+### Host modules need _module.args.system
+
+For `moduleWithSystem` to determine the target system without falling through
+to `config._module.args.pkgs` (which creates a cycle), host modules must set
+`_module.args.system`:
+
+```nix
+flake.modules.darwin.my-host = {
+  nixpkgs.hostPlatform = "aarch64-darwin";
+  _module.args = { system = "aarch64-darwin"; };
+};
+```
 
 ## 4. Configuration Classes and Platform Scope
 

@@ -21,11 +21,11 @@ Use these principles when making architectural decisions or introducing new conf
 5. **Prefer composition over inheritance and implicit magic.**
    Build environments by importing modules and composing profiles rather than creating deep inheritance schemes or hidden coupling.
 
-6. **Make direct dependencies explicit.**
-   A module should import what it directly requires, even when that dependency also arrives transitively through another module.
+6. **Compose shared dependencies in profiles, not inside features.**
+   Feature modules should not import other feature modules. Shared dependencies belong in profiles, hosts, or homes — composed once per module tree to avoid duplicate option declarations and evaluation.
 
-7. **Treat repeated and diamond imports as normal.**
-   Do not introduce abstractions merely to eliminate repeated reachability. The important question is whether conflicting option definitions exist.
+7. **Make features self-sufficient with lib.mkDefault.**
+   When a feature requires a tool to be enabled (e.g., `programs.mise`, `programs.ssh`), set `enable = lib.mkDefault true` locally. The canonical enable module's normal-priority `enable = true` takes precedence; a profile can override with `lib.mkForce false`. Use `lib.mkIf` with a fallback for genuinely optional dependencies.
 
 8. **Keep native concepts in native options.**
    When NixOS, nix-darwin, Home Manager, or another module system already provides the appropriate option, use it rather than inventing a parallel configuration mechanism.
@@ -163,7 +163,24 @@ reusable module + perSystem context → moduleWithSystem
 concrete flake output + perSystem context → withSystem
 ```
 
-`perSystem.pkgs` is not automatically propagated into NixOS, nix-darwin, or standalone Home Manager; concrete configuration construction must explicitly reuse it.
+`perSystem.pkgs` is not automatically propagated into NixOS, nix-darwin, or
+standalone Home Manager; concrete configuration construction must explicitly
+reuse it.
+
+### moduleWithSystem in nix-darwin host modules
+
+`moduleWithSystem` determines the target system by checking
+`config._module.args.system` first, then `config._module.args.pkgs`.
+When a `moduleWithSystem`-wrapped module sets `nixpkgs.pkgs`, the fallback
+path creates a cycle. Host modules must set `_module.args.system` to avoid
+this:
+
+```nix
+flake.modules.darwin.my-host = {
+  nixpkgs.hostPlatform = "aarch64-darwin";
+  _module.args = { system = "aarch64-darwin"; };
+};
+```
 
 ## 6. `readOnlyPkgs`
 
@@ -198,12 +215,24 @@ meta.user.fullName
 meta.user.email
 ```
 
-A feature that consumes those options should import the provider:
+The `meta` module declares options with `lib.mkOption`, so it must be imported
+exactly once per module tree. Import it from the relevant base profile, not
+from individual features:
 
 ```nix
-imports = [
-  self.modules.generic.meta
-];
+# In a profile (base.nix)
+flake.modules.darwin.base = {
+  imports = [
+    self.modules.generic.meta
+  ];
+};
+
+# In a feature — just use the options, don't import meta
+flake.modules.darwin.foo = {
+  config = lib.mkIf (config.meta.user.email != null) {
+    # ...
+  };
+};
 ```
 
 Keep the namespace typed and structured. Generic context is for shared information, not a replacement for feature options.
@@ -280,7 +309,6 @@ flake.factory.user = {
   user = { inherit name fullName email; };
 in {
   darwin.${name} = { lib, ... }: {
-    imports = [ self.modules.generic.meta ];
     meta.user = user;
 
     config = lib.mkIf isPrimary {
@@ -289,7 +317,6 @@ in {
   };
 
   homeManager.${name} = {
-    imports = [ self.modules.generic.meta ];
     meta.user = user;
     home.username = name;
   };
