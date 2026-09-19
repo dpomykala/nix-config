@@ -1,7 +1,5 @@
 { self, ... }: {
   flake.modules.darwin.docker-desktop = {
-    imports = [ self.modules.darwin.homebrew ];
-
     homebrew.casks = [ "docker-desktop" ];
   };
 
