@@ -1,9 +1,9 @@
 _: {
+  # TODO: Move to the development profile?
   flake.modules.homeManager.packages = { pkgs, ... }: {
     home.packages = with pkgs; [
       dust
       fd
-      glab
       hunk
       jq
       just
