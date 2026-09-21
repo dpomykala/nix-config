@@ -31,7 +31,6 @@ in
       ++ [
         # Features
         self.modules.darwin."1password"
-        self.modules.darwin."1password-ssh-agent"
       ];
 
     networking.hostName = hostName;
