@@ -63,12 +63,13 @@
     };
   };
 
-  outputs = inputs @ {
-    flake-parts,
-    import-tree,
-    ...
-  }:
-    flake-parts.lib.mkFlake {inherit inputs;} {
+  outputs =
+    inputs@{
+      flake-parts,
+      import-tree,
+      ...
+    }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.modules
         inputs.home-manager.flakeModules.home-manager
@@ -78,6 +79,10 @@
       ];
 
       # Supported systems
-      systems = ["aarch64-darwin" "x86_64-darwin" "x86_64-linux"];
+      systems = [
+        "aarch64-darwin"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
     };
 }
