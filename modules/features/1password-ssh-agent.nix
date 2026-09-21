@@ -27,7 +27,7 @@ _: {
       inherit (lib.strings) escape;
 
       sshAgentSocket = escape [ " " ] (
-        if pkgs.stdenv.isLinux then
+        if pkgs.stdenv.hostPlatform.isLinux then
           "~/.1password/agent.sock"
         # For Darwin hosts
         else
