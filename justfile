@@ -60,7 +60,7 @@ dev:
 [group("Helpers")]
 fmt:
     just --unstable --fmt
-    nix fmt .
+    nix fmt
 
 # Link files not managed by Nix (using GNU Stow)
 [group("Helpers")]
