@@ -95,14 +95,14 @@ _: {
         };
       }
 
-      (lib.mkIf pkgs.stdenv.isDarwin {
+      (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
         programs.wezterm.settings = {
           font_size = 16;
           window_decorations = "RESIZE";
         };
       })
 
-      (lib.mkIf pkgs.stdenv.isLinux {
+      (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
         programs.wezterm.settings = {
           font_size = 12;
         }
