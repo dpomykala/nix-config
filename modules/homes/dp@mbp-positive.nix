@@ -7,7 +7,7 @@
       home-darwin
 
       # Features
-      sops
+      karabiner
 
       # User
       dp
