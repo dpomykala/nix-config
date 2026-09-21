@@ -10,6 +10,7 @@ in
       [
         # Profiles
         base
+        development
 
         # Features
         brave-browser
@@ -21,7 +22,6 @@ in
         obsidian
         pages
         raycast
-        shell
         slack
         the-unarchiver
 

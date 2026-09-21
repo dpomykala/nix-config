@@ -1,5 +1,11 @@
 # Development environment profile.
 { self, ... }: {
+  flake.modules.darwin.development = {
+    imports = with self.modules.darwin; [
+      shell
+    ];
+  };
+
   flake.modules.homeManager.development = {
     imports = with self.modules.homeManager; [
       # Features

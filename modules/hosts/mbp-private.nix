@@ -10,6 +10,7 @@ in
       [
         # Profiles
         base
+        development
 
         # Features
         bear
@@ -23,7 +24,6 @@ in
         obsidian
         pages
         raycast
-        shell
         slack
         spotify
         the-unarchiver
