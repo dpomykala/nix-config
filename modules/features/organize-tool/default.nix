@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.homeManager.organize-tool =
     {
       config,

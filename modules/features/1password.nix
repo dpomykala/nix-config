@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.darwin."1password" = {
     homebrew = {
       casks = [ "1password" ];
