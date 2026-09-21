@@ -1,14 +1,27 @@
-{ self, ... }: {
-  flake.modules.homeManager.python = { lib, pkgs, ... }: {
-    home.packages = with pkgs; [
-      ruff
-      uv
-    ];
+_: {
+  flake.modules.homeManager.python =
+    {
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      home = {
+        packages = with pkgs; [
+          ruff
+          uv
+        ];
 
-    programs.mise = {
-      enable = lib.mkDefault true;
+        shellAliases = {
+          cl-pyc = "find ./ -name '*.pyc' -delete";
+          py = "python";
+        };
+      };
 
-      globalConfig.tools.python = "latest";
+      programs.mise = {
+        enable = lib.mkDefault true;
+
+        globalConfig.tools.python = "latest";
+      };
     };
-  };
 }

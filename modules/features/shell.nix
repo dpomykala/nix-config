@@ -25,17 +25,6 @@ _: {
 
         # Clear the terminal output
         cl = "clear";
-
-        # PYTHON
-
-        py = "python";
-        cl-pyc = "find ./ -name '*.pyc' -delete";
-
-        # DOCKER
-
-        dps = "docker ps";
-        dcp = "docker-compose";
-        cl-docker = "docker system prune --volumes -f";
       };
 
       programs.zsh = {
