@@ -39,11 +39,11 @@
         };
 
         lazygit.settings = {
-          git.pagers = [
+          git.diffRenderers = [
             # Use delta as a diff pager in Lazygit
             {
               colorArg = "always";
-              pager = "delta --dark --paging=never --line-numbers";
+              command = "delta --dark --paging=never --line-numbers";
             }
           ];
         };

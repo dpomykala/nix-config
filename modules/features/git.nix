@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.homeManager.git =
     {
       config,
