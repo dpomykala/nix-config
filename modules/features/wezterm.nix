@@ -48,7 +48,7 @@ _: {
                 action =
                   lib.generators.mkLuaInline
                     # Lua
-                    ''act.SplitHorizontal{domain =  "CurrentPaneDomain"}'';
+                    ''wezterm.action.SplitHorizontal{domain =  "CurrentPaneDomain"}'';
               }
               {
                 key = "Enter";
@@ -56,7 +56,7 @@ _: {
                 action =
                   lib.generators.mkLuaInline
                     # Lua
-                    ''act.SplitVertical{domain =  "CurrentPaneDomain"}'';
+                    ''wezterm.action.SplitVertical{domain =  "CurrentPaneDomain"}'';
               }
               {
                 key = "h";
@@ -64,7 +64,7 @@ _: {
                 action =
                   lib.generators.mkLuaInline
                     # Lua
-                    ''act.ActivatePaneDirection("Left")'';
+                    ''wezterm.action.ActivatePaneDirection("Left")'';
               }
               {
                 key = "j";
@@ -72,7 +72,7 @@ _: {
                 action =
                   lib.generators.mkLuaInline
                     # Lua
-                    ''act.ActivatePaneDirection("Down")'';
+                    ''wezterm.action.ActivatePaneDirection("Down")'';
               }
               {
                 key = "k";
@@ -80,7 +80,7 @@ _: {
                 action =
                   lib.generators.mkLuaInline
                     # Lua
-                    ''act.ActivatePaneDirection("Up")'';
+                    ''wezterm.action.ActivatePaneDirection("Up")'';
               }
               {
                 key = "l";
@@ -88,7 +88,7 @@ _: {
                 action =
                   lib.generators.mkLuaInline
                     # Lua
-                    ''act.ActivatePaneDirection("Right")'';
+                    ''wezterm.action.ActivatePaneDirection("Right")'';
               }
             ];
           };
