@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.darwin.firefox = {
     homebrew.casks = [ "firefox" ];
   };

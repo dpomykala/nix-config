@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.darwin.pages = {
     # Applications from the Mac App Store (login required)
     # Applications installed in this way must be uninstalled manually

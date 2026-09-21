@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.darwin.karabiner = {
     homebrew.casks = [ "karabiner-elements" ];
   };

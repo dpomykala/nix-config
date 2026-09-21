@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.darwin.google-chrome = {
     homebrew.casks = [ "google-chrome" ];
   };

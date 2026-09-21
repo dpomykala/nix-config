@@ -1,4 +1,4 @@
-{ self, ... }: {
+_: {
   flake.modules.darwin.jetbrains-toolbox = {
     homebrew.casks = [ "jetbrains-toolbox" ];
   };
