@@ -7,6 +7,7 @@
       home-darwin
 
       # Features
+      karabiner
 
       # User
       dp
