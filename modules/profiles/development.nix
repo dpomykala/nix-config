@@ -2,6 +2,7 @@
 { self, ... }: {
   flake.modules.darwin.development = {
     imports = with self.modules.darwin; [
+      docker
       shell
     ];
   };
