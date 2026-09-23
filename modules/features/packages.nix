@@ -4,6 +4,7 @@ _: {
     home.packages = with pkgs; [
       dust
       fd
+      herdr
       hunk
       jq
       just
