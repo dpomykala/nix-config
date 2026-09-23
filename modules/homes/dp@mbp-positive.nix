@@ -20,6 +20,7 @@
       ];
 
     home.packages = with pkgs; [
+      claude-code
       glab
     ];
 
