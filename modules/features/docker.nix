@@ -1,5 +1,5 @@
 _: {
-  flake.modules.darwin.docker-desktop = {
+  flake.modules.darwin.docker = {
     homebrew.casks = [ "docker-desktop" ];
   };
 
