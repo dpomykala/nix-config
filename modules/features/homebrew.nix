@@ -19,7 +19,7 @@
 
         onActivation = {
           # Remove all formulae/casks not listed in this configuration
-          # WARN: DOES NOT work for applications installed via `masApps`
+          # WARN: DOES NOT work for applications installed via `homebrew.masApps`
           cleanup = "zap";
 
           # Upgrade outdated formulae/casks during nix-darwin activation
