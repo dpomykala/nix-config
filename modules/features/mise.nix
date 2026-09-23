@@ -3,6 +3,8 @@ _: {
     programs.mise = {
       enable = true;
 
+      enableMutableConfig = true;
+
       globalConfig = {
         settings = {
           # Load environment variables from dotenv files
