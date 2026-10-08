@@ -78,5 +78,5 @@ Unfortunately, with flakes this only works when the function is called with an
 absolute path. This means that the flake configuration must be aware of its
 location in the file system, which complicates things.
 
-This option is worth further exploaration in the future.
+This option is worth further exploration in the future.
 
