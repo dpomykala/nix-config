@@ -3,7 +3,7 @@
 
   This file is the top-level namespace for the library, exposing specific helper
   submodules defined in separate files under this directory. To expose a helper
-  submodule, import it under the desired namespace, e.g.:
+  submodule, import it under the desired namespace, such as:
 
     {
       secrets = import ./secrets.nix;

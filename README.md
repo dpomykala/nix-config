@@ -102,7 +102,7 @@ your age private key(s) to `~/.config/sops/age/keys.txt`.
 ### DNS resolution fails due to stale DNS state in the Nix daemon on Darwin
 
 On Darwin (macOS), Nix commands that require network access (e.g. `nix flake
-update`) _may_ fail with a DNS error, e.g.: `Could not resolve hostname` or
+update`) _may_ fail with a DNS error, e.g. `Could not resolve hostname` or
 `Could not resolve host: github.com (Timeout while contacting DNS servers)`.
 
 This can happen after network or DNS changes:
@@ -149,7 +149,7 @@ When all of the following conditions are met:
 - sandboxed builds are enabled (`nix.settings.sandbox` is set to `true`)
 - there is no global DNS resolver configured on the host
 
-then the build _may_ fail with a DNS error, e.g.: `Could not resolve host:
+then the build _may_ fail with a DNS error, e.g. `Could not resolve host:
 github.com (Could not contact DNS servers)`.
 
 The reason is that in a sandboxed environment the standard macOS resolver
