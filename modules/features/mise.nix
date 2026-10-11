@@ -3,7 +3,7 @@ _: {
     programs.mise = {
       enable = true;
 
-      enableMutableConfig = true;
+      mutableSettings = true;
 
       globalConfig = {
         settings = {
