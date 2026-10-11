@@ -66,7 +66,7 @@ _: {
 
               push.autoSetupRemote = true;
 
-              user.name = config.meta.user.name;
+              user.name = config.meta.user.fullName;
             }
           ];
         }
