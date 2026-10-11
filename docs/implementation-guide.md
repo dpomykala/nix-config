@@ -470,7 +470,7 @@ Use the feature-local file with `./config.sops.yaml`.
 
 ### Git secret consumption
 
-Prefer:
+For secret-driven configuration, prefer:
 
 ```text
 home
@@ -480,7 +480,13 @@ git feature
   → conditionally renders the Git include/template
 ```
 
-instead of coupling the concrete home module to `programs.git.includes`.
+instead of coupling the concrete home module to SOPS template mechanics. This
+keeps the home independent of Git implementation details for secrets.
+
+A home may configure `programs.git.includes` directly for plain, non-secret,
+home-specific overrides (e.g. a per-repository identity) using inline
+`contents`. The `git` feature renders its own includes with `lib.mkBefore`, so
+home-declared includes override them within their scope.
 
 ## 14. SOPS File Organization
 

@@ -71,9 +71,11 @@ _: {
           ];
         }
 
-        # Use an encrypted email (via an included config) if any
+        # Use an encrypted email (via an included config) if any.
+        # Rendered first (mkBefore) so includes from homes override it within
+        # their scope.
         (lib.mkIf (config.sops.secrets ? userEmail) {
-          includes = [
+          includes = lib.mkBefore [
             { path = config.sops.templates.gitconfig-work-email.path; }
           ];
         })
