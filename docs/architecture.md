@@ -1,35 +1,70 @@
-# Nix Configuration Architecture
+# Nix configuration architecture
+
+This document records the architecture decisions for this repository.
+[`implementation-guide.md`](implementation-guide.md) shows how to implement
+them.
 
 ## Contents
 
-- [TL;DR](#tldr)
-- [1. Repository Structure](#1-repository-structure)
-- [2. Configuration Layers](#2-configuration-layers)
-- [3. Composition and Dependencies](#3-composition-and-dependencies)
-- [4. Configuration Classes and Platform Scope](#4-configuration-classes-and-platform-scope)
-- [5. Packages and Nixpkgs](#5-packages-and-nixpkgs)
-- [6. Generic Context and Custom Library](#6-generic-context-and-custom-library)
+- [Summary](#summary)
+- [1. Repository structure](#1-repository-structure)
+- [2. Configuration layers](#2-configuration-layers)
+- [3. Composition and dependencies](#3-composition-and-dependencies)
+- [4. Configuration classes and platform
+  scope](#4-configuration-classes-and-platform-scope)
+- [5. Packages and nixpkgs](#5-packages-and-nixpkgs)
+- [6. Generic context and custom
+  library](#6-generic-context-and-custom-library)
 - [7. Factories](#7-factories)
 - [8. Secrets and SOPS](#8-secrets-and-sops)
-- [9. Naming and Placement Rules](#9-naming-and-placement-rules)
+- [9. Naming and placement rules](#9-naming-and-placement-rules)
 
-## TL;DR
+## Summary
 
-- Use a **feature-oriented dendritic architecture** with `modules/features/`, `modules/profiles/`, `modules/hosts/`, `modules/homes/`, `modules/users/`, and `modules/factories/`. — §1, §2
-- Features provide capabilities; profiles compose capabilities; hosts and homes are concrete entry points; users provide reusable user identity/configuration; factories generate parameterized configuration. — §2
-- Keep system and user environments separate: a host represents a machine and may have multiple users; a home represents one user's standalone Home Manager environment on one host. — §2
-- Use `flake.modules.<class>.<name>` for reusable modules and `flake.modules.generic.*` for class-independent module context. — §4, §6
-- Keep flake infrastructure under `modules/flake/`; plain helper functions under root `lib/`; custom packages under root `pkgs/`; encrypted data under root `secrets/`. — §1
-- Use one canonical package set, configured as `perSystem.pkgs`; expose custom packages through both `self.packages.<system>` and `self.overlays.default`, and reuse the canonical package set for concrete configurations where appropriate. — §5
-- Use `moduleWithSystem` for reusable modules that need `perSystem` context and `withSystem` when constructing concrete flake outputs; use NixOS `readOnlyPkgs` when injecting the canonical package set into NixOS. — §5
-- Keep the standard module `lib` untouched. Expose project helpers as `self.lib.my` and inject them into module graphs as `myLib` through `self.modules.generic.my-lib`. — §6
-- Use `self.factory.*` for parameterized configuration generation. Dendritic factories that generate `flake.modules` live under `modules/factories/`; the option-backed factory registry lets independent factory modules contribute to a common namespace while retaining flake-parts context such as `self`. — §7
-- Keep SOPS credentials scope-based (`secrets/hosts`, `secrets/homes`, `secrets/shared`); feature-owned encrypted application configuration may remain next to the feature. — §8
-- Use `nixfmt-tree` for project-wide Nix formatting. — see `implementation-guide.md` §16
-- Features don't import features. Shared dependencies are composed once in profiles, hosts, or homes. Use `lib.mkDefault true` for self-sufficient tool enablement. — §3
-- Import each external input module exactly once, in its provider feature; consumers only configure the options. — §3
+- The repository uses a feature-oriented dendritic architecture with
+  `modules/features/`, `modules/profiles/`, `modules/hosts/`, `modules/homes/`,
+  `modules/users/`, and `modules/factories/`. See §1 and §2.
+- Keep each kind of file in its own place: flake infrastructure in
+  `modules/flake/`, plain helper functions in root `lib/`, custom packages in
+  root `pkgs/`, and encrypted data in root `secrets/`. See §1.
+- Features provide capabilities, and profiles compose them. Hosts and homes are
+  the concrete entry points. Users provide reusable user identity and
+  configuration. Factories generate parameterized configuration. See §2.
+- System and user environments stay separate. A host is a machine and can have
+  several users. A home is one user's standalone Home Manager environment on
+  one host. See §2.
+- Features don't import features. Profiles, hosts, or homes compose shared
+  dependencies once. A feature that needs a tool enables it with
+  `lib.mkDefault true`. See §3.
+- Each external input module is imported exactly once, by its provider feature.
+  Consumers only set its options. See §3.
+- Reusable modules go in `flake.modules.<class>.<name>`. Class-independent
+  module context goes in `flake.modules.generic.*`. See §4 and §6.
+- One canonical package set, `perSystem.pkgs`, serves every output. Custom
+  packages are exposed through both `self.packages.<system>` and
+  `self.overlays.default`. See §5.
+- Use `moduleWithSystem` in reusable modules that need `perSystem` context. Use
+  `withSystem` to construct concrete flake outputs. On NixOS, use the
+  `readOnlyPkgs` module to inject the canonical package set. See §5.
+- The standard module `lib` stays unchanged. Project helpers are exposed as
+  `self.lib.my`, and `self.modules.generic.my-lib` injects them into module
+  graphs as `myLib`. See §6.
+- `self.factory.*` generates parameterized configuration. Factories that
+  generate `flake.modules` live in `modules/factories/`. The factory registry
+  is a flake-parts option, so independent factory modules can add to one
+  namespace and still use flake-parts context such as `self`. See §7.
+- SOPS credentials are grouped by scope: `secrets/hosts`, `secrets/homes`, and
+  `secrets/shared`. Encrypted application configuration that belongs to one
+  feature can stay next to that feature. See §8.
+- `nixfmt-tree` formats the Nix files of the whole project. See
+  `implementation-guide.md` §16.
 
-## 1. Repository Structure
+## 1. Repository structure
+
+The repository follows the [dendritic
+pattern](https://github.com/mightyiam/dendritic). In this pattern, every Nix
+file under `modules/` is a flake-parts module, and each file adds modules to
+`flake.modules` for one or more configuration classes.
 
 ```text
 .
@@ -55,35 +90,42 @@
 
 ### Responsibilities
 
-| Location             | Responsibility                                        |
-| -------------------- | ----------------------------------------------------- |
-| `lib/`               | Plain reusable Nix helpers/functions                  |
-| `pkgs/`              | Custom package definitions                            |
-| `secrets/`           | Encrypted credential/data files                       |
-| `stow/`              | Dotfiles linked outside Nix (GNU Stow)                |
-| `modules/flake/`     | Flake-parts infrastructure and concrete flake outputs |
-| `modules/features/`  | Reusable capabilities/integrations                    |
-| `modules/factories/` | Parameterized Dendritic configuration generators      |
-| `modules/profiles/`  | Reusable compositions/specializations                 |
-| `modules/hosts/`     | Concrete machine/system configurations                |
-| `modules/homes/`     | Concrete standalone Home Manager configurations       |
-| `modules/users/`     | Concrete user definitions/instances                   |
+| Location             | Responsibility                                          |
+| -------------------- | ------------------------------------------------------- |
+| `lib/`               | Plain reusable Nix helper functions                     |
+| `pkgs/`              | Custom package definitions                              |
+| `secrets/`           | Encrypted credentials and data                          |
+| `stow/`              | Dotfiles that GNU Stow links outside Nix                |
+| `modules/flake/`     | Flake-parts infrastructure and concrete flake outputs   |
+| `modules/features/`  | Reusable capabilities and integrations                  |
+| `modules/factories/` | Factories that generate parameterized dendritic modules |
+| `modules/profiles/`  | Reusable compositions of features and profiles          |
+| `modules/hosts/`     | Concrete machine configurations                         |
+| `modules/homes/`     | Concrete standalone Home Manager configurations         |
+| `modules/users/`     | Concrete user definitions                               |
 
-`modules/` contains Nix module code. `secrets/` is kept at repository root because it is encrypted data, not Nix code.
+`modules/` contains Nix module code. `secrets/` stays at the repository root
+because it holds encrypted data, not Nix code.
 
-The entire `modules/` tree is automatically imported from `flake.nix` using `import-tree`:
+`flake.nix` imports the whole `modules/` tree with `import-tree`:
 
 ```nix
 (import-tree ./modules)
 ```
 
-Therefore, adding a Nix module under `modules/` is sufficient to make it part of the flake-parts module tree; `flake.nix` does not need a separate import for each file. File placement under `modules/` is consequently significant: every `.nix` file there must be a valid flake-parts module. `import-tree` ignores non-nix files, so feature-owned data files may live next to the module that uses them (e.g. `modules/features/vim/keymaps.vim`); plain helper code and shared data still belong in `lib/`, `pkgs/`, or `secrets/`.
+To add a module to the flake-parts module tree, create its file under
+`modules/`. `flake.nix` needs no separate import for each file. Because of
+this, every `.nix` file under `modules/` must be a valid flake-parts module.
+`import-tree` ignores files that don't end in `.nix`, so a feature can keep its
+data files next to its module, for example `modules/features/vim/keymaps.vim`.
+Plain helper code and shared data still belong in `lib/`, `pkgs/`, or
+`secrets/`.
 
-## 2. Configuration Layers
+## 2. Configuration layers
 
 ### Features
 
-A feature represents one meaningful capability or integration, such as:
+A feature is one meaningful capability or integration, for example:
 
 ```text
 git
@@ -96,18 +138,20 @@ homebrew
 xdg
 ```
 
-A feature may provide implementations for several classes:
+A feature can provide modules for several classes:
 
 ```nix
 flake.modules.darwin.foo = ...;
 flake.modules.homeManager.foo = ...;
 ```
 
-A feature owns the packages, configuration, dependencies, and platform-specific pieces that belong to that capability.
+A feature owns the packages, configuration, dependencies, and platform-specific
+parts of its capability.
 
 ### Profiles
 
-Profiles compose features and lower-level profiles into coherent environments, such as:
+Profiles compose features and lower-level profiles into coherent environments,
+for example:
 
 ```text
 base
@@ -117,30 +161,38 @@ home-linux-generic
 home-darwin
 ```
 
-Profiles should not become arbitrary package buckets. A profile describes a coherent environment; a bucket erodes ownership and makes composition unpredictable. A package with a meaningful home belongs to its capability feature; only development-only packages without independent identity go directly in `development`.
+A profile describes one coherent environment. It is not a bucket for unrelated
+packages, because a bucket hides who owns each package and makes composition
+unpredictable. A package that belongs to a capability goes in the feature for
+that capability. Only development tools that don't justify a feature of their
+own go directly in `development`.
 
 ### Hosts
 
-A host represents a machine/system, not a single user. A host may contain multiple users. Configuration names must match the machine's `scutil --get LocalHostName` output.
+A host is a machine, not a single user, and can contain several users. The name
+of a host configuration must match the output of `scutil --get LocalHostName`.
 
 ### Homes
 
-A home represents one user's standalone Home Manager environment on one host — the pair `user × host`, hence the `user@host` naming (e.g. `dp@mbp-positive`), where the host part must match the `hostname` output.
+A home is one user's standalone Home Manager environment on one host. Its name
+has the form `user@host`, for example `dp@mbp-positive`. The host part must
+match the output of `hostname`.
 
 ### Users
 
-A user represents reusable identity/user configuration. User definitions may provide class-specific modules such as:
+A user module holds reusable user identity and configuration. A user definition
+can provide a module for each class, for example:
 
 ```text
 darwin.dp
 homeManager.dp
 ```
 
-Hosts and homes select the appropriate class-specific user module.
+Hosts and homes import the user module for their class.
 
-## 3. Composition and Dependencies
+## 3. Composition and dependencies
 
-The normal dependency direction is:
+Dependencies point in this direction:
 
 ```text
 profile  → feature
@@ -150,10 +202,10 @@ home     → profile/feature/user
 
 ### Features don't import features
 
-Feature modules set config values; they don't import other feature modules.
-Shared dependencies are composed once at the profile, host, or home level,
-never inside a feature's `imports`. This keeps every module value merged only
-once per tree (see diamonds below for why that matters).
+A feature module sets option values. It never imports another feature module.
+Profiles, hosts, and homes compose shared dependencies once, never through the
+`imports` of a feature. As a result, the module system merges each module value
+only once per tree. The next section explains why that matters.
 
 ```nix
 # Wrong: feature imports another feature (sops)
@@ -170,15 +222,17 @@ flake.modules.homeManager.foo = {
 
 ### Profile hierarchy: avoid diamonds
 
-Platform profiles (`home-darwin`, `home-linux`) import `base`. Feature bundles
-(`development`) don't import `base` — they assume it's already in the tree
-via the platform profile. Two imports converging on the same profile create a
-diamond. Unlike file paths, `flake.modules.*` values are anonymous modules: the
-module system deduplicates only modules keyed by file path, so an anonymous
-module reached twice is merged twice. Everything in that profile then loads
-twice — list values (e.g. `home.packages`) get duplicated, and modules
-declaring options (e.g. `generic.meta`) fail with an "option is already
-declared" error:
+The platform profiles `home-darwin` and `home-linux` import `base`. Feature
+bundles such as `development` don't import `base`. They expect the platform
+profile to put `base` in the tree.
+
+If two import paths reach the same profile, they form a diamond.
+`flake.modules.*` values are anonymous modules, not file paths. The module
+system deduplicates only modules that it can key by file path, so it merges an
+anonymous module once for each path that reaches it. Everything in a profile
+that is reached twice loads twice. List values such as `home.packages` get
+duplicate entries, and modules that declare options, such as `generic.meta`,
+fail with an "option is already declared" error:
 
 ```text
 Safe (tree)                          Unsafe (diamond)
@@ -189,24 +243,25 @@ development (features)       ↑_____________↑
                                    duplicate
 ```
 
-In the unsafe shape, `base` is merged twice: once through `home-darwin`, once through `development`.
+In the unsafe shape, the module system merges `base` twice: once through
+`home-darwin` and once through `development`.
 
-A profile may specialize another profile through a chain, which is fine:
+A chain in which one profile specializes another is safe:
 
 ```text
 home-linux-generic → home-linux → base
 ```
 
-Concrete hosts/homes select exactly one platform profile plus optional feature
-bundles and individual features.
+A concrete host or home imports exactly one platform profile. It can add
+feature bundles and individual features.
 
-### lib.mkDefault for tool enablement
+### Enable required tools with `lib.mkDefault`
 
-When a feature needs a tool enabled (e.g., `python` needs `mise`, `1password-ssh-agent`
-needs `ssh`), it sets `enable = lib.mkDefault true`. This makes the feature
-self-sufficient when used alone, but the dedicated module's normal-priority
-`enable = true` takes precedence when both are in the tree. A profile can
-override with `lib.mkForce false`.
+If a feature needs a tool enabled, it sets `enable = lib.mkDefault true` for
+that tool. For example, `python` needs `mise`, and `1password-ssh-agent` needs
+`ssh`. The feature then works when it is used alone. When the feature of the
+tool is also in the tree, its normal-priority `enable = true` takes precedence.
+A profile can turn the tool off with `lib.mkForce false`.
 
 ```nix
 # python.nix
@@ -220,12 +275,13 @@ flake.modules.homeManager.python = { lib, pkgs, ... }: {
 
 ### External option providers own their input module imports
 
-When a feature wraps one or more external flake inputs to provide non-built-in
-options (`sops` wraps `sops-nix`; `homebrew` wraps `nix-homebrew`), that
-feature is the **provider** and owns the imports of the wrapped input modules:
+Some features wrap external flake inputs to provide options that are not built
+in. For example, `sops` wraps `sops-nix`, and `homebrew` wraps `nix-homebrew`.
+Such a feature is the **provider**, and it imports the input modules that it
+wraps:
 
 ```nix
-# modules/features/sops.nix — the provider owns the imports
+# modules/features/sops.nix: the provider owns the imports
 flake.modules.homeManager.sops = { ... }: {
   imports = [
     inputs.sops-nix.homeManagerModules.sops
@@ -235,39 +291,39 @@ flake.modules.homeManager.sops = { ... }: {
 };
 ```
 
-Features that merely **consume** those options (`sops.secrets.*`,
-`homebrew.*`) must not import the input modules directly — and must not
-import the provider feature either, as that would pull the input modules in a
-second time and recreate the diamond. This is the "features don't import
-features" rule applied transitively. The invariant is **per input module**:
-each one enters the tree exactly once, through the provider.
+A feature that only **consumes** these options, such as `sops.secrets.*` or
+`homebrew.*`, must not import the input modules. It must not import the
+provider feature either, because that pulls in the input modules a second time
+and creates a diamond. This is the "features don't import features" rule
+applied transitively. The rule holds **per input module**: each input module
+enters the tree exactly once, through its provider.
 
-Several features may configure the provided options — values merge
-normally; the uniqueness constraint applies only to the import of the
-declaring module. If more than one feature would need to import the same
-input module, extract a dedicated provider feature and consume it from the
-others.
+Several features can set the provided options, and their values merge as usual.
+Only the import of the module that declares the options must be unique. If more
+than one feature needs to import the same input module, move that import into a
+dedicated provider feature, and make the other features consume it.
 
-External modules cannot always be deduplicated when imported twice (see
-diamonds above) — inputs may export module values rather than paths
-(e.g. `nix-homebrew`), which are always merged twice.
+The module system can't always deduplicate an external module that is imported
+twice. Some inputs, such as `nix-homebrew`, export module values instead of
+paths, and the module system always merges those twice, as the diamond section
+describes.
 
-The provider feature is composed like every feature: exactly once per tree,
-from the profile that guarantees it (e.g. `base`). Consumers must only appear
-in trees that already contain the provider, directly or through an explicit
-composition dependency.
+Compose the provider like any other feature: exactly once per tree, from the
+profile that guarantees it, for example `base`. A consumer can appear only in a
+tree that already contains the provider.
 
-### Optional dependencies use lib.mkIf with fallback
+### Optional dependencies use `lib.mkIf` with a fallback
 
-If a feature can use a dependency but doesn't require it, guard with `lib.mkIf`
-and provide a fallback. Example: `git` checks `config.sops.secrets ? userEmail`
-and falls back to `config.meta.user.email`. No import, no assertion.
+If a feature can use a dependency but doesn't need it, guard the dependent
+configuration with `lib.mkIf` and provide a fallback. For example, `git` checks
+`config.sops.secrets ? userEmail` and falls back to `config.meta.user.email`.
+The feature needs no import and no assertion.
 
-### Host modules need _module.args.system
+### Host modules need `_module.args.system`
 
-For `moduleWithSystem` to determine the target system without falling through
-to `config._module.args.pkgs` (which creates a cycle), host modules must set
-`_module.args.system`:
+`moduleWithSystem` needs to know the target system. If `_module.args.system` is
+not set, it falls back to `config._module.args.pkgs`, which causes infinite
+recursion. Every host module must therefore set `_module.args.system`:
 
 ```nix
 flake.modules.darwin.my-host = {
@@ -276,9 +332,9 @@ flake.modules.darwin.my-host = {
 };
 ```
 
-## 4. Configuration Classes and Platform Scope
+## 4. Configuration classes and platform scope
 
-Use class namespaces to express scope:
+Class namespaces express scope:
 
 ```text
 darwin
@@ -287,99 +343,121 @@ homeManager
 generic
 ```
 
-`darwin` and `nixos` are already system/platform-specific. `homeManager` is OS-independent, so platform-specific HM compositions such as `homeManager.home-darwin` are useful.
+`darwin` and `nixos` modules are already platform-specific. `homeManager`
+modules work on any OS, so platform-specific Home Manager compositions such as
+`homeManager.home-darwin` are useful.
 
-Do not create redundant system profiles such as `darwin.base-darwin` when the module only re-exports `darwin.base`.
+Don't create a redundant system profile such as `darwin.base-darwin` that only
+re-exports `darwin.base`.
 
-Use platform-specific module implementations instead of unnecessary `isLinux`/`isDarwin` conditionals: a class-pure module keeps the target graph free of dead configuration and keeps evaluation honest. Use a conditional only when a single conceptual feature genuinely spans platforms (e.g. `1password-ssh-agent`, which selects the agent socket path by platform).
+Prefer a separate module for each platform over `isLinux` or `isDarwin`
+conditionals. A module for one platform keeps unused configuration out of the
+target graph. Use a conditional only when one feature really spans platforms,
+for example `1password-ssh-agent`, which picks the agent socket path by
+platform.
 
-## 5. Packages and Nixpkgs
+## 5. Packages and nixpkgs
 
 ### `modules/features/packages.nix`
 
-`packages.nix` is a feature for miscellaneous packages that do not warrant their own capability feature.
+`packages.nix` is a feature for miscellaneous packages that don't justify a
+feature of their own.
 
-Do not create one feature per package unless the package has independent configuration, dependencies, platform behavior, or conceptual identity.
+Create a feature for a single package only if the package has its own
+configuration, dependencies, platform behavior, or purpose.
 
-Use capability features when appropriate, such as:
+Group related packages into a capability feature, for example:
 
 ```text
 http.nix   → httpie, hurl, posting
 docker.nix → Docker-related tools/configuration
 ```
 
-Development-only packages that have no useful independent identity may be declared directly by `modules/profiles/development.nix`.
+Development tools that don't justify a feature of their own can go directly in
+`modules/profiles/development.nix`.
 
 ### `pkgs/`
 
-Root `pkgs/` is the source of truth for custom package definitions. Its contents are automatically exposed through:
+Root `pkgs/` is the source of truth for custom package definitions.
+`modules/flake/packages.nix` exposes every package in it through:
 
 ```text
 self.packages.<system>.<name>
 self.overlays.default
 ```
 
-After applying the overlay, custom packages are available through the local `pkgs` set.
+With the overlay applied, the local `pkgs` set contains the custom packages.
 
 ### Canonical `perSystem.pkgs`
 
-`modules/flake/nixpkgs.nix` constructs the configured `perSystem.pkgs` using the pinned nixpkgs input, `allowUnfree`, and the custom overlay.
+`modules/flake/nixpkgs.nix` builds the configured `perSystem.pkgs` from the
+pinned nixpkgs input, with `allowUnfree` and the custom overlay.
 
-This package set should be reused by `perSystem` outputs and by concrete configuration outputs where appropriate.
+`perSystem` outputs and concrete configuration outputs reuse this package set.
 
-Configuring `perSystem.pkgs` does not automatically configure the package set of those separate configuration graphs. Use `moduleWithSystem` for reusable modules that need `perSystem` context and `withSystem` when constructing concrete flake outputs that need `perSystem` values.
+Setting `perSystem.pkgs` doesn't change the package set of the separate
+configuration graphs. Use `moduleWithSystem` in reusable modules that need
+`perSystem` context. Use `withSystem` when you construct concrete flake outputs
+that need `perSystem` values.
 
 ### `readOnlyPkgs`
 
-`nixosModules.readOnlyPkgs` is NixOS-specific and is used when NixOS should consume the canonical package set (constructed externally) without independently reconfiguring it. It is not a generic solution for nix-darwin or Home Manager because no equivalent exists there: nix-darwin consumes the canonical set through `nixpkgs.pkgs`, and standalone Home Manager through the `pkgs` argument at construction.
+`nixosModules.readOnlyPkgs` is a NixOS module. A NixOS configuration uses it to
+consume the canonical package set, which is built outside the configuration,
+without configuring that set again. nix-darwin and Home Manager have no
+equivalent. nix-darwin takes the canonical set through `nixpkgs.pkgs`, and
+standalone Home Manager takes it through the `pkgs` argument of
+`homeManagerConfiguration`.
 
-## 6. Generic Context and Custom Library
+## 6. Generic context and custom library
 
 ### `generic`
 
-Use `flake.modules.generic.*` for class-independent module options/context, with structured/typed namespaces such as `meta.user.*`.
+`flake.modules.generic.*` holds class-independent module options and context,
+in typed, structured namespaces such as `meta.user.*`.
 
-Keep native options native (`home.username`, `system.primaryUser`, etc.); generic context may supply their values but does not replace them.
+Configure native options such as `home.username` and `system.primaryUser`
+directly. Generic context can supply their values, but it doesn't replace them.
 
 ### Custom library
 
-The root `lib/` contains plain Nix helpers independent of flake-parts and configuration classes.
+Root `lib/` contains plain Nix helpers that don't depend on flake-parts or
+configuration classes.
 
-`lib/default.nix` is the top-level namespace for helper submodules. It is exposed as:
+`lib/default.nix` is the top-level namespace for helper submodules.
+`modules/flake/lib.nix` exposes it as:
 
 ```text
 self.lib.my
 ```
 
-by `modules/flake/lib.nix`.
-
-`modules/features/my-lib.nix` defines:
-
-```text
-self.modules.generic.my-lib
-```
-
-which injects the library into a module graph as:
+`modules/features/my-lib.nix` defines `self.modules.generic.my-lib`, which
+injects the library into a module graph as the `myLib` argument:
 
 ```nix
 { lib, myLib, ... }:
 ```
 
-Keep the standard `lib` argument untouched; `lib` is the standard Nix/module library, while `myLib` is project-specific.
+The standard `lib` argument stays unchanged. `lib` is the standard Nix and
+module library, and `myLib` is the project library.
 
-The `generic.my-lib` feature is class-agnostic and should normally be imported from the relevant base profile(s), e.g. both `darwin.base` and `homeManager.base` when both graphs use the library.
+`generic.my-lib` is class-agnostic. Import it from each base profile whose
+graph uses the library, for example from both `darwin.base` and
+`homeManager.base`.
 
-Keep the plain library as context-independent as practical. Pass `self`, `pkgs`, or other context explicitly to helpers that genuinely require it.
+Keep the plain library as independent of context as practical. If a helper
+needs `self`, `pkgs`, or other context, pass that context as an argument.
 
 ## 7. Factories
 
-A factory is a parameterized configuration generator, not an ordinary helper and not a ready-to-use module.
+A factory generates parameterized configuration. It is neither an ordinary
+helper nor a ready-to-use module.
 
-The APIs have distinct roles:
+The three APIs have distinct roles:
 
 ```text
 myLib.foo ...
-    → calculate/transform a value
+    → calculate or transform a value
 
 self.modules.homeManager.foo
     → ready-to-use module
@@ -388,11 +466,19 @@ self.factory.foo { ... }
     → generate configuration
 ```
 
-Dendritic factories that generate class-specific `flake.modules` belong under `modules/factories/` because they may need flake-parts context (`self`, module arguments, `moduleWithSystem`, etc.).
+Factories that generate class-specific `flake.modules` live in
+`modules/factories/`, because they can need flake-parts context such as `self`,
+module arguments, or `moduleWithSystem`.
 
-`modules/flake/factory.nix` provides the flake-level factory registry; individual factories remain in separate files under `modules/factories/`. The registry is option-backed because factories may need flake-parts context such as `self`, and multiple factory modules can contribute independently to the common `flake.factory.*` namespace. This is different from `self.modules.*`, whose values are ready-to-use modules.
+`modules/flake/factory.nix` declares the flake-level factory registry. Each
+factory stays in its own file under `modules/factories/`. The registry is a
+flake-parts option for two reasons. Factories can need flake-parts context such
+as `self`, and several factory modules can add to the shared `flake.factory.*`
+namespace independently. In contrast, the values in `self.modules.*` are
+ready-to-use modules.
 
-A multi-class factory should return a `flake.modules`-shaped attrset, such as:
+A factory that generates modules for several classes returns an attrset with
+the shape of `flake.modules`, for example:
 
 ```nix
 {
@@ -401,13 +487,14 @@ A multi-class factory should return a `flake.modules`-shaped attrset, such as:
 }
 ```
 
-so the result can be merged directly into `flake.modules` without a manual translation layer.
+The result then merges directly into `flake.modules`, with no translation
+layer.
 
 ## 8. Secrets and SOPS
 
-SOPS infrastructure is provided by `modules/features/sops.nix`.
+`modules/features/sops.nix` provides the SOPS infrastructure.
 
-Root `secrets/` is the centralized store for encrypted credentials:
+Root `secrets/` is the central store for encrypted credentials:
 
 ```text
 secrets/hosts/   → machine-specific credentials
@@ -415,25 +502,39 @@ secrets/homes/   → user-on-machine credentials
 secrets/shared/  → credentials shared across configurations
 ```
 
-Use one encrypted file per scope/domain/service rather than one repository-wide file or one file per individual secret. YAML keys may be nested, and `sops.secrets.<name>` is independent of the YAML key path.
+Use one encrypted file for each scope, domain, or service. Don't use one file
+for the whole repository or one file for each secret. YAML keys can be nested,
+and `sops.secrets.<name>` doesn't depend on the YAML key path.
 
-Feature-owned encrypted application configuration may stay with the feature itself, such as:
+Encrypted application configuration that belongs to one feature can stay with
+that feature, for example:
 
 ```text
 modules/features/organize-tool/config.sops.yaml
 ```
 
-Use this for configuration that is intrinsically part of the feature, rather than general credentials.
+Use this only for configuration that is part of the feature, not for general
+credentials.
 
-A module that declares `sops.secrets.*` must have the SOPS Home Manager module available, directly or through an explicit composition dependency.
+A module that declares `sops.secrets.*` must be in a tree that contains the
+`sops` feature.
 
-For secrets such as a work Git email, declare the secret in the relevant home and let the `git` feature consume it. This keeps the home independent of Git implementation details.
+Declare a secret such as a work Git email in the home that needs it, and let
+the `git` feature consume it. The home then doesn't depend on how the `git`
+feature works.
 
-## 9. Naming and Placement Rules
+## 9. Naming and placement rules
 
-- Name feature files after the feature they define: `git.nix` → `flake.modules.homeManager.git` (capability names like `git`, `docker`, `http`).
-- Name factory files after factories: `modules/factories/user.nix` → `factory.user`.
-- Keep flake infrastructure in `modules/flake/` (`configurations.nix`, `devshells.nix`, `factory.nix`, `formatter.nix`, `lib.nix`, `nixpkgs.nix`, `packages.nix`).
+- Name a feature file after its feature: `git.nix` defines
+  `flake.modules.homeManager.git`. Use capability names such as `git`,
+  `docker`, and `http`. A feature with data files uses a directory, such as
+  `vim/default.nix`.
+- Name a factory file after its factory: `modules/factories/user.nix` defines
+  `factory.user`.
+- Keep flake infrastructure in `modules/flake/`: `configurations.nix`,
+  `devshells.nix`, `factory.nix`, `formatter.nix`, `lib.nix`, `nixpkgs.nix`,
+  and `packages.nix`.
 - Keep generic reusable helpers in root `lib/`.
 - Keep encrypted data in root `secrets/`.
-- Use `home-darwin` rather than a redundant `base-darwin` for Darwin-specific Home Manager composition.
+- Name the Darwin-specific Home Manager composition `home-darwin`, not a
+  redundant `base-darwin`.
