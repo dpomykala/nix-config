@@ -38,8 +38,10 @@ configuration. They are more general than the patterns in the later sections.
    Profiles depend on features and other profiles. Hosts and homes depend on
    profiles, features, and users. Features sit at the bottom. They import no
    other features, only their own wrapped input modules (see the provider rule
-   in ADR §3), and they depend only on options. A lower layer never depends on
-   a higher-level composition.
+   in [ADR §3, *Composition and
+   dependencies*](architecture.md#3-composition-and-dependencies)), and they
+   depend only on options. A lower layer never depends on a higher-level
+   composition.
 
 3. **Separate reusable configuration from concrete entry points.**
    Features, profiles, users, and factories are reusable building blocks. Hosts
@@ -47,7 +49,9 @@ configuration. They are more general than the patterns in the later sections.
 
 4. **Keep ownership explicit.**
    Every piece of configuration has one obvious owner. Packages and settings
-   that belong to a capability live in the feature for that capability.
+   that belong to a capability live in the feature for that capability, unless
+   only one home needs them (see [ADR §2, *Configuration
+   layers*](architecture.md#2-configuration-layers)).
 
 5. **Prefer composition over inheritance and hidden coupling.**
    Build environments by importing modules and composing profiles, not through
@@ -107,7 +111,8 @@ One test covers all of these:
 ## 2. Flake-parts layout
 
 `modules/flake/` contains modules that define flake-level infrastructure or
-concrete outputs. ADR §1, *Repository structure*, defines which
+concrete outputs. [ADR §1, *Repository
+structure*](architecture.md#1-repository-structure), defines which
 responsibilities belong here.
 
 ```text
@@ -143,12 +148,17 @@ of this, every `.nix` file under `modules/` must be a valid flake-parts module.
 Put plain helper code in `lib/`, package definitions in `pkgs/`, and encrypted
 data in `secrets/`.
 
+`flake.nix` also imports two flake modules that declare options the modules
+under `modules/` rely on: `flake-parts.flakeModules.modules` declares
+`flake.modules`, and `home-manager.flakeModules.home-manager` declares
+`flake.homeConfigurations`.
+
 ## 3. Custom packages and overlay
 
 `modules/flake/packages.nix` exposes the custom package tree and the overlay:
 
 ```nix
-{ ... }: {
+_: {
   flake.overlays.default = final: prev:
     prev.lib.packagesFromDirectoryRecursive {
       inherit (final) callPackage;
@@ -171,8 +181,8 @@ self.packages.<system>.<name>
 self.overlays.default
 ```
 
-Both paths call `callPackage`, and that is fine. Each call runs in a separate
-evaluation context, and Nix doesn't build the package twice.
+Both paths call `callPackage` on the same package definitions. They produce the
+same derivation, so Nix builds each package only once.
 
 ## 4. Canonical `perSystem.pkgs`
 
@@ -213,6 +223,10 @@ flake.modules.darwin.nixpkgs = moduleWithSystem (
 );
 ```
 
+The outer function receives the `perSystem` arguments, so `pkgs` is the
+canonical package set. The inner function is the module itself, and `_` ignores
+its module arguments.
+
 Use `withSystem` to construct a concrete flake output:
 
 ```nix
@@ -250,7 +264,9 @@ To make a NixOS system use the canonical package set, import the NixOS
 `readOnlyPkgs` module and assign the set to `nixpkgs.pkgs`.
 `modules/features/nixpkgs.nix` contains a commented-out NixOS example.
 
-Don't reuse that NixOS module for nix-darwin or Home Manager.
+Don't reuse that NixOS module for nix-darwin or Home Manager. It redeclares the
+`nixpkgs.*` options, so both nix-darwin and Home Manager fail with an "option is
+already declared" error.
 
 For Home Manager integrated into nix-darwin or NixOS,
 `home-manager.useGlobalPkgs = true` reuses the system package set.
@@ -263,8 +279,9 @@ while the file stays manageable.
 For standalone Home Manager, pass the canonical package set for the target
 system to `homeManagerConfiguration`.
 
-For nix-darwin and NixOS, inject the canonical package set into the system
-module graph through the `nixpkgs` feature in `modules/features/nixpkgs.nix`.
+For nix-darwin, inject the canonical package set into the system module tree
+through the `nixpkgs` feature in `modules/features/nixpkgs.nix`. The NixOS
+variant in that file is commented out until a NixOS host exists.
 
 Keep each module in `modules/hosts/` and `modules/homes/` to one class:
 
@@ -275,9 +292,10 @@ homes/* → homeManager modules
 
 ## 8. Generic context
 
-ADR §6, *Generic context and custom library*, defines the role of generic
-context. In this repository, `modules/features/meta.nix` defines these
-class-independent options:
+[ADR §6, *Generic context and custom
+library*](architecture.md#6-generic-context-and-custom-library), defines the
+role of generic context. In this repository, `modules/features/meta.nix` defines
+these class-independent options:
 
 ```nix
 meta.user.name
@@ -310,8 +328,9 @@ information. It doesn't replace feature options.
 
 ## 9. Custom library
 
-Root `lib/default.nix` is the top-level namespace of the project library. To
-expose a helper submodule, import it under a namespace, for example:
+Root `lib/default.nix` is the top-level namespace of the project library. The
+library is empty today. To expose a helper submodule, import it under a
+namespace, for example:
 
 ```nix
 {
@@ -325,11 +344,11 @@ expose a helper submodule, import it under a namespace, for example:
 ```nix
 { self, ... }: {
   # Expose the custom lib as a flake output
-  flake.lib.my = import self + "/lib";
+  flake.lib.my = import (self + "/lib");
 }
 ```
 
-`modules/features/my-lib.nix` then injects the library into module graphs:
+`modules/features/my-lib.nix` then injects the library into module trees:
 
 ```nix
 { self, ... }: {
@@ -340,7 +359,8 @@ expose a helper submodule, import it under a namespace, for example:
 ```
 
 Import `self.modules.generic.my-lib` from the base profiles, not from every
-feature.
+feature. A second import defines `_module.args.myLib` twice, and evaluation
+fails as soon as a module uses `myLib`.
 
 Modules then take `myLib` as an argument:
 
@@ -507,9 +527,10 @@ lib.mkIf (config.meta.user.email != null) { ... }
 
 ## 13. SOPS
 
-ADR §8, *Secrets and SOPS*, defines who owns each secret. This section shows
-how to wire SOPS into modules. The `sops` feature configures the sops-nix
-integration and the location of the age key file. It doesn't own every secret.
+[ADR §8, *Secrets and SOPS*](architecture.md#8-secrets-and-sops), defines who
+owns each secret. This section shows how to wire SOPS into modules. The `sops`
+feature configures the sops-nix integration and the location of the age key
+file. It doesn't own every secret.
 
 ### Central credential file
 
@@ -518,14 +539,13 @@ A module declares a secret from a central credential file like this:
 ```nix
 sops.secrets.userEmail = {
   sopsFile = self + "/secrets/homes/dp@mbp-positive.yaml";
-  key = "userEmail";
 };
 ```
 
-The Nix name and the YAML key are independent. `key` can also point at a nested
-YAML path, for example `key = "work/email"`.
+`key` defaults to the Nix name. Set it to use a different YAML key, including a
+nested path such as `key = "work/email"`.
 
-### Feature-owned encrypted config
+### Feature-owned encrypted configuration
 
 If the encrypted configuration of an application is part of the feature, keep
 it in the feature directory:

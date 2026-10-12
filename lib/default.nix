@@ -12,7 +12,7 @@
 
   The library contains plain Nix functions, independent of flake-parts and
   configuration classes. It is exposed as the `self.lib.my` flake output and
-  injected into module graphs as the `myLib` module argument.
+  injected into module trees as the `myLib` module argument.
 
   Layers:
 
@@ -21,9 +21,9 @@
   - `modules/features/my-lib.nix` - defines the `self.modules.generic.my-lib`
     feature that provides the `myLib` argument to the module system.
 
-  The `generic.my-lib` feature is configuration-class agnostic: when imported
-  into a Darwin, Home Manager, or NixOS module graph, it makes the same `myLib`
-  library available to that graph's modules.
+  The `generic.my-lib` feature is class-independent: when imported into a
+  Darwin, Home Manager, or NixOS module tree, it makes the same `myLib` library
+  available to that tree's modules.
 
   Usage:
 
@@ -32,7 +32,7 @@
     }
 
   The `self.modules.generic.my-lib` feature must be imported somewhere in the
-  module graph (e.g. in the base profile) before `myLib` is available as a
+  module tree (e.g. in the base profile) before `myLib` is available as a
   module argument.
 */
 { }

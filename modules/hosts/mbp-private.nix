@@ -44,7 +44,7 @@ in
     nixpkgs.hostPlatform = system;
 
     # Required by flake-parts' moduleWithSystem to determine the system
-    # without config.nixpkgs.pkgs (which would cause infinite recursion)
+    # without config._module.args.pkgs (which would cause infinite recursion)
     _module.args = { inherit system; };
   };
 }
