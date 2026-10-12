@@ -10,33 +10,39 @@ with no explicit import.
 The docs under `docs/` are the source of truth for the architecture and the code
 patterns. Before you change code, read the doc sections that cover it.
 
-- `docs/architecture.md` is the architecture decision record (ADR). It records
-  what the repository does and why. Its summary links each rule to its section.
+- `docs/architecture.md` is the architecture doc. It records what the repository
+  does and why. Its summary points each rule to its section.
 - `docs/implementation-guide.md` shows the mechanics and examples behind the
-  ADR. If the two docs disagree, the ADR wins.
+  architecture doc. If the two docs disagree, the architecture doc wins.
+
+Put a rule and its reason in `architecture.md`, and put code examples and
+mechanics in the guide. State each fact in one doc and link to it from the
+other. Cite a section by file and number, for example `architecture.md` §3. If
+you renumber the sections of `architecture.md`, update the citations in this
+file.
 
 `README.md` is stale. Its setup paths, such as `home/hosts`, predate the
 dendritic layout. Don't use it as a source for the structure.
 
 ## Rules that are easy to break
 
-The ADR defines these rules. Check every change against them, because a
-violation can merge a module twice or fail evaluation far from the change.
+`architecture.md` defines these rules. Check every change against them, because
+a violation can merge a module twice or fail evaluation far from the change.
 
 - A feature never imports another feature. Profiles, hosts, and homes compose
-  shared dependencies once. See ADR §3.
+  shared dependencies once. See `architecture.md` §3.
 - A home imports exactly one platform profile. Feature bundles such as
-  `development` don't import `base`. See ADR §3.
+  `development` don't import `base`. See `architecture.md` §3.
 - Only the provider feature imports an external input module, such as
-  `inputs.sops-nix.homeManagerModules.sops`. See ADR §3.
+  `inputs.sops-nix.homeManagerModules.sops`. See `architecture.md` §3.
 - A feature that needs a tool sets `enable = lib.mkDefault true` for it. A
-  feature with an optional dependency uses `lib.mkIf` with a fallback. See ADR
-  §3.
-- Every host module sets `_module.args.system`. See ADR §3.
+  feature with an optional dependency uses `lib.mkIf` with a fallback. See
+  `architecture.md` §3.
+- Every host module sets `_module.args.system`. See `architecture.md` §3.
 - Prefer a separate module for each platform over `isDarwin` or `isLinux`
-  conditionals. See ADR §4.
+  conditionals. See `architecture.md` §4.
 - Put each file in the directory for its layer, and name it after the module it
-  defines. See ADR §1 and §9.
+  defines. See `architecture.md` §1 and §9.
 
 ## Nix practices
 
@@ -94,7 +100,8 @@ commit to the repository.
 - Never decrypt, print, or log a secret, and never write one in plaintext to a
   file.
 - Ask the user to create or edit encrypted files with `sops`.
-- Put each secret file where ADR §8 and the path rules in `.sops.yaml` say.
+- Put each secret file where `architecture.md` §8 and the path rules in
+  `.sops.yaml` say.
 
 ## Keep the code and the docs in sync
 
@@ -106,8 +113,8 @@ commit to the repository.
 3. If a change makes a doc claim stale, such as a path, a file list, a module
    name, or an example, propose the doc edit. Edit the docs only after the user
    agrees.
-4. To edit a rule, change the ADR first and the guide after it. Keep the ADR
-   summary in line with the ADR body.
+4. To edit a rule, change the architecture doc first and the guide after it.
+   Keep the summary of the architecture doc in line with its body.
 5. To check all the docs against the code, use the `docs-audit` skill in
    `.agents/skills/docs-audit/`.
 

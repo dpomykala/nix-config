@@ -7,6 +7,7 @@ them.
 ## Contents
 
 - [Summary](#summary)
+- [Principles](#principles)
 - [1. Repository structure](#1-repository-structure)
 - [2. Configuration layers](#2-configuration-layers)
 - [3. Composition and dependencies](#3-composition-and-dependencies)
@@ -65,7 +66,82 @@ them.
   feature can stay next to that feature. See §8.
 - Name each feature and factory file after the module it defines. See §9.
 - `nixfmt-tree` formats the Nix files of the whole project. See
-  [`implementation-guide.md` §16](implementation-guide.md#16-nix-fmt).
+  [`implementation-guide.md` §14](implementation-guide.md#14-nix-fmt).
+
+## Principles
+
+Apply these principles when you make an architecture decision or add
+configuration. The numbered sections apply them to specific decisions.
+
+1. **Model capabilities, not implementation mechanisms.**
+   A feature is a meaningful capability such as `git`, `docker`, or `http`, not
+   an arbitrary group of packages to install.
+
+2. **Compose from the bottom up.**
+   Profiles depend on features and other profiles. Hosts and homes depend on
+   profiles, features, and users. Features sit at the bottom. They import no
+   other features, only their own wrapped input modules (see the provider rule
+   in §3), and they depend only on options. A lower layer never depends on a
+   higher-level composition.
+
+3. **Separate reusable configuration from concrete entry points.**
+   Features, profiles, users, and factories are reusable building blocks. Hosts
+   and homes are concrete configurations.
+
+4. **Keep ownership explicit.**
+   Every piece of configuration has one obvious owner. Packages and settings
+   that belong to a capability live in the feature for that capability, unless
+   only one home needs them (see §2).
+
+5. **Prefer composition over inheritance and hidden coupling.**
+   Build environments by importing modules and composing profiles, not through
+   deep inheritance chains or hidden coupling.
+
+6. **Compose shared dependencies in profiles, not inside features.**
+   A feature module never imports another feature module. Profiles, hosts, or
+   homes compose shared dependencies once per module tree. §3 explains why a
+   module that is reached twice breaks evaluation.
+
+7. **Make features self-sufficient with `lib.mkDefault`.**
+   A feature enables each tool that it needs with `lib.mkDefault true`. A
+   feature guards a truly optional dependency with `lib.mkIf` and a fallback.
+   See §3.
+
+8. **Keep native concepts in native options.**
+   If NixOS, nix-darwin, Home Manager, or another module system already has the
+   right option, use it. Don't invent a parallel mechanism.
+
+9. **Keep abstraction boundaries clean.**
+   Each kind of code has one place: plain helpers in `lib/`, flake-parts
+   infrastructure in `modules/flake/`, modules in `modules/`, factories in
+   `modules/factories/`, packages in `pkgs/`, and encrypted data in `secrets/`.
+
+10. **Prefer one canonical source of truth.**
+    Don't maintain two independent representations of the same configuration or
+    package set when one canonical value can serve both.
+
+11. **Optimize for clarity before deduplication.**
+    A little repeated evaluation or configuration is better than a clever
+    abstraction whose only purpose is to remove duplication.
+
+12. **Make optionality explicit.**
+    Model optional data as optional, with `nullOr` or `mkIf`. Don't rely on
+    undefined attributes or implicit fallbacks, because they can silently
+    produce invalid configuration.
+
+13. **Use abstractions only when they solve a real problem.**
+    A helper wraps a reusable transformation. A factory wraps parameterized
+    configuration generation. Repetition alone is not a reason to abstract.
+
+14. **Keep context and trust boundaries visible.**
+    Pass dependencies such as `self`, `pkgs`, and configuration context
+    explicitly when they matter. Organize secrets around who owns them and who
+    can decrypt them.
+
+One test covers all of these:
+
+> **Make the dependency, ownership, and scope of every piece of configuration
+> obvious from the structure of the code.**
 
 ## 1. Repository structure
 
@@ -357,14 +433,9 @@ and no assertion.
 `moduleWithSystem` needs to know the target system. If `_module.args.system` is
 not set, it falls back to `config._module.args.pkgs`. The `nixpkgs` feature sets
 that package set through `moduleWithSystem`, so the fallback causes infinite
-recursion. Every host module must therefore set `_module.args.system`:
-
-```nix
-flake.modules.darwin.my-host = {
-  nixpkgs.hostPlatform = "aarch64-darwin";
-  _module.args = { system = "aarch64-darwin"; };
-};
-```
+recursion. Every host module must therefore set `_module.args.system`, as
+[`implementation-guide.md`
+§4](implementation-guide.md#4-modulewithsystem-or-withsystem) shows.
 
 ## 4. Configuration classes and platform scope
 
@@ -467,11 +538,7 @@ self.lib.my
 ```
 
 `modules/features/my-lib.nix` defines `self.modules.generic.my-lib`, which
-injects the library into a module tree as the `myLib` argument:
-
-```nix
-{ lib, myLib, ... }:
-```
+injects the library into a module tree as the `myLib` argument.
 
 The standard `lib` argument stays unchanged. `lib` is the standard Nix and
 module library, and `myLib` is the project library. Each module system already
@@ -481,7 +548,9 @@ in every class.
 
 `generic.my-lib` is class-independent. Import it from each base profile whose
 tree uses the library, for example from both `darwin.base` and
-`homeManager.base`.
+`homeManager.base`. A second import in the same tree defines
+`_module.args.myLib` twice, and evaluation fails as soon as a module uses
+`myLib`.
 
 Keep the plain library as independent of context as practical. If a helper
 needs `self`, `pkgs`, or other context, pass that context as an argument.
@@ -505,28 +574,19 @@ self.factory.foo { ... }
 ```
 
 Factories that generate class-specific `flake.modules` live in
-`modules/factories/`, because they can need flake-parts context such as `self`,
-module arguments, or `moduleWithSystem`.
+`modules/factories/`, one factory per file, because they can need flake-parts
+context such as `self`, module arguments, or `moduleWithSystem`.
 
-`modules/flake/factory.nix` declares the flake-level factory registry. Each
-factory stays in its own file under `modules/factories/`. The registry is a
-flake-parts option for two reasons. Factories can need flake-parts context such
-as `self`, and several factory modules can add to the shared `flake.factory.*`
-namespace independently. In contrast, the values in `self.modules.*` are
-ready-to-use modules.
+`modules/flake/factory.nix` declares the flake-level factory registry as a
+flake-parts option, so several factory modules can add to the shared
+`flake.factory.*` namespace independently. In contrast, the values in
+`self.modules.*` are ready-to-use modules.
 
 A factory that generates modules for several classes returns an attrset with
-the shape of `flake.modules`, for example:
-
-```nix
-{
-  darwin.dp = ...;
-  homeManager.dp = ...;
-}
-```
-
-The result then merges directly into `flake.modules`, with no translation
-layer.
+the shape of `flake.modules`, for example with the attributes `darwin.dp` and
+`homeManager.dp`. The result then merges directly into `flake.modules`, with no
+translation layer. [`implementation-guide.md`
+§9](implementation-guide.md#9-factories) shows the `user` factory.
 
 ## 8. Secrets and SOPS
 
@@ -542,6 +602,10 @@ secrets/shared/  → credentials shared across configurations
 
 Only `secrets/homes/` is in use today. `.sops.yaml` already has creation rules
 for the other two scopes.
+
+The age key of a machine can decrypt the secrets of that machine, the secrets of
+every user on it, and everything under `secrets/shared/`. The master key can
+decrypt all encrypted data.
 
 Use one encrypted file for each scope, domain, or service. Don't use one file
 for the whole repository or one file for each secret. SOPS encrypts each file to

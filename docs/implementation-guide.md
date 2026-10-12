@@ -1,117 +1,31 @@
 # Nix configuration implementation guide
 
-This guide covers the implementation details and recurring patterns behind the
-architecture decisions in [`architecture.md`](architecture.md), the
-Architecture Decision Record (ADR). The ADR records the decisions, and this
-guide shows the mechanics with examples. The guide restates some decision-level
-rules briefly for context. If the two documents disagree, the ADR wins.
+This guide shows the mechanics and recurring patterns behind the architecture
+doc, [`architecture.md`](architecture.md). The architecture doc records the
+rules and the reasons behind them. This guide links to it instead of repeating
+them. If the two documents disagree, the architecture doc wins.
 
 ## Contents
 
-- [1. Guiding principles](#1-guiding-principles)
-- [2. Flake-parts layout](#2-flake-parts-layout)
-- [3. Custom packages and overlay](#3-custom-packages-and-overlay)
-- [4. Canonical `perSystem.pkgs`](#4-canonical-persystempkgs)
-- [5. `moduleWithSystem` or `withSystem`](#5-modulewithsystem-or-withsystem)
-- [6. `readOnlyPkgs`](#6-readonlypkgs)
-- [7. Configuration outputs](#7-configuration-outputs)
-- [8. Generic context](#8-generic-context)
-- [9. Custom library](#9-custom-library)
-- [10. Factories](#10-factories)
-- [11. User modules with the factory](#11-user-modules-with-the-factory)
-- [12. Conditional user data](#12-conditional-user-data)
-- [13. SOPS](#13-sops)
-- [14. SOPS file organization](#14-sops-file-organization)
-- [15. Path conventions](#15-path-conventions)
-- [16. `nix fmt`](#16-nix-fmt)
+- [1. Flake-parts layout](#1-flake-parts-layout)
+- [2. Custom packages and overlay](#2-custom-packages-and-overlay)
+- [3. Canonical `perSystem.pkgs`](#3-canonical-persystempkgs)
+- [4. `moduleWithSystem` or `withSystem`](#4-modulewithsystem-or-withsystem)
+- [5. `readOnlyPkgs`](#5-readonlypkgs)
+- [6. Configuration outputs](#6-configuration-outputs)
+- [7. Generic context](#7-generic-context)
+- [8. Custom library](#8-custom-library)
+- [9. Factories](#9-factories)
+- [10. User modules with the factory](#10-user-modules-with-the-factory)
+- [11. Conditional user data](#11-conditional-user-data)
+- [12. SOPS](#12-sops)
+- [13. Path conventions](#13-path-conventions)
+- [14. `nix fmt`](#14-nix-fmt)
 
-## 1. Guiding principles
-
-Apply these principles when you make an architecture decision or add
-configuration. They are more general than the patterns in the later sections.
-
-1. **Model capabilities, not implementation mechanisms.**
-   A feature is a meaningful capability such as `git`, `docker`, or `http`, not
-   an arbitrary group of packages to install.
-
-2. **Compose from the bottom up.**
-   Profiles depend on features and other profiles. Hosts and homes depend on
-   profiles, features, and users. Features sit at the bottom. They import no
-   other features, only their own wrapped input modules (see the provider rule
-   in [ADR §3, *Composition and
-   dependencies*](architecture.md#3-composition-and-dependencies)), and they
-   depend only on options. A lower layer never depends on a higher-level
-   composition.
-
-3. **Separate reusable configuration from concrete entry points.**
-   Features, profiles, users, and factories are reusable building blocks. Hosts
-   and homes are concrete configurations.
-
-4. **Keep ownership explicit.**
-   Every piece of configuration has one obvious owner. Packages and settings
-   that belong to a capability live in the feature for that capability, unless
-   only one home needs them (see [ADR §2, *Configuration
-   layers*](architecture.md#2-configuration-layers)).
-
-5. **Prefer composition over inheritance and hidden coupling.**
-   Build environments by importing modules and composing profiles, not through
-   deep inheritance chains or hidden coupling.
-
-6. **Compose shared dependencies in profiles, not inside features.**
-   A feature module never imports another feature module. Profiles, hosts, or
-   homes compose shared dependencies once per module tree. The module system
-   can't deduplicate a module value, such as a feature or a profile, that is
-   reached twice. Module values are anonymous modules, so the module system
-   merges them twice. List values get duplicate entries, and option
-   declarations fail with "option is already declared" errors.
-
-7. **Make features self-sufficient with `lib.mkDefault`.**
-   If a feature needs a tool enabled, such as `programs.mise` or
-   `programs.ssh`, set `enable = lib.mkDefault true` in the feature. The
-   feature of the tool sets `enable = true` at normal priority, which takes
-   precedence. A profile can override both with `lib.mkForce false`. For a
-   dependency that is truly optional, use `lib.mkIf` with a fallback.
-
-8. **Keep native concepts in native options.**
-   If NixOS, nix-darwin, Home Manager, or another module system already has the
-   right option, use it. Don't invent a parallel mechanism.
-
-9. **Keep abstraction boundaries clean.**
-   Each kind of code has one place: plain helpers in `lib/`, flake-parts
-   infrastructure in `modules/flake/`, modules in `modules/`, factories in
-   `modules/factories/`, packages in `pkgs/`, and encrypted data in `secrets/`.
-
-10. **Prefer one canonical source of truth.**
-    Don't maintain two independent representations of the same configuration or
-    package set when one canonical value can serve both.
-
-11. **Optimize for clarity before deduplication.**
-    A little repeated evaluation or configuration is better than a clever
-    abstraction whose only purpose is to remove duplication.
-
-12. **Make optionality explicit.**
-    Model optional data as optional, with `nullOr` or `mkIf`. Don't rely on
-    undefined attributes or implicit fallbacks, because they can silently
-    produce invalid configuration.
-
-13. **Use abstractions only when they solve a real problem.**
-    A helper wraps a reusable transformation. A factory wraps parameterized
-    configuration generation. Repetition alone is not a reason to abstract.
-
-14. **Keep context and trust boundaries visible.**
-    Pass dependencies such as `self`, `pkgs`, and configuration context
-    explicitly when they matter. Organize secrets around who owns them and who
-    can decrypt them.
-
-One test covers all of these:
-
-> **Make the dependency, ownership, and scope of every piece of configuration
-> obvious from the structure of the code.**
-
-## 2. Flake-parts layout
+## 1. Flake-parts layout
 
 `modules/flake/` contains modules that define flake-level infrastructure or
-concrete outputs. [ADR §1, *Repository
+concrete outputs. [`architecture.md` §1, *Repository
 structure*](architecture.md#1-repository-structure), defines which
 responsibilities belong here.
 
@@ -136,24 +50,14 @@ concrete flake outputs.
 
 ### Automatic module discovery
 
-`flake.nix` imports the whole `modules/` tree with `import-tree`:
+`flake.nix` imports the whole `modules/` tree with `import-tree`, as
+[`architecture.md` §1, *Repository
+structure*](architecture.md#1-repository-structure), describes. `flake.nix` also
+imports two flake modules that declare options the modules under `modules/` rely
+on: `flake-parts.flakeModules.modules` declares `flake.modules`, and
+`home-manager.flakeModules.home-manager` declares `flake.homeConfigurations`.
 
-```nix
-(import-tree ./modules)
-```
-
-`import-tree` finds every `.nix` file under `modules/`, so don't import those
-files from `flake.nix`. To add a module, create its file in the tree. Because
-of this, every `.nix` file under `modules/` must be a valid flake-parts module.
-Put plain helper code in `lib/`, package definitions in `pkgs/`, and encrypted
-data in `secrets/`.
-
-`flake.nix` also imports two flake modules that declare options the modules
-under `modules/` rely on: `flake-parts.flakeModules.modules` declares
-`flake.modules`, and `home-manager.flakeModules.home-manager` declares
-`flake.homeConfigurations`.
-
-## 3. Custom packages and overlay
+## 2. Custom packages and overlay
 
 `modules/flake/packages.nix` exposes the custom package tree and the overlay:
 
@@ -184,7 +88,7 @@ self.overlays.default
 Both paths call `callPackage` on the same package definitions. They produce the
 same derivation, so Nix builds each package only once.
 
-## 4. Canonical `perSystem.pkgs`
+## 3. Canonical `perSystem.pkgs`
 
 Configure `perSystem.pkgs` once:
 
@@ -206,11 +110,11 @@ Configure `perSystem.pkgs` once:
 
 Every `perSystem` consumer then gets the custom overlay.
 
-This doesn't change the package set inside NixOS, nix-darwin, or standalone
-Home Manager. Those configurations must consume the canonical package set
-explicitly.
+Sections 4 to 6 show how each configuration consumes this package set.
+[`architecture.md` §5, *Packages and
+nixpkgs*](architecture.md#5-packages-and-nixpkgs), explains why they need to.
 
-## 5. `moduleWithSystem` or `withSystem`
+## 4. `moduleWithSystem` or `withSystem`
 
 Use `moduleWithSystem` to define a reusable module that needs `perSystem`
 context:
@@ -237,19 +141,12 @@ homeConfigurations."dp@mbp-private" =
   };
 ```
 
-The rule:
-
-```text
-reusable module + perSystem context → moduleWithSystem
-concrete flake output + perSystem context → withSystem
-```
-
 ### `moduleWithSystem` in nix-darwin host modules
 
-`moduleWithSystem` looks for the target system in `config._module.args.system`
-first, then falls back to `config._module.args.pkgs`. If a module wrapped in
-`moduleWithSystem` sets `nixpkgs.pkgs`, the fallback causes infinite recursion.
-To avoid it, set `_module.args.system` in every host module:
+Every host module sets `_module.args.system`. [`architecture.md` §3,
+*Composition and dependencies*](architecture.md#3-composition-and-dependencies),
+explains the infinite recursion that it prevents. Set it next to
+`nixpkgs.hostPlatform`:
 
 ```nix
 flake.modules.darwin.my-host = {
@@ -258,7 +155,7 @@ flake.modules.darwin.my-host = {
 };
 ```
 
-## 6. `readOnlyPkgs`
+## 5. `readOnlyPkgs`
 
 To make a NixOS system use the canonical package set, import the NixOS
 `readOnlyPkgs` module and assign the set to `nixpkgs.pkgs`.
@@ -271,7 +168,7 @@ already declared" error.
 For Home Manager integrated into nix-darwin or NixOS,
 `home-manager.useGlobalPkgs = true` reuses the system package set.
 
-## 7. Configuration outputs
+## 6. Configuration outputs
 
 Build the concrete configuration outputs in `modules/flake/configurations.nix`
 while the file stays manageable.
@@ -290,9 +187,9 @@ hosts/* → darwin/nixos modules
 homes/* → homeManager modules
 ```
 
-## 8. Generic context
+## 7. Generic context
 
-[ADR §6, *Generic context and custom
+[`architecture.md` §6, *Generic context and custom
 library*](architecture.md#6-generic-context-and-custom-library), defines the
 role of generic context. In this repository, `modules/features/meta.nix` defines
 these class-independent options:
@@ -326,7 +223,7 @@ flake.modules.darwin.foo = { config, lib, ... }: {
 Keep the namespace typed and structured. Generic context holds shared
 information. It doesn't replace feature options.
 
-## 9. Custom library
+## 8. Custom library
 
 Root `lib/default.nix` is the top-level namespace of the project library. The
 library is empty today. To expose a helper submodule, import it under a
@@ -358,22 +255,18 @@ namespace, for example:
 }
 ```
 
-Import `self.modules.generic.my-lib` from the base profiles, not from every
-feature. A second import defines `_module.args.myLib` twice, and evaluation
-fails as soon as a module uses `myLib`.
-
 Modules then take `myLib` as an argument:
 
 ```nix
 { lib, myLib, ... }:
 ```
 
-Keep the standard `lib` and the project `myLib` separate.
-
 ### Library design
 
-Keep ordinary library functions as independent of context as practical. Pass
-dependencies as arguments:
+To keep a helper independent of context, as [`architecture.md` §6, *Generic
+context and custom
+library*](architecture.md#6-generic-context-and-custom-library) requires, pass
+its dependencies as arguments:
 
 ```nix
 {
@@ -382,23 +275,11 @@ dependencies as arguments:
 }
 ```
 
-Don't make the whole library depend implicitly on `self`, `pkgs`, or a
-particular system, unless a function can't work without that context.
+## 9. Factories
 
-## 10. Factories
-
-A dendritic factory generates configuration. A library function only calculates
-values.
-
-Put a factory in `modules/factories/` when it needs flake-parts context such as
-`self` or `moduleWithSystem`. As a flake-parts module, the factory gets that
-context directly, so you don't have to pass it by hand through a plain `lib/`
-function.
-
-`modules/flake/factory.nix` declares the shared `flake.factory.*` registry as
-an option. Because the registry is an option, separate factory modules can add
-to one namespace and still use the flake-parts module context. In contrast,
-`self.modules.*` stores ready-to-use modules.
+[`architecture.md` §7, *Factories*](architecture.md#7-factories), defines what a
+factory is, when to use one instead of a `myLib` function, and why the
+`flake.factory.*` registry is an option.
 
 `modules/factories/user.nix` defines the `user` factory:
 
@@ -447,21 +328,7 @@ flake.modules = lib.mkMerge [
 ];
 ```
 
-### Factory or library
-
-Use `myLib` when the result is a value or a transformation:
-
-```nix
-myLib.secrets.someHelper ...
-```
-
-Use `self.factory.*` when the result is configuration:
-
-```nix
-self.factory.user { ... }
-```
-
-## 11. User modules with the factory
+## 10. User modules with the factory
 
 `modules/users/dp.nix` is a concrete user built with the generic factory. The
 file supplies the identity of the user, and the factory supplies the shared
@@ -499,7 +366,7 @@ exceptions:
 The factory uses `isPrimary`, not `isAdmin`, because the flag controls
 `system.primaryUser`, not general administrator privileges.
 
-## 12. Conditional user data
+## 11. Conditional user data
 
 Represent an optional user email as `null`, not as an undefined option:
 
@@ -525,12 +392,12 @@ Modules can then test the value safely:
 lib.mkIf (config.meta.user.email != null) { ... }
 ```
 
-## 13. SOPS
+## 12. SOPS
 
-[ADR §8, *Secrets and SOPS*](architecture.md#8-secrets-and-sops), defines who
-owns each secret. This section shows how to wire SOPS into modules. The `sops`
-feature configures the sops-nix integration and the location of the age key
-file. It doesn't own every secret.
+[`architecture.md` §8, *Secrets and SOPS*](architecture.md#8-secrets-and-sops),
+defines who owns each secret. This section shows how to wire SOPS into modules.
+The `sops` feature configures the sops-nix integration and the location of the
+age key file. It doesn't own every secret.
 
 ### Central credential file
 
@@ -545,19 +412,6 @@ sops.secrets.userEmail = {
 `key` defaults to the Nix name. Set it to use a different YAML key, including a
 nested path such as `key = "work/email"`.
 
-### Feature-owned encrypted configuration
-
-If the encrypted configuration of an application is part of the feature, keep
-it in the feature directory:
-
-```text
-modules/features/organize-tool/
-├── default.nix
-└── config.sops.yaml
-```
-
-Reference the file with the local path `./config.sops.yaml`.
-
 ### Git secret consumption
 
 For configuration that depends on a secret, let the home declare the secret and
@@ -571,8 +425,7 @@ git feature
   → conditionally renders the Git include/template
 ```
 
-Don't make the home module use SOPS template mechanics directly. With this
-split, the home doesn't depend on how the `git` feature handles secrets.
+Don't make the home module use SOPS template mechanics directly.
 
 A home can set `programs.git.includes` directly for plain overrides that
 contain no secret and apply only to that home, such as a per-repository
@@ -580,32 +433,7 @@ identity. Use inline `contents` for these overrides. The `git` feature adds its
 own includes with `lib.mkBefore`, so includes from a home come later and
 override them within their scope.
 
-## 14. SOPS file organization
-
-The recommended layout:
-
-```text
-secrets/
-├── hosts/
-│   └── mbp-positive.yaml
-├── homes/
-│   └── dp@mbp-positive.yaml
-└── shared/
-    ├── github.yaml
-    └── cloudflare.yaml
-```
-
-Only `secrets/homes/` exists today. Add `hosts/` and `shared/` files when you
-need them.
-
-Use one file for each host, home, or service domain. Keep related keys
-together, and use nested YAML paths where they help.
-
-`.sops.yaml` defines the recipients. The age key of a machine can decrypt the
-secrets of that machine, the secrets of every user on it, and everything under
-`secrets/shared/`. The master key can decrypt all encrypted data.
-
-## 15. Path conventions
+## 13. Path conventions
 
 For a central resource at the repository root, build the path from the flake
 root:
@@ -623,7 +451,7 @@ For a resource that a feature owns, use a local path:
 ./config.sops.yaml
 ```
 
-## 16. `nix fmt`
+## 14. `nix fmt`
 
 `modules/flake/formatter.nix` sets the official tree wrapper as the formatter:
 

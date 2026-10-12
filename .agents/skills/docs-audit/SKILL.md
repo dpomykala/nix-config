@@ -27,10 +27,10 @@ focus narrows the scope or adds context.
 - Read every audited doc completely, from start to end.
 - Learn the role of each doc from its intro and structure. A role is a claim
   that you audit too. When this skill was written, the roles were:
-  - `docs/architecture.md`: the ADR-style decision record. It is authoritative
-    for *what* and *why*.
+  - `docs/architecture.md`: the architecture doc. It is authoritative for
+    *what* and *why*.
   - `docs/implementation-guide.md`: the operational companion, with mechanics
-    and examples. It defers to the ADR.
+    and examples. It defers to the architecture doc.
 
   If the doc set no longer matches this list, report the mismatch and propose
   an update to this skill.
