@@ -21,6 +21,7 @@ them. If the two documents disagree, the architecture doc wins.
 - [12. SOPS](#12-sops)
 - [13. Path conventions](#13-path-conventions)
 - [14. `nix fmt`](#14-nix-fmt)
+- [15. Common tasks](#15-common-tasks)
 
 ## 1. Flake-parts layout
 
@@ -464,3 +465,75 @@ perSystem = { pkgs, ... }: {
 Use `nixfmt-tree`, not plain `nixfmt`. Plain `nixfmt` formats only the files
 that it receives. `nixfmt-tree` wraps treefmt, so `nix fmt` with no arguments
 formats every Nix file in the project.
+
+## 15. Common tasks
+
+These checklists cover rare tasks that touch several files. After each task,
+stage the new files, format, and evaluate, as [*Verify changes* in
+`AGENTS.md`](../AGENTS.md#verify-changes) describes.
+
+### Add a nix-darwin host
+
+1. Get the host name from the user, or run `scutil --get LocalHostName` on the
+   target machine. The name must match the output of that command
+   ([`architecture.md` §2](architecture.md#2-configuration-layers)).
+2. Create `modules/hosts/<host>.nix`, which defines
+   `flake.modules.darwin.<host>`. Copy an existing host, such as
+   `modules/hosts/mbp-private.nix`.
+3. Import `base`, the feature bundles, the features, and one user module. A host
+   can import only one user module ([`architecture.md`
+   §2](architecture.md#2-configuration-layers)).
+4. Set `networking.hostName`, `nixpkgs.hostPlatform`, and `_module.args.system`
+   (§4).
+5. Add the host to `flake.darwinConfigurations` in
+   `modules/flake/configurations.nix`.
+
+### Add a home
+
+1. Get the host name from the user, or run `hostname` on the target machine.
+   Name the home `<user>@<host>` ([`architecture.md`
+   §2](architecture.md#2-configuration-layers)).
+2. Create `modules/homes/<user>@<host>.nix`, which defines
+   `flake.modules.homeManager."<user>@<host>"`. Copy an existing home, such as
+   `modules/homes/dp@mbp-private.nix`.
+3. Import exactly one platform profile, the feature bundles, the features, and
+   the user module ([`architecture.md`
+   §3](architecture.md#3-composition-and-dependencies)).
+4. Add the home to `flake.homeConfigurations` in
+   `modules/flake/configurations.nix`. Pass the package set with
+   `withSystem "<system>"` (§4).
+
+### Add a user
+
+1. Create `modules/users/<name>.nix`, which calls `self.factory.user` (§10).
+2. Set `isPrimary = true` only for the user who becomes `system.primaryUser`.
+   The flag applies on every host that imports the user.
+3. Import `darwin.<name>` in the host module and `homeManager.<name>` in each
+   home of the user. A host can import only one user module ([`architecture.md`
+   §2](architecture.md#2-configuration-layers)).
+
+### Add a secret
+
+Only Home Manager has a `sops` feature, and `homeManager.base` imports it, so
+only Home Manager modules can use secrets.
+
+1. If the machine has no age key yet, create one at
+   `~/.config/sops/age/keys.txt` on that machine. Add its public key and
+   creation rules to `.sops.yaml`, as for `mbp-positive`.
+2. Choose the file by scope: `secrets/hosts/`, `secrets/homes/`, or
+   `secrets/shared/` ([`architecture.md`
+   §8](architecture.md#8-secrets-and-sops)). Name the file so that it matches a
+   path rule in `.sops.yaml`, such as `secrets/homes/<user>@<host>.yaml`. A file
+   that matches no rule gets only the master key.
+3. Create or edit the file with `sops <file>`.
+4. Declare `sops.secrets.<name>` with `sopsFile = self + "/secrets/..."` in the
+   home that needs the secret (§12). A feature doesn't declare credentials. Only
+   encrypted configuration that belongs to a feature stays in the feature, with
+   a local `sopsFile` ([`architecture.md`
+   §8](architecture.md#8-secrets-and-sops)).
+5. In a feature that uses the secret, guard the configuration with
+   `lib.mkIf (config.sops.secrets ? <name>)` and a fallback, as `git` does with
+   `userEmail` ([`architecture.md`
+   §3](architecture.md#3-composition-and-dependencies)).
+6. Use the secret through `config.sops.secrets.<name>.path` or a
+   `config.sops.templates` entry. Never read its value at evaluation time.

@@ -13,7 +13,8 @@ patterns. Before you change code, read the doc sections that cover it.
 - `docs/architecture.md` is the architecture doc. It records what the repository
   does and why. Its summary points each rule to its section.
 - `docs/implementation-guide.md` shows the mechanics and examples behind the
-  architecture doc. If the two docs disagree, the architecture doc wins.
+  architecture doc, and checklists for common tasks, such as adding a host. If
+  the two docs disagree, the architecture doc wins.
 
 Put a rule and its reason in `architecture.md`, and put code examples and
 mechanics in the guide. State each fact in one doc and link to it from the

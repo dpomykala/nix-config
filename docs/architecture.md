@@ -31,9 +31,9 @@ them.
 - Features provide capabilities, and profiles compose them. Hosts and homes are
   the concrete entry points. Users provide reusable user identity and
   configuration. Factories generate parameterized configuration. See §2.
-- System and user environments stay separate. A host is a machine and can have
-  several users. A home is one user's standalone Home Manager environment on
-  one host. See §2.
+- System and user environments stay separate. A host is a machine, not a user,
+  and imports one user module today. A home is one user's standalone Home
+  Manager environment on one host. See §2.
 - Features don't import features. Profiles, hosts, or homes compose shared
   dependencies once. A feature that needs a tool enables it with
   `lib.mkDefault true`. A feature that can use an optional dependency guards it
@@ -255,11 +255,16 @@ own go directly in `development`.
 
 ### Hosts
 
-A host is a machine, not a single user, and can contain several users. The name
-of a host configuration must match the output of `scutil --get LocalHostName`.
-`darwin-rebuild` uses that name to pick the configuration when you don't pass
-one. Each host module sets `networking.hostName` to that name, and nix-darwin
-sets `LocalHostName` to match during activation.
+A host is a machine, not a user. The name of a host configuration must match the
+output of `scutil --get LocalHostName`. `darwin-rebuild` uses that name to pick
+the configuration when you don't pass one. Each host module sets
+`networking.hostName` to that name, and nix-darwin sets `LocalHostName` to match
+during activation.
+
+A host can import only one user module today. Each user module sets `meta.user`,
+which holds a single user. A second user module in the same tree fails
+evaluation with a "conflicting definition values" error for `meta.user.name`. To
+put several users on one host, change `meta.user` first.
 
 ### Homes
 
