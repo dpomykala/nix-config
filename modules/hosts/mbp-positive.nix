@@ -14,6 +14,7 @@ in
 
         # Features
         brave-browser
+        google-chrome
         jetbrains-toolbox
         karabiner
         logi-options-plus
