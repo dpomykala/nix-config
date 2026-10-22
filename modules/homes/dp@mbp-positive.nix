@@ -27,7 +27,12 @@
 
       home.packages = with pkgs; [
         claude-code
+        difftastic
+        ffmpeg
+        figlet
         glab
+        gum
+        vhs
       ];
 
       sops.secrets.userEmail.sopsFile = self + "/secrets/homes/dp@mbp-positive.yaml";
