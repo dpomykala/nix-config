@@ -32,6 +32,8 @@ a violation can merge a module twice or fail evaluation far from the change.
 
 - A feature never imports another feature. Profiles, hosts, and homes compose
   shared dependencies once. See `architecture.md` §3.
+- A profile never installs packages. Put each package in a feature, or in the
+  one home that needs it. See `architecture.md` §2 and §5.
 - A home imports exactly one platform profile. Feature bundles such as
   `development` don't import `base`. See `architecture.md` §3.
 - Only the provider feature imports an external input module, such as

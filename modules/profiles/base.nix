@@ -29,7 +29,6 @@
         fonts
         git
         home-manager
-        packages
         sops
         xdg
       ]

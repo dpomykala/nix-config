@@ -13,6 +13,7 @@
       ai
       bat
       delta
+      dev-tools
       docker
       eza
       fzf

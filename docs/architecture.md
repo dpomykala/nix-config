@@ -28,9 +28,10 @@ them.
 - Keep each kind of file in its own place: flake infrastructure in
   `modules/flake/`, plain helper functions in root `lib/`, custom packages in
   root `pkgs/`, and encrypted data in root `secrets/`. See §1.
-- Features provide capabilities, and profiles compose them. Hosts and homes are
-  the concrete entry points. Users provide reusable user identity and
-  configuration. Factories generate parameterized configuration. See §2.
+- Features provide capabilities and own their packages. Profiles compose
+  features and install no packages. Hosts and homes are the concrete entry
+  points. Users provide reusable user identity and configuration. Factories
+  generate parameterized configuration. See §2.
 - System and user environments stay separate. A host is a machine, not a user,
   and imports one user module today. A home is one user's standalone Home
   Manager environment on one host. See §2.
@@ -247,11 +248,12 @@ home-linux-generic
 home-darwin
 ```
 
-A profile describes one coherent environment. It is not a bucket for unrelated
-packages, because a bucket hides who owns each package and makes composition
-unpredictable. A package that belongs to a capability goes in the feature for
-that capability. Only development tools that don't justify a feature of their
-own go directly in `development`.
+A profile describes one coherent environment. Create a profile for a set of
+features that several homes or hosts can share as one environment. A profile
+imports features and other profiles, and sets only the options that define its
+environment, such as `home.homeDirectory`. It never installs packages, because a
+profile that collects packages becomes a bucket that hides who owns each
+package. A package goes in a feature, or in the one home that needs it (see §5).
 
 ### Hosts
 
@@ -469,10 +471,10 @@ by platform.
 
 ## 5. Packages and nixpkgs
 
-### `modules/features/packages.nix`
+### Package placement
 
-`packages.nix` is a feature for miscellaneous packages that don't justify a
-feature of their own.
+There is no catch-all feature for miscellaneous packages, because a bucket hides
+who owns each package (see §2).
 
 Create a feature for a single package only if the package has its own
 configuration, dependencies, platform behavior, or purpose.
@@ -484,8 +486,13 @@ http.nix   → hurl, posting, xh
 docker.nix → Docker-related tools/configuration
 ```
 
-Development tools that don't justify a feature of their own can go directly in
-`modules/profiles/development.nix`.
+Development tools that don't justify a feature of their own go in the
+`dev-tools` feature, which the `development` profile imports.
+
+A package that fits no existing feature and isn't a development tool starts a
+new capability feature named after what it does, not after the package, for
+example `media.nix` for `mpv`. Later packages with the same capability join it.
+A package that only one home needs can go in that home instead (see §2).
 
 ### `pkgs/`
 
