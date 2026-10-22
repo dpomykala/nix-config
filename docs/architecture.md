@@ -480,7 +480,7 @@ configuration, dependencies, platform behavior, or purpose.
 Group related packages into a capability feature, for example:
 
 ```text
-http.nix   → httpie, hurl, posting
+http.nix   → hurl, posting, xh
 docker.nix → Docker-related tools/configuration
 ```
 
