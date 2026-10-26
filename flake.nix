@@ -46,11 +46,6 @@
       url = "github:dpomykala/nix-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Support for OpenGL on non-NixOS Linux distributions
-    nixGL = {
-      url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     # Secrets management with SOPS
     sops-nix = {

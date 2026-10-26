@@ -11,9 +11,6 @@ _: {
         programs.wezterm = {
           enable = true;
 
-          # NOTE: The nixGL wrapper is used only if `nixGL.packages` are specified
-          package = config.lib.nixGL.wrap pkgs.wezterm;
-
           extraConfig =
             # Lua
             ''
