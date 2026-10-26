@@ -9,9 +9,6 @@
       home = {
         packages = [ neovim ];
 
-        # Set Neovim as the default editor
-        sessionVariables.EDITOR = "nvim";
-
         shellAliases.v = "nvim";
       };
     };

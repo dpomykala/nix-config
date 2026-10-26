@@ -30,5 +30,9 @@
       yazi
       zoxide
     ];
+
+    # Choose the default editor here, not in an editor feature, so that only
+    # one module sets it
+    home.sessionVariables.EDITOR = "nvim";
   };
 }
