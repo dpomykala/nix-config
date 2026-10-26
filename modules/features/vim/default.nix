@@ -8,6 +8,9 @@ _: {
     {
       programs.vim = {
         enable = true;
+        # Use terminal-only vim. The Home Manager default, vim-full, builds
+        # a GUI version that is not used here.
+        packageConfigurable = pkgs.vim;
 
         extraConfig = lib.concatStringsSep "\n" [
           (builtins.readFile ./options.vim)
@@ -19,6 +22,8 @@ _: {
           vimPlugins.catppuccin-vim
           # The vim-airline plugin used for a status line
           vimPlugins.vim-airline
+          # The vim-nix plugin used for Nix file indentation
+          vimPlugins.vim-nix
         ];
       };
 
