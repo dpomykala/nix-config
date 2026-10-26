@@ -19,6 +19,7 @@
       fzf
       ghostty
       helix
+      herdr
       http
       mise
       neovim
