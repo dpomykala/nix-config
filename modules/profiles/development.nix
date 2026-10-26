@@ -18,6 +18,7 @@
       eza
       fzf
       ghostty
+      helix
       http
       mise
       neovim
