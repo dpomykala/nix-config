@@ -17,6 +17,7 @@
       docker
       eza
       fzf
+      ghostty
       http
       mise
       neovim
