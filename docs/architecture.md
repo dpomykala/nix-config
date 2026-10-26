@@ -372,17 +372,17 @@ feature bundles and individual features.
 ### Enable required tools with `lib.mkDefault`
 
 If a feature needs a tool enabled, it sets `enable = lib.mkDefault true` for
-that tool. For example, `python` needs `mise`, and `1password-ssh-agent` needs
+that tool. For example, `python` needs `uv`, and `1password-ssh-agent` needs
 `ssh`. The feature then works when it is used alone. When the feature of the
 tool is also in the tree, its normal-priority `enable = true` takes precedence.
 A profile can turn the tool off with `lib.mkForce false`.
 
 ```nix
 # python.nix
-flake.modules.homeManager.python = { lib, pkgs, ... }: {
-  programs.mise = {
+flake.modules.homeManager.python = { lib, ... }: {
+  programs.uv = {
     enable = lib.mkDefault true;
-    globalConfig.tools.python = "latest";
+    python.versions = [ "3.15" ];
   };
 };
 ```
