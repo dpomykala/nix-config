@@ -55,20 +55,18 @@ _: {
             "*.log"
           ];
 
-          settings = lib.mkMerge [
-            {
-              # Use different colors for moved lines in a diff
-              diff.colorMoved = true;
+          settings = {
+            # Use different colors for moved lines in a diff
+            diff.colorMoved = true;
 
-              init.defaultBranch = "main";
+            init.defaultBranch = "main";
 
-              merge.conflictstyle = "zdiff3";
+            merge.conflictstyle = "zdiff3";
 
-              push.autoSetupRemote = true;
+            push.autoSetupRemote = true;
 
-              user.name = config.meta.user.fullName;
-            }
-          ];
+            user.name = config.meta.user.fullName;
+          };
         }
 
         # Use an encrypted email (via an included config) if any.

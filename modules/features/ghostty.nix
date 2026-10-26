@@ -12,9 +12,28 @@ _: {
           enable = true;
 
           settings = {
+            # Nix pins the version, so the built-in updater must not run
+            auto-update = "off";
+
+            background-opacity = 0.9;
+            # Implies `background-blur = true` for non-macOS platforms
+            background-blur = "macos-glass-regular";
+
             confirm-close-surface = false;
 
+            font-size = 16;
+
+            maximize = true;
+
+            mouse-hide-while-typing = true;
+
             theme = "Catppuccin Macchiato";
+
+            unfocused-split-opacity = 0.7;
+
+            window-padding-x = 10;
+            window-padding-y = 10;
+            window-padding-balance = true;
           };
         };
       }
@@ -25,9 +44,6 @@ _: {
           package = pkgs.ghostty-bin;
 
           settings = {
-            # Nix pins the version, so the built-in updater must not run
-            auto-update = "off";
-
             # Use the left Option key as Alt for shell keybindings, such as the
             # OPTION-C keybinding of fzf
             macos-option-as-alt = "left";
