@@ -23,6 +23,15 @@ _: {
 
             font-size = 16;
 
+            keybind = [
+              # Navigating between splits
+              # Overrides the default `super+shift+j=write_screen_file:paste`
+              "super+shift+h=goto_split:left"
+              "super+shift+j=goto_split:down"
+              "super+shift+k=goto_split:up"
+              "super+shift+l=goto_split:right"
+            ];
+
             maximize = true;
 
             mouse-hide-while-typing = true;
@@ -44,6 +53,16 @@ _: {
           package = pkgs.ghostty-bin;
 
           settings = {
+            keybind = [
+              # Toggle the quick terminal, a drop-down terminal, from any app.
+              # Only macOS gets it, because GNOME has no quick terminal and
+              # would lose its Super+` window switcher to a binding that does
+              # nothing. The binding replaces the macOS Cmd+` shortcut that
+              # cycles the windows of an app, so use Cmd+Shift+` to cycle them
+              # instead.
+              "global:super+backquote=toggle_quick_terminal"
+            ];
+
             # Use the left Option key as Alt for shell keybindings, such as the
             # OPTION-C keybinding of fzf
             macos-option-as-alt = "left";
