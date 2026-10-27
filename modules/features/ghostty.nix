@@ -15,7 +15,7 @@ _: {
             # Nix pins the version, so the built-in updater must not run
             auto-update = "off";
 
-            background-opacity = 0.9;
+            background-opacity = 0.8;
             # Implies `background-blur = true` for non-macOS platforms
             background-blur = "macos-glass-regular";
 
