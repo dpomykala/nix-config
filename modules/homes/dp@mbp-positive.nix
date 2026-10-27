@@ -15,6 +15,7 @@
           home-darwin
 
           # Features
+          claude-code
           karabiner
 
           # User
@@ -26,7 +27,6 @@
         ];
 
       home.packages = with pkgs; [
-        claude-code
         difftastic
         ffmpeg
         figlet
