@@ -161,6 +161,9 @@
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
 
+    # Hide the "Last login" message that login(1) prints in new terminals
+    home.file.".hushlogin".text = "";
+
     targets.darwin = {
       currentHostDefaults = {
         # Show the battery percentage in the menu bar
