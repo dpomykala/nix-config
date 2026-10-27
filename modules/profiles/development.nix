@@ -29,7 +29,6 @@
       ssh
       starship
       vim
-      wezterm
       yazi
       zoxide
     ];
