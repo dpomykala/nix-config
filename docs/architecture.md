@@ -52,6 +52,9 @@ them.
 - One canonical package set, `perSystem.pkgs`, serves every output. Custom
   packages are exposed through both `self.packages.<system>` and
   `self.overlays.default`. See §5.
+- Packages come from nixpkgs by default. When nixpkgs doesn't fit, uv installs
+  the tools published on PyPI, and mise installs the other runtimes and tools.
+  `flake.lock` pins neither. See §5.
 - Use `moduleWithSystem` in reusable modules that need `perSystem` context. Use
   `withSystem` to construct concrete flake outputs. On NixOS, use the
   `readOnlyPkgs` module to inject the canonical package set. See §5.
@@ -489,10 +492,38 @@ docker.nix → Docker-related tools/configuration
 Development tools that don't justify a feature of their own go in the
 `dev-tools` feature, which the `development` profile imports.
 
+A language feature, such as `rust` or `nix-lang`, owns the runtime of its
+language and the language servers, formatters, and linters for it. Editor
+features such as `helix` install none of these tools. They only pick the tools
+for each language and find them on PATH, so each tool keeps one owner whichever
+editor uses it.
+
 A package that fits no existing feature and isn't a development tool starts a
 new capability feature named after what it does, not after the package, for
 example `media.nix` for `mpv`. Later packages with the same capability join it.
 A package that only one home needs can go in that home instead (see §2).
+
+### Install sources
+
+Packages come from nixpkgs by default, so `flake.lock` pins them. Use a tool
+manager only when nixpkgs doesn't fit: the package isn't in nixpkgs, nixpkgs
+lags behind a tool that releases often, or the tool must match a runtime
+version. Pick the tool manager by where the tool is published:
+
+- uv installs the Python versions and the tools published on PyPI, such as Ruff,
+  ty, and django-template-lsp. Use uv for such a tool even when mise can install
+  it too, so that one manager and one list in `python.nix` hold every Python
+  tool.
+- mise installs the other language runtimes, such as Go, Node.js, and Rust, and
+  every other tool. For example, rust-analyzer comes as a component of the Rust
+  toolchain, and zls works only with the Zig release of the same version. A
+  project can also pin its own runtime versions in a mise config.
+
+`flake.lock` doesn't pin these tools, and most of them track the latest version.
+The `mise` feature runs `mise install` during activation, and Home Manager
+upgrades the Python tools on every activation, so activation needs the network.
+A failed `mise install` only prints a warning, so a network problem doesn't
+block a switch.
 
 ### `pkgs/`
 
@@ -650,6 +681,11 @@ feature works.
   `flake.modules.homeManager.git`. Use capability names such as `git`,
   `docker`, and `http`. A feature with data files uses a directory, such as
   `vim/default.nix`.
+- Add the `-lang` suffix to a language feature when another feature already
+  has the name of the language. For example, `nix` configures Nix itself, and
+  `nix-lang` installs the tools for the Nix language. A feature name covers all
+  classes, so a `homeManager.nix` module would join the `nix` feature, which is
+  a different capability. `shell` and `shell-lang` split the same way.
 - A module name that starts with a digit, such as `1password`, can't appear as a
   bare name in a `with` import list, because Nix parses `[ 1password ]` as the
   two elements `1` and `password`. Reference it as
