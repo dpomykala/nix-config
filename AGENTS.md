@@ -84,7 +84,8 @@ Run `just --list` to see the recipes in the `justfile`. If a tool such as
 
 1. Stage new files with `git add`. A flake sees only files that git tracks, so
    evaluation skips an untracked module with no error.
-2. Run `just fmt`. It formats the `justfile` and runs `nix fmt`.
+2. Run `just fmt`. It formats the `justfile`, runs `nix fmt`, and runs oxfmt,
+   which formats files such as Markdown, JSON, and YAML.
 3. Evaluate every configuration that the change can reach.
    `modules/flake/configurations.nix` lists them. A Linux home also evaluates on
    macOS.

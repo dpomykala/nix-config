@@ -58,9 +58,10 @@ dev:
 
 # Format all files
 [group("Helpers")]
-fmt:
+fmt: (_requires "oxfmt")
     just --unstable --fmt
     nix fmt
+    oxfmt
 
 # Lint Nix files
 [group("Helpers")]

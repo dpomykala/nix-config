@@ -10,6 +10,7 @@
         nh
         nixfmt
         nixfmt-tree
+        oxfmt
         sops
         statix
         stow
