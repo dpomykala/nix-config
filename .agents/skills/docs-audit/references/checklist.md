@@ -82,8 +82,8 @@ key material, or private values. Use placeholders instead.
 
 ## Anti-patterns to hunt for
 
-- **Location-vs-invariant confusion.** A rule mandates *where* something lives
-  when the real constraint is *how often*. For example, "import once in a
+- **Location-vs-invariant confusion.** A rule mandates _where_ something lives
+  when the real constraint is _how often_. For example, "import once in a
   profile" states a location, and "each module enters the tree exactly once"
   states the invariant. Ask what the rule actually constrains.
 - **Stale examples.** Snippets use pre-refactor APIs. They read like real code

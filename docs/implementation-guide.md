@@ -26,8 +26,8 @@ them. If the two documents disagree, the architecture doc wins.
 ## 1. Flake-parts layout
 
 `modules/flake/` contains modules that define flake-level infrastructure or
-concrete outputs. [`architecture.md` §1, *Repository
-structure*](architecture.md#1-repository-structure), defines which
+concrete outputs. [`architecture.md` §1, _Repository
+structure_](architecture.md#1-repository-structure), defines which
 responsibilities belong here.
 
 ```text
@@ -52,8 +52,8 @@ concrete flake outputs.
 ### Automatic module discovery
 
 `flake.nix` imports the whole `modules/` tree with `import-tree`, as
-[`architecture.md` §1, *Repository
-structure*](architecture.md#1-repository-structure), describes. `flake.nix` also
+[`architecture.md` §1, _Repository
+structure_](architecture.md#1-repository-structure), describes. `flake.nix` also
 imports two flake modules that declare options the modules under `modules/` rely
 on: `flake-parts.flakeModules.modules` declares `flake.modules`, and
 `home-manager.flakeModules.home-manager` declares `flake.homeConfigurations`.
@@ -112,8 +112,8 @@ Configure `perSystem.pkgs` once:
 Every `perSystem` consumer then gets the custom overlay.
 
 Sections 4 to 6 show how each configuration consumes this package set.
-[`architecture.md` §5, *Packages and
-nixpkgs*](architecture.md#5-packages-and-nixpkgs), explains why they need to.
+[`architecture.md` §5, _Packages and
+nixpkgs_](architecture.md#5-packages-and-nixpkgs), explains why they need to.
 
 ## 4. `moduleWithSystem` or `withSystem`
 
@@ -145,7 +145,7 @@ homeConfigurations."dp@mbp-private" =
 ### `moduleWithSystem` in nix-darwin host modules
 
 Every host module sets `_module.args.system`. [`architecture.md` §3,
-*Composition and dependencies*](architecture.md#3-composition-and-dependencies),
+_Composition and dependencies_](architecture.md#3-composition-and-dependencies),
 explains the infinite recursion that it prevents. Set it next to
 `nixpkgs.hostPlatform`:
 
@@ -190,8 +190,8 @@ homes/* → homeManager modules
 
 ## 7. Generic context
 
-[`architecture.md` §6, *Generic context and custom
-library*](architecture.md#6-generic-context-and-custom-library), defines the
+[`architecture.md` §6, _Generic context and custom
+library_](architecture.md#6-generic-context-and-custom-library), defines the
 role of generic context. In this repository, `modules/features/meta.nix` defines
 these class-independent options:
 
@@ -264,9 +264,9 @@ Modules then take `myLib` as an argument:
 
 ### Library design
 
-To keep a helper independent of context, as [`architecture.md` §6, *Generic
+To keep a helper independent of context, as [`architecture.md` §6, _Generic
 context and custom
-library*](architecture.md#6-generic-context-and-custom-library) requires, pass
+library_](architecture.md#6-generic-context-and-custom-library) requires, pass
 its dependencies as arguments:
 
 ```nix
@@ -278,7 +278,7 @@ its dependencies as arguments:
 
 ## 9. Factories
 
-[`architecture.md` §7, *Factories*](architecture.md#7-factories), defines what a
+[`architecture.md` §7, _Factories_](architecture.md#7-factories), defines what a
 factory is, when to use one instead of a `myLib` function, and why the
 `flake.factory.*` registry is an option.
 
@@ -395,7 +395,7 @@ lib.mkIf (config.meta.user.email != null) { ... }
 
 ## 12. SOPS
 
-[`architecture.md` §8, *Secrets and SOPS*](architecture.md#8-secrets-and-sops),
+[`architecture.md` §8, _Secrets and SOPS_](architecture.md#8-secrets-and-sops),
 defines who owns each secret. This section shows how to wire SOPS into modules.
 The `sops` feature configures the sops-nix integration and the location of the
 age key file. It doesn't own every secret.
@@ -469,7 +469,7 @@ formats every Nix file in the project.
 ## 15. Common tasks
 
 These checklists cover rare tasks that touch several files. After each task,
-stage the new files, format, and evaluate, as [*Verify changes* in
+stage the new files, format, and evaluate, as [_Verify changes_ in
 `AGENTS.md`](../AGENTS.md#verify-changes) describes.
 
 ### Add a nix-darwin host

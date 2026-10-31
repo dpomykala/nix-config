@@ -28,12 +28,13 @@ focus narrows the scope or adds context.
 - Learn the role of each doc from its intro and structure. A role is a claim
   that you audit too. When this skill was written, the roles were:
   - `docs/architecture.md`: the architecture doc. It is authoritative for
-    *what* and *why*.
+    _what_ and _why_.
   - `docs/implementation-guide.md`: the operational companion, with mechanics
     and examples. It defers to the architecture doc.
 
   If the doc set no longer matches this list, report the mismatch and propose
   an update to this skill.
+
 - Read the code behind the claims in the docs. Start with the entry points,
   then read the modules that the docs name.
 - Check `git log` for recent structural changes. Refactor commit messages often
