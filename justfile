@@ -62,13 +62,17 @@ fmt:
     just --unstable --fmt
     nix fmt
 
+# Lint Nix files
+[group("Helpers")]
+lint: (_requires "statix")
+    statix check
+
 # Link files not managed by Nix (using GNU Stow)
 [group("Helpers")]
 stow: (_requires "stow")
     stow --dotfiles --restow --target $HOME stow
 
 # TODO: Make it more robust, e.g. check architecture using arch()
-
 # Download and install the 1Password .deb package for x86-64 Linux
 [group("Helpers")]
 [linux]

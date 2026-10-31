@@ -1,3 +1,11 @@
+/*
+  Python through uv: the Python versions and the Python tools. ty checks types,
+  and Ruff lints and formats.
+
+  uv installs the tools from PyPI instead of nixpkgs, because Ruff and ty
+  release often and django-template-lsp isn't in nixpkgs. Home Manager upgrades
+  the tools on every activation.
+*/
 _: {
   flake.modules.homeManager.python = { lib, ... }: {
     home = {
@@ -28,7 +36,8 @@ _: {
 
       tool = {
         packages = [
-          "black"
+          # Django template language server, run as djlsp
+          "django-template-lsp"
           "pre-commit"
           "ruff"
           "ty"

@@ -5,7 +5,13 @@ _: {
 
   flake.modules.homeManager.docker = { pkgs, ... }: {
     home = {
-      packages = with pkgs; [ lazydocker ];
+      packages = with pkgs; [
+        # Docker's official server, for BuildKit checks and Compose files
+        docker-language-server
+        # Completion and hover for Dockerfile instructions
+        dockerfile-language-server
+        lazydocker
+      ];
 
       shellAliases = {
         cl-docker = "docker system prune --volumes -f";

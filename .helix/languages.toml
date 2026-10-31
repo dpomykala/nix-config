@@ -1,0 +1,4 @@
+# nixd completes packages from this flake's locked nixpkgs. Helix starts nixd
+# in the project root, so `./.` is this repository.
+[language-server.nixd.config.nixd]
+nixpkgs.expr = "import (builtins.getFlake (toString ./.)).inputs.nixpkgs { }"

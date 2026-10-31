@@ -11,6 +11,7 @@
         nixfmt
         nixfmt-tree
         sops
+        statix
         stow
       ];
     };
