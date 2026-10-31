@@ -19,11 +19,8 @@ _: {
     }:
     {
       # Aliases compatible across all shells
-      # NOTE: Aliases relating to some tools are set in dedicated modules
+      # NOTE: Aliases relating to tools are set in dedicated modules
       home.shellAliases = {
-        # GENERAL
-
-        # Clear the terminal output
         cl = "clear";
       };
 

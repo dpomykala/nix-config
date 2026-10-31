@@ -10,7 +10,7 @@ _: {
       shellAliases = {
         cl-docker = "docker system prune --volumes -f";
         dps = "docker ps";
-        dcp = "docker-compose";
+        dcp = "docker compose";
       };
     };
   };

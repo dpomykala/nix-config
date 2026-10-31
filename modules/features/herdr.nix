@@ -1,5 +1,7 @@
 _: {
   flake.modules.homeManager.herdr = {
+    home.shellAliases.hr = "herdr";
+
     programs.herdr = {
       enable = true;
 
