@@ -310,7 +310,45 @@ _: {
           };
 
           settings = {
-            editor.line-number = "relative";
+            editor = {
+              bufferline = "multiple";
+
+              color-modes = true;
+
+              indent-guides.render = true;
+
+              inline-diagnostics.cursor-line = "warning";
+
+              line-number = "relative";
+
+              lsp.display-inlay-hints = true;
+
+              popup-border = "all";
+
+              trim-trailing-whitespace = true;
+
+              whitespace.render = {
+                nbsp = "all";
+                nnbsp = "all";
+                tab = "all";
+              };
+            };
+
+            keys = {
+              normal = {
+                tab = "move_parent_node_end";
+                S-tab = "move_parent_node_start";
+              };
+
+              insert = {
+                S-tab = "move_parent_node_start";
+              };
+
+              select = {
+                tab = "extend_parent_node_end";
+                S-tab = "extend_parent_node_start";
+              };
+            };
 
             theme = "catppuccin_macchiato";
           };
