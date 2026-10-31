@@ -33,6 +33,9 @@ _: {
             # Project local session for Neovim (mini.sessions)
             ".session.nvim"
 
+            # Project specific configuration for Helix
+            ".helix"
+
             # JetBrains IDEs
             ".idea"
 
@@ -49,6 +52,7 @@ _: {
             ".env.local"
 
             # Tools
+            "CLAUDE.local.md"
             "mise.local.toml"
 
             # General
