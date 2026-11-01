@@ -68,6 +68,7 @@ _: {
             }
             {
               name = "dockerfile";
+              auto-format = true;
               language-servers = [
                 "docker-langserver"
                 "docker-language-server"
@@ -108,6 +109,7 @@ _: {
             }
             {
               name = "htmldjango";
+              auto-format = true;
               # No superhtml, which reports template tags as errors
               language-servers = [
                 "djlsp"
