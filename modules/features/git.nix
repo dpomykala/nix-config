@@ -105,7 +105,11 @@ _: {
         gr = "git restore";
         gs = "git status";
         gcm = "git commit";
+        gd1 = "git diff HEAD~1";
+        gd2 = "git diff HEAD~2";
         gds = "gd --staged";
+        gds1 = "gd --staged HEAD~1";
+        gds2 = "gd --staged HEAD~2";
         glg = "git log --graph";
         gll = "git log --oneline";
         gpl = "git pull";
