@@ -10,7 +10,8 @@
   server for all languages. See
   https://github.com/helix-editor/helix/issues/12721.
 */
-_: {
+{ inputs, ... }:
+{
   flake.modules.homeManager.helix =
     { lib, ... }:
     {
@@ -283,6 +284,11 @@ _: {
 
               # Helix master default, remove after the next release (> 25.07.1)
               nginx-language-server.command = "nginx-language-server";
+
+              # The default, `<nixpkgs>`, depends on NIX_PATH, which only the
+              # nix-darwin hosts set. A project can override it in
+              # `.helix/languages.toml`.
+              nixd.config.nixd.nixpkgs.expr = "import ${inputs.nixpkgs} { }";
 
               # Helix master default, remove after the next release (> 25.07.1)
               oxfmt-language-server = {
