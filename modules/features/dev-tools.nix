@@ -11,9 +11,12 @@ _: {
     let
       # Language servers, formatters, and linters
       langTools = with pkgs; [
+        # Markdown language server
         marksman
         nginx-language-server
+        # Formatter for web languages, Markdown, YAML, and TOML
         oxfmt
+        # TOML language server
         tombi
         yaml-language-server
       ];
