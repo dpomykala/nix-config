@@ -71,11 +71,11 @@ lint: (_requires "statix")
 stow: (_requires "stow")
     stow --dotfiles --restow --target $HOME stow
 
-# TODO: Make it more robust, e.g. check architecture using arch()
 # Download and install the 1Password .deb package for x86-64 Linux
 [group("Helpers")]
 [linux]
 deb-1password: (_requires "curl")
-    curl -o /tmp/1password.deb {{ onepassword_deb_x86_64_url }}
+    @{{ if arch() != "x86_64" { error("The 1Password .deb package is only for x86-64") } else { "" } }}
+    curl -fL -o /tmp/1password.deb {{ onepassword_deb_x86_64_url }}
     sudo apt install /tmp/1password.deb
     rm /tmp/1password.deb
