@@ -23,8 +23,6 @@ _: {
             "*~"
             "*.swp"
 
-            # Project specific configuration for Neovim (neoconf.nvim)
-            ".neoconf.json"
             # Project specific configuration for Neovim (built-in, see `:h 'exrc'`)
             ".nvim.lua"
             ".nvimrc"
