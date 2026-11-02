@@ -104,10 +104,13 @@
             {
               name = "html";
               auto-format = true;
-              # Both servers can format, and Helix uses the first one
               language-servers = [
                 "vscode-html-language-server"
-                "superhtml"
+                # vscode-html covers the rest
+                {
+                  name = "superhtml";
+                  only-features = [ "diagnostics" ];
+                }
               ];
             }
             {
