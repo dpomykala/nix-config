@@ -152,11 +152,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1793619315,
-        "narHash": "sha256-fueBDsYcbY3t0HK4LnwjQTXdnVn6Z5kYnEsfW0W95YU=",
+        "lastModified": 1793637160,
+        "narHash": "sha256-WU54JEk+WtlgEG7AwH+NAyBcZdnvzX93Jr4J1NJoO3U=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "86a58dca7acc0098692494f604b58fa9cf1a2b9d",
+        "rev": "30c1e89c496ed5c8ac5a017227749ecb8d6b7ebd",
         "type": "github"
       },
       "original": {
@@ -168,11 +168,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1793621461,
-        "narHash": "sha256-ujPiYmFzYqZKIPy2Ph5L4FRcU+MwrJmI88rryejL/mw=",
+        "lastModified": 1793637078,
+        "narHash": "sha256-7AG2hJQsKpFrd/1sELP/1QPtt6P0yyAQYq6FWsdcwQE=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "3842e41aa4e97b4470d858429a93699d14506ece",
+        "rev": "8a4c358e15670185d0771136760c61fb1237f75c",
         "type": "github"
       },
       "original": {
@@ -293,14 +293,14 @@
           "nixpkgs"
         ],
         "nixvim": "nixvim",
-        "snacks-nvim": "snacks-nvim"
+        "tree-sitter-kulala-http": "tree-sitter-kulala-http"
       },
       "locked": {
-        "lastModified": 1793622652,
-        "narHash": "sha256-mF8ox0iWVYPTQd+1fg741PD02u9sXH/eThagRJInQp4=",
+        "lastModified": 1793637661,
+        "narHash": "sha256-q9XFz+Bp/dHBFeEy7JZG2g/hH0S4NsZ8hNVqm0xTw24=",
         "owner": "dpomykala",
         "repo": "nix-nvim",
-        "rev": "dc8dc58409236b4d439fbe6f846ae2a8ac2ddd2f",
+        "rev": "486b96aa5dad9593fea1406b0d9a9e2381eebe64",
         "type": "github"
       },
       "original": {
@@ -396,22 +396,6 @@
         "yazi-flavors": "yazi-flavors"
       }
     },
-    "snacks-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1779727538,
-        "narHash": "sha256-gU0XjCcnmZNwZ/erukA8miBiMKaSsSiInLtiv+OyEJI=",
-        "owner": "folke",
-        "repo": "snacks.nvim",
-        "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "folke",
-        "repo": "snacks.nvim",
-        "type": "github"
-      }
-    },
     "sops-nix": {
       "inputs": {
         "nixpkgs": [
@@ -446,6 +430,23 @@
         "owner": "nix-systems",
         "ref": "future-26.11",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tree-sitter-kulala-http": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784902550,
+        "narHash": "sha256-+BtU7xGUwgZeFX21St8YNYCDrOstDzLjQvbedNtbhvU=",
+        "owner": "dont-be-evil-company",
+        "repo": "tree-sitter-kulala-http",
+        "rev": "630e2b8523c775ba866564c2b4ad88d649a56c00",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dont-be-evil-company",
+        "repo": "tree-sitter-kulala-http",
+        "rev": "630e2b8523c775ba866564c2b4ad88d649a56c00",
         "type": "github"
       }
     },
