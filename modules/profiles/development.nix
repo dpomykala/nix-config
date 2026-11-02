@@ -9,18 +9,19 @@
 
   flake.modules.homeManager.development =
     let
+      # The commented-out features aren't in use for now
       langFeatures = with self.modules.homeManager; [
-        elixir
-        go
+        # elixir
+        # go
         javascript
         just
         lua
         nix-lang
-        rust
+        # rust
         shell-lang
         spelling
         web
-        zig
+        # zig
       ];
     in
     {
