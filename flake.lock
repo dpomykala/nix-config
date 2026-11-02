@@ -152,11 +152,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1793637160,
-        "narHash": "sha256-WU54JEk+WtlgEG7AwH+NAyBcZdnvzX93Jr4J1NJoO3U=",
+        "lastModified": 1793640472,
+        "narHash": "sha256-d40I6xgaJSZU/WmIOlcJsB+KI9UIQqK3VBgM3gIrAuI=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "30c1e89c496ed5c8ac5a017227749ecb8d6b7ebd",
+        "rev": "b33a9762dfeed2354fd626ea15cd85e6e45ae9aa",
         "type": "github"
       },
       "original": {
@@ -168,11 +168,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1793637078,
-        "narHash": "sha256-7AG2hJQsKpFrd/1sELP/1QPtt6P0yyAQYq6FWsdcwQE=",
+        "lastModified": 1793638661,
+        "narHash": "sha256-n1xpH3CgyfaG0fjFNPtCBSxTe6ttDBLRDWsoN2rE2HQ=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "8a4c358e15670185d0771136760c61fb1237f75c",
+        "rev": "d9f0da31916a087dbdd6471646d7a17f0fa3c155",
         "type": "github"
       },
       "original": {
@@ -296,11 +296,11 @@
         "tree-sitter-kulala-http": "tree-sitter-kulala-http"
       },
       "locked": {
-        "lastModified": 1793637661,
-        "narHash": "sha256-q9XFz+Bp/dHBFeEy7JZG2g/hH0S4NsZ8hNVqm0xTw24=",
+        "lastModified": 1793641106,
+        "narHash": "sha256-0Ee5PVbQOxd4aIctP47XoqBMlrw0idjqoWjCqkMDi4Q=",
         "owner": "dpomykala",
         "repo": "nix-nvim",
-        "rev": "486b96aa5dad9593fea1406b0d9a9e2381eebe64",
+        "rev": "0f0067033cdbe98a75417616ed042d4e1c550050",
         "type": "github"
       },
       "original": {
