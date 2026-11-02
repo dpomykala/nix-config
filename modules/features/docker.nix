@@ -8,8 +8,8 @@ _: {
       packages = with pkgs; [
         # Docker's official server, for BuildKit checks and Compose files
         docker-language-server
-        # Completion and hover for Dockerfile instructions
-        dockerfile-language-server
+        # Dockerfile formatter, which also formats the shell in RUN
+        dockerfmt
         lazydocker
       ];
 

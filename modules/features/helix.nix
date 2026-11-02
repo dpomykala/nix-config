@@ -70,10 +70,12 @@
             {
               name = "dockerfile";
               auto-format = true;
-              language-servers = [
-                "docker-langserver"
-                "docker-language-server"
-              ];
+              formatter = {
+                command = "dockerfmt";
+                # Without it, dockerfmt drops the final newline
+                args = [ "--newline" ];
+              };
+              language-servers = [ "docker-language-server" ];
             }
             {
               names = [
