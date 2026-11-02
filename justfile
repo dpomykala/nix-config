@@ -61,10 +61,33 @@ fmt: (_requires "oxfmt")
     nix fmt
     oxfmt
 
+# Check the formatting without changing files. treefmt behind `nix fmt` has no
+# check-only mode, so this runs nixfmt directly.
+_fmt-check: (_requires "nixfmt") (_requires "oxfmt")
+    just --fmt --check
+    git ls-files -z '*.nix' | xargs -0 nixfmt --check
+    oxfmt --check
+
 # Lint Nix files
 [group("Helpers")]
 lint: (_requires "statix")
     statix check
+
+# Check the formatting, lint, and evaluate all configurations
+[group("Helpers")]
+[script]
+check: _fmt-check lint
+    hosts="$(nix eval --raw .#darwinConfigurations --apply 'c: toString (builtins.attrNames c)')"
+    for host in $hosts; do
+        echo "Evaluating darwinConfigurations.$host"
+        nix eval --raw ".#darwinConfigurations.$host.system.drvPath" >/dev/null
+    done
+    homes="$(nix eval --raw .#homeConfigurations --apply 'c: toString (builtins.attrNames c)')"
+    for home in $homes; do
+        echo "Evaluating homeConfigurations.\"$home\""
+        nix eval --raw ".#homeConfigurations.\"$home\".activationPackage.drvPath" >/dev/null
+    done
+    nix flake check --all-systems
 
 # Link files not managed by Nix (using GNU Stow)
 [group("Helpers")]
