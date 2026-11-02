@@ -246,6 +246,8 @@
 
           tailwindLanguages = [
             "css"
+            "elixir"
+            "heex"
             "html"
             "htmldjango"
             "javascript"
