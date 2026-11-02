@@ -15,7 +15,7 @@ _: {
             # Nix pins the version, so the built-in updater must not run
             auto-update = "off";
 
-            background-opacity = 0.8;
+            background-opacity = 0.9;
             # Implies `background-blur = true` for non-macOS platforms
             background-blur = "macos-glass-regular";
 
@@ -38,7 +38,7 @@ _: {
 
             theme = "Catppuccin Macchiato";
 
-            unfocused-split-opacity = 0.7;
+            unfocused-split-opacity = 0.8;
 
             window-padding-x = 10;
             window-padding-y = 10;
