@@ -1,7 +1,5 @@
 # just: https://just.systems
 
-set unstable
-
 onepassword_deb_x86_64_url := "https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb"
 
 # List all recipes
@@ -26,7 +24,7 @@ home config="": (_requires "nh")
 # List all flake inputs
 [group("Inputs")]
 inputs: (_requires "jq")
-    @nix flake metadata --json | jq '.locks.nodes.root.inputs | keys[]' | tr -d '"'
+    @nix flake metadata --json | jq -r '.locks.nodes.root.inputs | keys[]'
 
 # Update the lock file and commit (optionally provide input(s))
 [group("Inputs")]
@@ -59,7 +57,7 @@ dev:
 # Format all files
 [group("Helpers")]
 fmt: (_requires "oxfmt")
-    just --unstable --fmt
+    just --fmt
     nix fmt
     oxfmt
 
