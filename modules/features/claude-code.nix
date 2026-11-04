@@ -10,14 +10,12 @@ _: {
         # file, so delete it from ~/.claude/settings.json too.
         mutableSettings = true;
 
-        # Workaround: the nixpkgs wrapper sets CLAUDE_CODE_CERT_STORE=system
-        # (nixpkgs commit d1f1777), and on macOS that store lacks the built-in
-        # root CAs, so every API request fails TLS verification. This restores
-        # the upstream default on macOS and keeps the wrapper's choice on Linux.
-        # It goes in the settings, not in a shell variable, because background
-        # agents get most of their environment from the supervisor process,
-        # not from the shell. Drop it when the upstream package is fixed.
-        settings.env.CLAUDE_CODE_CERT_STORE = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "bundled,system";
+        # The nixpkgs wrapper trusts only the system store, which on macOS lacks
+        # the root CAs. It adds the Nix bundle from NIX_SSL_CERT_FILE, but GUI
+        # launches and background agents can start without that variable.
+        # Pinning the bundle here also keeps the wrapper's choice to skip the
+        # roots bundled in Claude Code, which don't follow cacert updates.
+        settings.env.NODE_EXTRA_CA_CERTS = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       };
     };
 }
