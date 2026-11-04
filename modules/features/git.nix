@@ -50,6 +50,7 @@ _: {
             ".env.local"
 
             # Tools
+            ".agent-work/"
             "CLAUDE.local.md"
             "mise.local.toml"
 
