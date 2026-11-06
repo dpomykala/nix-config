@@ -4,6 +4,8 @@ _: {
       # Spelling and grammar of English prose, such as Markdown and commits
       harper
       # Known misspellings in code, including identifiers
+      typos
+      # The typos checks as a language server, which doesn't include the CLI
       typos-lsp
     ];
   };
