@@ -512,6 +512,22 @@ stage the new files, format, and evaluate, as [_Verify changes_ in
    home of the user. A host can import only one user module ([`architecture.md`
    §2](architecture.md#2-configuration-layers)).
 
+### Add a macOS app
+
+1. Pick the source of the app ([`architecture.md`
+   §5](architecture.md#5-packages-and-nixpkgs)):
+   - If a Home Manager module configures the app, install it from nixpkgs.
+   - Otherwise, find the cask with `brew search <app>`, and check it with
+     `brew info --cask <cask>`.
+   - If neither Homebrew nor nixpkgs has the app, find its Mac App Store ID
+     with `mas search <app>`.
+2. If a feature already owns the capability of the app, add the app to its
+   `darwin` module. Otherwise, create `modules/features/<app>.nix`, which
+   defines `flake.modules.darwin.<app>`. For a cask, copy
+   `modules/features/slack.nix`. For a Mac App Store app, copy
+   `modules/features/numbers.nix`.
+3. Import the feature in each host that needs the app.
+
 ### Add a secret
 
 Only Home Manager has a `sops` feature, and `homeManager.base` imports it, so

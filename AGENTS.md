@@ -51,7 +51,7 @@ a violation can merge a module twice or fail evaluation far from the change.
 
 - Copy the patterns of the nearest similar module. For example, `darwin`
   features install macOS GUI apps as Homebrew casks, as in
-  `modules/features/slack.nix`.
+  `modules/features/slack.nix`. See `architecture.md` §5.
 - Check option names against the pinned inputs, not against memory. nixpkgs,
   Home Manager, and nix-darwin rename options often. To read the current
   definition of an option, evaluate it through a configuration:

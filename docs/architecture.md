@@ -54,7 +54,8 @@ them.
   `self.overlays.default`. See §5.
 - Packages come from nixpkgs by default. When nixpkgs doesn't fit, uv installs
   the tools published on PyPI, and mise installs the other runtimes and tools.
-  `flake.lock` pins neither. See §5.
+  `flake.lock` pins neither. macOS GUI apps come from Homebrew casks, and from
+  the Mac App Store only when no other source has them. See §5.
 - Use `moduleWithSystem` in reusable modules that need `perSystem` context. Use
   `withSystem` to construct concrete flake outputs. On NixOS, use the
   `readOnlyPkgs` module to inject the canonical package set. See §5.
@@ -524,6 +525,44 @@ The `mise` feature runs `mise install` during activation, and Home Manager
 upgrades the Python tools on every activation, so activation needs the network.
 A failed `mise install` only prints a warning, so a network problem doesn't
 block a switch.
+
+### macOS GUI apps
+
+`darwin` features install macOS GUI apps as Homebrew casks through
+`homebrew.casks`, as `modules/features/slack.nix` does. nixpkgs doesn't fit
+these apps well. Many have no darwin package in nixpkgs, and the packages that
+exist often lag behind the cask. A nixpkgs package of a macOS app also tends to
+repackage the same upstream binary that the cask downloads, so it adds no build
+from source.
+
+Use nixpkgs for a GUI app when a Home Manager module configures the app. For
+example, the `ghostty` feature sets `programs.ghostty` and installs
+`ghostty-bin` from nixpkgs on macOS.
+
+Use the Mac App Store only for an app that neither Homebrew nor nixpkgs has,
+such as Numbers. The feature of the app enables nix-darwin's `programs.mas`
+with `lib.mkDefault true` and adds the app to `programs.mas.packages`, as
+`modules/features/numbers.nix` does. `flake.lock` doesn't pin these apps.
+
+An app follows the package placement rules above. Most apps have a purpose of
+their own, so each gets a feature named after its cask or app, such as `slack`.
+Apps that share one capability can share a capability feature, but only when
+every host that needs one of them needs all of them. A host imports a whole
+feature, so a shared feature installs all of its apps on every host that
+imports it.
+
+The `homebrew` feature gives `nix-homebrew` its taps as flake inputs and sets
+`mutableTaps = false`, so `flake.lock` pins the cask definitions through the
+`homebrew-cask` input. Each activation upgrades a cask to the version in the
+pinned tap, and `just update` brings in new versions. An app that updates
+itself doesn't follow the pin, and activation doesn't upgrade it.
+
+The `homebrew` feature also sets `onActivation.cleanup = "zap"`. Each
+activation uninstalls every cask and formula that the configuration doesn't
+list. It also deletes the files that the `zap` stanza of the cask names, such
+as preferences and caches. An app that you install by hand with
+`brew install --cask` disappears at the next activation, so add every app to a
+feature.
 
 ### `pkgs/`
 
