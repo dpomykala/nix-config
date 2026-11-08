@@ -15,6 +15,7 @@ in
         # Features
         bear
         brave-browser
+        handy
         harper-desktop
         jetbrains-toolbox
         karabiner

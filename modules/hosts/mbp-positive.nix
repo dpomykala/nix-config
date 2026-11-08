@@ -15,6 +15,7 @@ in
         # Features
         brave-browser
         google-chrome
+        handy
         harper-desktop
         jetbrains-toolbox
         karabiner
