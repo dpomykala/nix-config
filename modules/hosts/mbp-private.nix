@@ -15,6 +15,7 @@ in
         # Features
         bear
         brave-browser
+        harper-desktop
         jetbrains-toolbox
         karabiner
         logi-options-plus
