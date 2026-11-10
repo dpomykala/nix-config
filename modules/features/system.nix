@@ -3,6 +3,10 @@
     security.pam.services.sudo_local = {
       enable = true;
 
+      # Make Touch ID work in multiplexers that run panes in the background
+      # session, such as Herdr and tmux
+      reattach = true;
+
       # Enable sudo authentication with Touch ID / Apple Watch
       touchIdAuth = true;
       watchIdAuth = true;
