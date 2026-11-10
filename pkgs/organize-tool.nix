@@ -1,13 +1,13 @@
 /*
   Nix package for the organize-tool Python application.
 
-  Additional Python dependencies built for MacOS (Darwin) system:
-  - mdfind-wrapper
-  - macos-tags
+  This file also builds the Python dependencies that nixpkgs lacks:
+  - simplematch
+  - macos-tags and its dependency mdfind-wrapper, on macOS only
 
-  Runtime dependencies included with the package:
-  - exiftool - for extracting EXIF data
-  - poppler-utils - for parsing PDF files
+  The package puts these runtime dependencies on its PATH:
+  - exiftool, which reads EXIF data
+  - poppler-utils, which parses PDF files
 
   https://organize.readthedocs.io
   https://github.com/tfeldmann/organize
@@ -20,7 +20,7 @@
   python3Packages,
 }:
 let
-  # Required for macos-tags (Darwin system only)
+  # Required by macos-tags (macOS only)
   mdfind-wrapper = python3Packages.buildPythonPackage rec {
     pname = "mdfind-wrapper";
     version = "0.1.5";
@@ -40,7 +40,7 @@ let
     pythonImportsCheck = [ "mdfind" ];
   };
 
-  # Required for organize-tool (Darwin system only)
+  # Required by organize-tool (macOS only)
   macos-tags = python3Packages.buildPythonPackage rec {
     pname = "macos-tags";
     version = "1.5.1";
@@ -53,8 +53,8 @@ let
       hash = "sha256-WHXETLG7F9faf3amahorGUivd1qGVDO7sCl61ymdmRY=";
     };
 
-    # Use poetry-core as a build backend
-    # Relax requirements for xattr (pythonRelaxDeps fails with this)
+    # Build with poetry-core instead of poetry, and relax the xattr version
+    # here, because pythonRelaxDeps fails for this package
     postPatch = ''
       substituteInPlace pyproject.toml \
         --replace-fail "poetry>=0.12" "poetry-core" \
@@ -72,14 +72,14 @@ let
     nativeCheckInputs = with python3Packages; [ pytestCheckHook ];
 
     disabledTestPaths = [
-      # File system access
+      # Needs file system access
       "tests/test_tags.py::test_tags"
     ];
 
     pythonImportsCheck = [ "macos_tags" ];
   };
 
-  # Required for organize-tool
+  # Required by organize-tool
   simplematch = python3Packages.buildPythonPackage rec {
     pname = "simplematch";
     version = "1.4";
@@ -141,7 +141,7 @@ python3Packages.buildPythonApplication rec {
     "rich"
   ];
 
-  # Make sure that runtime dependencies are available
+  # Put the runtime dependencies on the PATH of organize
   makeWrapperArgs = [
     "--prefix"
     "PATH"

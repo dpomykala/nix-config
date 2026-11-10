@@ -143,6 +143,8 @@ Shared skills live in `.agents/skills/`. Each skill has a symlink in
 
 - Write a code comment only to explain a non-obvious why or to warn about a
   trap. Match the comment style of the file.
+- In Nix, write a comment of several sentences as a `/* */` block comment.
+  Write a one-sentence comment with `#`, even when it wraps over several lines.
 - Wrap comments and Markdown prose at 80 characters, and fill each line up to
   the limit.
 - If the `technical-writing` and `unslop` skills are available, apply them to

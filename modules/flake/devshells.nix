@@ -1,6 +1,6 @@
 {
   perSystem = { pkgs, ... }: {
-    # Run development environment with `nix develop`
+    # Enter with `nix develop` or `just dev`
     devShells.default = pkgs.mkShellNoCC {
       packages = with pkgs; [
         age

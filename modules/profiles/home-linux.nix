@@ -1,4 +1,4 @@
-# Home Manager profile for all Linux distributions (including NixOS).
+# Home Manager profile for all Linux distributions, including NixOS
 { self, ... }: {
   flake.modules.homeManager.home-linux = { config, ... }: {
     imports = with self.modules.homeManager; [

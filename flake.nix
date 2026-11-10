@@ -31,7 +31,7 @@
       flake = false;
     };
     import-tree.url = "github:vic/import-tree";
-    # Used by bat to enable syntax highlighting for just
+    # Syntax highlighting of justfiles in bat
     just-sublime = {
       url = "github:nk9/just_sublime";
       flake = false;
@@ -41,7 +41,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    # Custom NixVim configuration: https://github.com/dpomykala/nix-nvim
+    # Custom NixVim configuration
     nix-nvim = {
       url = "github:dpomykala/nix-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -65,11 +65,10 @@
         inputs.flake-parts.flakeModules.modules
         inputs.home-manager.flakeModules.home-manager
 
-        # Import all modules
+        # Load every .nix file under modules/ as a flake-parts module
         (import-tree ./modules)
       ];
 
-      # Supported systems
       systems = [
         "aarch64-darwin"
         "x86_64-linux"

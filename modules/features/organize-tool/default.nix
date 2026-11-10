@@ -10,13 +10,12 @@ _: {
 
       # Use a config file encrypted with SOPS
       sops.secrets.organize-config = {
-        # Do not treat YAML keys as separate secrets
+        # Decrypt the whole file, not a single key
         key = "";
 
-        # Path where the decrypted file will be linked
+        # sops-nix links the decrypted file here
         path = "${config.xdg.configHome}/organize/config.yaml";
 
-        # Path to the encrypted file
         sopsFile = ./config.sops.yaml;
       };
     };

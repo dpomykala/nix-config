@@ -7,7 +7,7 @@ _: {
     }:
     {
       # Lazygit: https://github.com/jesseduffield/lazygit
-      # Sets `lg` wrapper by default
+      # Home Manager also adds the `lg` shell wrapper
       programs.lazygit.enable = true;
 
       programs.git = lib.mkMerge [
@@ -15,7 +15,7 @@ _: {
           enable = true;
 
           ignores = [
-            # MacOS
+            # macOS
             "._*"
             ".DS_Store"
 
@@ -23,15 +23,15 @@ _: {
             "*~"
             "*.swp"
 
-            # Project specific configuration for Neovim (built-in, see `:h 'exrc'`)
+            # Project-specific Neovim configuration (built-in, see `:h 'exrc'`)
             ".nvim.lua"
             ".nvimrc"
             ".exrc"
 
-            # Project local session for Neovim (mini.sessions)
+            # Project-local session for Neovim (mini.sessions)
             ".session.nvim"
 
-            # Project specific configuration for Helix
+            # Project-specific configuration for Helix
             ".helix"
 
             # JetBrains IDEs
@@ -72,16 +72,18 @@ _: {
           };
         }
 
-        # Use an encrypted email (via an included config) if any.
-        # Rendered first (mkBefore) so includes from homes override it within
-        # their scope.
+        /*
+          Use the encrypted email, if the home has one, through an included
+          config. `lib.mkBefore` renders the include first, so the includes of
+          a home override it within their scope.
+        */
         (lib.mkIf (config.sops.secrets ? userEmail) {
           includes = lib.mkBefore [
             { path = config.sops.templates.gitconfig-work-email.path; }
           ];
         })
 
-        # Use a public email if provided and there is no encrypted one
+        # Use the public email if there is one and no encrypted email
         (lib.mkIf (!(config.sops.secrets ? userEmail) && config.meta.user.email != null) {
           settings.user.email = config.meta.user.email;
         })

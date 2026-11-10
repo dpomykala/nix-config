@@ -1,11 +1,9 @@
 _: {
   flake.modules.darwin.shell = {
     programs.zsh = {
-      # Do not call compinit in the system-wide config (/etc/zshrc)
-      # Completion is enabled in Home Manger
+      # Skip compinit in /etc/zshrc, because Home Manager runs it in .zshrc
       enableCompletion = false;
 
-      # Disable the emulation support for Bash-like completions
       enableBashCompletion = false;
     };
   };
@@ -18,8 +16,7 @@ _: {
       ...
     }:
     {
-      # Aliases compatible across all shells
-      # NOTE: Aliases relating to tools are set in dedicated modules
+      # The aliases of a tool go in the feature of that tool
       home.shellAliases = {
         cl = "clear";
       };
@@ -47,7 +44,7 @@ _: {
               "$realpath"
             ];
           in
-          # Configure fzf-tab completion BEFORE compinit
+          # fzf-tab needs these styles before compinit runs
           lib.mkIf config.programs.fzf.enable (
             lib.mkOrder 550 ''
               # Disable sorting when completing some git commands
@@ -57,16 +54,15 @@ _: {
               # Use FZF_DEFAULT_OPTS for fzf-tab
               zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
-              # Preview directory's content when completing `cd`
+              # Preview the directory when completing `cd`
               zstyle ':fzf-tab:complete:cd:*' fzf-preview '${dirPreview}'
             ''
           );
 
         history = {
-          # Use the extended format for history entries
+          # Save the start time and duration of each command
           extended = true;
 
-          # Save the history file in the XDG Data Home directory
           path = "${config.xdg.dataHome}/zsh/zsh_history";
         };
 
@@ -75,10 +71,12 @@ _: {
           # Disable changing the cursor based on the mode (zsh-vi-mode)
           # ZVM_CURSOR_STYLE_ENABLED = false;
 
-          # Initialize zsh-vi-mode plugin when sourcing the script
-          # This prevents overriding fzf key bindings (ctrl-r)
-          # fzf must be sourced AFTER zsh-vi-mode
-          # https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#initialization-mode
+          /*
+            Initialize zsh-vi-mode when its script is sourced, so that it
+            doesn't override the fzf key bindings, such as Ctrl-R. fzf must
+            load after zsh-vi-mode. See
+            https://github.com/jeffreytse/zsh-vi-mode?tab=readme-ov-file#initialization-mode
+          */
           ZVM_INIT_MODE = "sourcing";
         };
 

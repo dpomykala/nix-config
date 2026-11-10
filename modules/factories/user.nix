@@ -1,4 +1,4 @@
-# Factory for creating dendritic user modules.
+# Factory that creates the Darwin and Home Manager modules of a user
 _: {
   flake.factory.user =
     {

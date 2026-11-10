@@ -12,7 +12,7 @@
       # session, such as Herdr and tmux
       reattach = true;
 
-      # Enable sudo authentication with Touch ID / Apple Watch
+      # Authenticate sudo with Touch ID and Apple Watch
       touchIdAuth = true;
       watchIdAuth = true;
     };
@@ -22,10 +22,9 @@
       configurationRevision = self.rev or self.dirtyRev or null;
 
       keyboard = {
-        # Enable keyboard mappings
+        # Required by remapCapsLockToEscape
         enableKeyMapping = true;
 
-        # Remap the Caps Lock key to Escape
         remapCapsLockToEscape = true;
       };
 
@@ -37,9 +36,11 @@
   flake.modules.homeManager.system =
     { config, lib, ... }:
     let
-      # Values of the horizontal trackpad swipe gesture keys. The trackpad uses
-      # the keys in the trackpad domains, but System Settings shows the ByHost
-      # copy, so both need the same values.
+      /*
+        Values of the horizontal trackpad swipe gesture keys. The trackpad uses
+        the keys in the trackpad domains, but System Settings shows the ByHost
+        copy, so both need the same values.
+      */
       horizontalSwipe = {
         betweenPages = 1;
         betweenSpaces = 2;
@@ -47,12 +48,10 @@
 
       # Written to the domains of both the built-in and Bluetooth trackpads
       trackpad = {
-        # Set the force required for a normal click (0, 1, 2)
-        # The lower the value, the lighter the click
+        # Force for a normal click: 0 (light), 1 (medium), or 2 (firm)
         FirstClickThreshold = 0;
 
-        # Set the force required for a Force click (0, 1, 2)
-        # The lower the value, the lighter the click
+        # Force for a Force Click: 0 (light), 1 (medium), or 2 (firm)
         SecondClickThreshold = 0;
 
         # Swipe between pages with 3 fingers, and between desktops and
@@ -91,8 +90,10 @@
         defaults = {
           "com.apple.AppleMultitouchTrackpad" = trackpad;
 
-          # Safari reads these at launch, so quit it before activation. The
-          # terminal needs Full Disk Access to write to Safari's container.
+          /*
+            Safari reads these at launch, so quit it before activation. The
+            terminal needs Full Disk Access to write to Safari's container.
+          */
           "com.apple.Safari" = {
             # Disable autofill of credit card numbers (use 1Password)
             AutoFillCreditCardData = false;
@@ -111,14 +112,14 @@
             ShowOverlayStatusBar = true;
           };
 
-          # Disable use of .DS_Store files on USB drives
+          # Don't write .DS_Store files to USB drives
           "com.apple.desktopservices".DSDontWriteUSBStores = true;
 
           "com.apple.dock" = {
             # Automatically hide and show the Dock
             autohide = true;
 
-            # Set the size of the magnified icons in the Dock (16 - 128)
+            # Set the size of the magnified icons in the Dock (16 to 128)
             largesize = 95;
 
             # Enable the magnification of the icons in the Dock on hover
@@ -130,14 +131,14 @@
             # Enable App Exposé with a 3-finger swipe down
             showAppExposeGestureEnabled = true;
 
-            # Set the size of the icons in the Dock (16 - 128)
+            # Set the size of the icons in the Dock (16 to 128)
             tilesize = 35;
 
             # Disable the Quick Note hot corner action for the bottom right
             # corner
             wvous-br-corner = 1;
 
-            # Set the hot corner action for the top right corner (4 - Desktop)
+            # Show the Desktop from the top right hot corner
             wvous-tr-corner = 4;
           };
 
@@ -162,8 +163,10 @@
             # Set Home as the default folder for a new Finder window
             NewWindowTarget = "PfHm";
 
-            # Show the path bar (breadcrumbs) at the bottom of a Finder window.
-            # Finder ignores the `ShowPathBar` key of the typed HM option.
+            /*
+              Show the path bar (breadcrumbs) at the bottom of a Finder window.
+              Finder ignores the `ShowPathBar` key of the typed HM option.
+            */
             ShowPathbar = true;
 
             # Show the status bar at the bottom of a Finder window
@@ -197,12 +200,10 @@
             # Always show file extensions in Finder
             AppleShowAllExtensions = true;
 
-            # Set how fast a key starts repeating when pressed and held
-            # (15 - 120). The lower the value, the faster it starts repeating.
+            # Delay before a held key repeats (15 to 120, lower is shorter)
             InitialKeyRepeat = 15;
 
-            # Set how fast a key repeats when pressed and held (2 - 120)
-            # The lower the value, the faster the key repeat
+            # Interval between key repeats (2 to 120, lower is faster)
             KeyRepeat = 2;
 
             # Use F-keys as standard function keys
@@ -212,7 +213,7 @@
             # Enable a feedback sound when changing the system volume
             "com.apple.sound.beep.feedback" = 1;
 
-            # Set the trackpad tracking speed (0 - 3)
+            # Set the trackpad tracking speed (0 to 3)
             "com.apple.trackpad.scaling" = 3.0;
           };
         };

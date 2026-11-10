@@ -1,4 +1,4 @@
-# Home Manager profile for Darwin.
+# Home Manager profile for Darwin
 { self, ... }: {
   flake.modules.homeManager.home-darwin = { config, ... }: {
     imports = with self.modules.homeManager; [

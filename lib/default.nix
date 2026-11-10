@@ -1,29 +1,25 @@
 /*
-  Custom, reusable Nix helpers for this configuration.
+  Custom Nix helpers for this configuration.
 
-  This file is the top-level namespace for the library, exposing specific helper
-  submodules defined in separate files under this directory. To expose a helper
-  submodule, import it under the desired namespace, such as:
+  This file is the top-level namespace of the library. It exposes the helper
+  submodules that other files in this directory define, each under its own
+  name, for example:
 
     {
       secrets = import ./secrets.nix;
       packages = import ./packages.nix;
     }
 
-  The library contains plain Nix functions, independent of flake-parts and
-  configuration classes. It is exposed as the `self.lib.my` flake output and
-  injected into module trees as the `myLib` module argument.
+  The library contains plain Nix functions that don't depend on flake-parts or
+  on a configuration class. It reaches the modules through three layers:
 
-  Layers:
+  - `lib/default.nix` exposes all helper submodules.
+  - `modules/flake/lib.nix` exposes the library as the `flake.lib.my` output.
+  - `modules/features/my-lib.nix` defines the `self.modules.generic.my-lib`
+    feature, which passes the library to modules as the `myLib` argument.
 
-  - `lib/default.nix` - exposes all helper submodules.
-  - `modules/flake/lib.nix` - exposes the library as the `flake.lib.my` output.
-  - `modules/features/my-lib.nix` - defines the `self.modules.generic.my-lib`
-    feature that provides the `myLib` argument to the module system.
-
-  The `generic.my-lib` feature is class-independent: when imported into a
-  Darwin, Home Manager, or NixOS module tree, it makes the same `myLib` library
-  available to that tree's modules.
+  The `generic.my-lib` feature works in every class. Each module of a Darwin,
+  Home Manager, or NixOS module tree that imports it gets the same `myLib`.
 
   Usage:
 
@@ -31,8 +27,7 @@
       someOption = myLib.secrets.someHelper ...;
     }
 
-  The `self.modules.generic.my-lib` feature must be imported somewhere in the
-  module tree (e.g. in the base profile) before `myLib` is available as a
-  module argument.
+  `myLib` exists only in a module tree that imports
+  `self.modules.generic.my-lib`. The base profile imports it.
 */
 { }

@@ -1,4 +1,4 @@
-# Configuration specific to the user `dp` on the host `mbp-positive`.
+# Configuration specific to the user `dp` on the host `mbp-positive`
 { self, ... }: {
   flake.modules.homeManager."dp@mbp-positive" =
     {
@@ -22,7 +22,7 @@
           dp
         ]
         ++ [
-          # Features
+          # Features whose names need quotes
           self.modules.homeManager."1password-ssh-agent"
         ];
 
@@ -37,8 +37,10 @@
 
       sops.secrets.userEmail.sopsFile = self + "/secrets/homes/dp@mbp-positive.yaml";
 
-      # Private GitHub identity for repos with a remote under `dpomykala` (SSH
-      # or HTTPS). Other repos keep the default (work) identity.
+      /*
+        Private GitHub identity for repos with a remote under `dpomykala`, over
+        SSH or HTTPS. Other repos keep the default (work) identity.
+      */
       programs.git.includes =
         map
           (url: {

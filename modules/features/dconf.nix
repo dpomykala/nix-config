@@ -1,9 +1,9 @@
-# Linux-only feature.
+# Linux-only feature
 _: {
   flake.modules.homeManager.dconf = {
     dconf.settings = {
       "org/gnome/desktop/input-sources" = {
-        # Remap Capslock to Escape
+        # Remap Caps Lock to Escape
         xkb-options = [ "caps:escape" ];
       };
     };

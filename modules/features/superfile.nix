@@ -49,9 +49,11 @@ _: {
         };
       };
 
-      # A child process cannot change the directory of the shell. When you quit
-      # with `Q`, superfile writes a `cd` command to the lastdir file, and this
-      # wrapper sources that file.
+      /*
+        A child process can't change the directory of the shell. When you quit
+        with `Q`, superfile writes a `cd` command to the lastdir file, and this
+        wrapper sources that file.
+      */
       programs.zsh.initContent = lib.mkIf config.programs.zsh.enable ''
         spf() {
           local lastdir

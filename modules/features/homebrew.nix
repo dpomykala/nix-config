@@ -18,18 +18,17 @@
         enable = true;
 
         onActivation = {
-          # Remove all formulae/casks not listed in this configuration
-          # WARN: DOES NOT work for applications installed via `homebrew.masApps`
+          # Uninstall unlisted formulae and casks, and delete their app data
+          # WARN: Doesn't remove Mac App Store apps, see `programs.mas.cleanup`
           cleanup = "zap";
 
-          # Upgrade outdated formulae/casks during nix-darwin activation
-          # NOTE: Unversioned/auto-update casks won't be upgraded by default
+          # Upgrade outdated formulae and casks during nix-darwin activation
+          # Casks that update themselves or have no version stay as they are
           upgrade = true;
         };
 
-        # Specify the same taps as those managed by nix-homebrew
-        # This prevents nix-darwin from trying to untap all taps
-        # See: https://github.com/zhaofengli/nix-homebrew/issues/5
+        # List the taps of nix-homebrew, so that nix-darwin doesn't untap them
+        # See https://github.com/zhaofengli/nix-homebrew/issues/5
         taps = builtins.attrNames config.nix-homebrew.taps;
       };
 
@@ -37,11 +36,9 @@
         # Install Homebrew under the default prefix
         enable = true;
 
-        # Enable fully-declarative tap management
-        # Only taps declared in this configuration are allowed
+        # Allow only the taps that this configuration declares
         mutableTaps = false;
 
-        # Use declarative tap management
         taps = {
           "homebrew/homebrew-bundle" = homebrew-bundle;
           "homebrew/homebrew-cask" = homebrew-cask;

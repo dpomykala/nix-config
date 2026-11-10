@@ -1,4 +1,4 @@
-# Configuration specific to the user `dp` on the host `mbp-private`.
+# Configuration specific to the user `dp` on the host `mbp-private`
 { self, ... }: {
   flake.modules.homeManager."dp@mbp-private" = {
     imports =
@@ -15,7 +15,7 @@
         dp
       ]
       ++ [
-        # Features
+        # Features whose names need quotes
         self.modules.homeManager."1password-ssh-agent"
       ];
   };

@@ -20,6 +20,6 @@ creation_rules:
       - *master
       - *mbp-positive
 
-  # Catchall: master can decrypt everything
+  # Encrypt all other files, such as feature secrets, for the master key only
   - age:
       - *master

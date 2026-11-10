@@ -2,8 +2,8 @@
   flake.modules.homeManager.neovim =
     { pkgs, ... }:
     let
-      # Use the custom Neovim (NixVim) configuration. The language features
-      # install the language servers and formatters, so it doesn't bundle them.
+      # The NixVim configuration without language servers and formatters,
+      # because the language features install them
       neovim = inputs.nix-nvim.packages.${pkgs.stdenv.hostPlatform.system}.external;
     in
     {

@@ -4,9 +4,9 @@ _: {
   };
 
   flake.modules.homeManager.karabiner = {
-    # WARN: Any configuration changes via the GUI will overwrite the symlink
+    # WARN: A change in the Karabiner GUI replaces the symlink with a file
     xdg.configFile."karabiner/karabiner.json" = {
-      # Overwrite the current config file if exists
+      # Replace the file that the GUI wrote
       force = true;
 
       source = ./karabiner.json;

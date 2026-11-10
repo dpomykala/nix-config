@@ -14,8 +14,7 @@
           options = {
             features = "${deltaCatppuccinFlavor} defaults";
 
-            # Specify default options as a "feature"
-            # Features can be overridden from a cmd line with --features
+            # A named feature, so that `--features` can replace it
             defaults = {
               line-numbers = true;
               navigate = true;

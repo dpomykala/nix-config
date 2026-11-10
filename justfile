@@ -26,12 +26,12 @@ home config="": (_requires "nh")
 inputs: (_requires "jq")
     @nix flake metadata --json | jq -r '.locks.nodes.root.inputs | keys[]'
 
-# Update the lock file and commit (optionally provide input(s))
+# Update the given inputs, or all of them, and commit the lock file
 [group("Inputs")]
 update *inputs:
     nix flake update --commit-lock-file {{ inputs }}
 
-# Update the lock file and commit (select input(s) interactively)
+# Update the inputs selected with fzf and commit the lock file
 [group("Inputs")]
 [script]
 iupdate: (_requires "fzf") (_requires "jq")
@@ -89,7 +89,7 @@ check: _fmt-check lint
     done
     nix flake check --all-systems
 
-# Link files not managed by Nix (using GNU Stow)
+# Link the files that Nix doesn't manage, with GNU Stow
 [group("Helpers")]
 stow: (_requires "stow")
     stow --dotfiles --restow --target $HOME stow

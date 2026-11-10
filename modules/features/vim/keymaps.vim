@@ -9,29 +9,29 @@ xnoremap ; :
 nnoremap : ;
 xnoremap : ;
 
-" Maintain visual selection when changing indentation
+" Keep the selection after changing the indentation
 xnoremap < <gv
 xnoremap > >gv
 
 " Stop the highlighting of search results
 nnoremap <Esc> <Cmd>nohlsearch<CR>
 
-" Use Ctrl + w/h/j/k/l for switching windows
+" Move between windows with Ctrl and h, j, k, l, or ;
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-;> <C-w><C-w>
 
-" Quit the insert mode
+" Leave insert mode
 inoremap jj <Esc>
 inoremap jk <Esc>
 inoremap kj <Esc>
 
-" Use U for REDO
+" Use U to redo
 nnoremap U <C-r>
 
-" Center a view and open folds when searching or scrolling
+" Center the view and open folds when searching or scrolling
 nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap <C-d> <C-d>zzzv

@@ -27,7 +27,7 @@ _: {
         # https://github.com/catppuccin/fzf
         colors = {
           "bg+" = "#363a4f";
-          # Comment out if a transparent terminal background is used
+          # Remove to let a transparent terminal background show through
           bg = "#24273a";
           spinner = "#f4dbd6";
           hl = "#ed8796";
@@ -47,7 +47,7 @@ _: {
           "--preview '[ -d \"{}\" ] && ${dirPreview} || ${filePreview}'"
         ];
 
-        # Command line options for the OPTION-C keybinding
+        # Command line options for the ALT-C keybinding
         changeDirWidget.options = [
           "--preview '${dirPreview}'"
         ];

@@ -13,7 +13,6 @@ _: {
           vimcmd_symbol = "[󱚣 ❮](subtext1)";
         };
 
-        # Set the custom palette (defined below)
         palette = "catppuccin_macchiato";
 
         # Catppuccin Macchiato for Starship

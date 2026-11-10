@@ -1,13 +1,11 @@
 /*
-  This feature wires Nixpkgs for all configuration classes.
+  Passes the canonical Nixpkgs set to nix-darwin. The flake-parts `perSystem`
+  scope configures the set once, in `modules/flake/nixpkgs.nix`, and every
+  configuration class reuses it.
 
-  The canonical Nixpkgs set is configured only once in the flake-parts
-  `perSystem` scope (see: `modules/flake/nixpkgs.nix`). This canonical
-  package-set is re-used for all configuration classes (NixOS, nix-darwin,
-  Home Manager).
-
-  Note: Standalone HM is wired at the home configuration construction
-  rather than here.
+  Standalone Home Manager gets the set in `modules/flake/configurations.nix`
+  instead. The NixOS variant below stays commented out until a NixOS host
+  exists.
 */
 {
   # inputs,

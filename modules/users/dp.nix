@@ -1,4 +1,4 @@
-# Damian's OS and Home Manager configuration.
+# The `dp` user, which all hosts and homes import
 { self, ... }: {
   flake.modules = self.factory.user {
     name = "dp";

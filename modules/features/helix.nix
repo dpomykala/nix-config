@@ -40,9 +40,11 @@
             lang: map (name: removeAttrs lang [ "names" ] // { inherit name; }) (lang.names or [ lang.name ])
           );
 
-          # A `language-servers` list replaces the whole default list, so each
-          # list repeats the defaults that it keeps. Helix already auto-formats
-          # Go, Rust, and Zig.
+          /*
+            A `language-servers` list replaces the whole default list, so each
+            list repeats the defaults that it keeps. Helix already auto-formats
+            Go, Rust, and Zig.
+          */
           languages = expandNames [
             {
               name = "bash";
@@ -292,9 +294,11 @@
               # Helix master default, remove after the next release (> 25.07.1)
               nginx-language-server.command = "nginx-language-server";
 
-              # The default, `<nixpkgs>`, depends on NIX_PATH, which only the
-              # nix-darwin hosts set. A project can override it in
-              # `.helix/languages.toml`.
+              /*
+                The default, `<nixpkgs>`, depends on `NIX_PATH`, which only the
+                nix-darwin hosts set. A project can override it in
+                `.helix/languages.toml`.
+              */
               nixd.config.nixd.nixpkgs.expr = "import ${inputs.nixpkgs} { }";
 
               # Helix master default, remove after the next release (> 25.07.1)

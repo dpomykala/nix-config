@@ -3,8 +3,7 @@ _: {
     # The version used for backwards compatibility
     home.stateVersion = "26.05";
 
-    # Let Home Manager install and manage itself
-    # NOTE: This option only works with a standalone Home Manager setup
+    # Let Home Manager install and manage itself (standalone setup only)
     programs.home-manager.enable = true;
   };
 }

@@ -6,7 +6,7 @@ _: {
   flake.modules.homeManager.docker = { pkgs, ... }: {
     home = {
       packages = with pkgs; [
-        # Docker's official server, for BuildKit checks and Compose files
+        # Docker language server, for BuildKit checks and Compose files
         docker-language-server
         # Dockerfile formatter, which also formats the shell in RUN
         dockerfmt

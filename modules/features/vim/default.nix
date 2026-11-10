@@ -8,8 +8,8 @@ _: {
     {
       programs.vim = {
         enable = true;
-        # Use terminal-only vim. The Home Manager default, vim-full, builds
-        # a GUI version that is not used here.
+        # Terminal-only Vim, because the Home Manager default, vim-full, also
+        # builds the GUI
         packageConfigurable = pkgs.vim;
 
         extraConfig = lib.concatStringsSep "\n" [
@@ -20,19 +20,18 @@ _: {
         plugins = with pkgs; [
           # Catppuccin color schemes for Vim
           vimPlugins.catppuccin-vim
-          # The vim-airline plugin used for a status line
+          # Status line
           vimPlugins.vim-airline
-          # The vim-nix plugin used for Nix file indentation
+          # Indentation of Nix files
           vimPlugins.vim-nix
         ];
       };
 
       xdg = {
-        # Create directories for Vim swap files and undo files
+        # Vim doesn't create the swap and undo directories of options.vim
         stateFile."vim/swap/.keep".text = "";
         stateFile."vim/undo/.keep".text = "";
 
-        # Custom ftplugins with configuration for specific file types
         configFile = {
           "vim/after/ftplugin/gitcommit.vim".text =
             # vim
@@ -48,7 +47,7 @@ _: {
               setlocal tabstop=4
             '';
 
-          # NOTE: `noexpandtab` is already set in the default ftplugin for make
+          # The default ftplugin for make already sets `noexpandtab`
           "vim/after/ftplugin/make.vim".text =
             # vim
             ''

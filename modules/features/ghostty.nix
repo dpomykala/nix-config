@@ -24,7 +24,7 @@ _: {
             font-size = 16;
 
             keybind = [
-              # Navigating between splits
+              # Move between splits
               # Overrides the default `super+shift+j=write_screen_file:paste`
               "super+shift+h=goto_split:left"
               "super+shift+j=goto_split:down"
@@ -54,25 +54,27 @@ _: {
 
           settings = {
             keybind = [
-              # Toggle the quick terminal, a drop-down terminal, from any app.
-              # Only macOS gets it, because GNOME has no quick terminal and
-              # would lose its Super+` window switcher to a binding that does
-              # nothing. The binding replaces the macOS Cmd+` shortcut that
-              # cycles the windows of an app, so use Cmd+Shift+` to cycle them
-              # instead.
+              /*
+                Toggle the quick terminal, a drop-down terminal, from any app.
+                Only macOS gets it, because GNOME has no quick terminal and
+                would lose its Super+` window switcher to a binding that does
+                nothing. The binding replaces the macOS Cmd+` shortcut that
+                cycles the windows of an app, so use Cmd+Shift+` to cycle them
+                instead.
+              */
               "global:super+backquote=toggle_quick_terminal"
             ];
 
             # Use the left Option key as Alt for shell keybindings, such as the
-            # OPTION-C keybinding of fzf
+            # ALT-C keybinding of fzf
             macos-option-as-alt = "left";
           };
         };
       })
 
       (lib.mkIf (pkgs.stdenv.hostPlatform.isLinux && config.programs.zsh.enable) {
-        # Run ZSH as the default program, because Home Manager by itself cannot
-        # change the default system/user shell
+        # Start zsh as a login shell, because Home Manager can't change the
+        # default shell of the user
         programs.ghostty.settings.command = "zsh -l";
       })
     ];

@@ -1,8 +1,9 @@
 /*
   Flake configuration outputs.
 
-  For Home Manager `withSystem` is used to pass the canonical `pkgs` configured
-  in the flake-parts `perSystem` scope (see: `modules/flake/nixpkgs.nix`).
+  Standalone Home Manager configurations get the canonical `pkgs` of the
+  flake-parts `perSystem` scope through `withSystem`. See
+  `modules/flake/nixpkgs.nix`.
 */
 {
   inputs,
@@ -11,9 +12,8 @@
   ...
 }:
 {
-  # Darwin system configurations
   flake.darwinConfigurations = {
-    # NOTE: Names should match the `scutil --get LocalHostName` command output
+    # Each name must match the output of `scutil --get LocalHostName`
 
     "mbp-private" = inputs.nix-darwin.lib.darwinSystem {
       modules = [ self.modules.darwin.mbp-private ];
@@ -26,7 +26,7 @@
 
   # Standalone Home Manager configurations
   flake.homeConfigurations = {
-    # NOTE: Hostnames should match the `hostname` command output
+    # Each hostname must match the output of `hostname`
 
     "dp@mbp-private" = inputs.home-manager.lib.homeManagerConfiguration {
       modules = [ self.modules.homeManager."dp@mbp-private" ];

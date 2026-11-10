@@ -1,6 +1,6 @@
 " SPECIAL OPTIONS {{{
 
-" Enable file types (detection, plugins and indentation)
+" Enable file types (detection, plugins, and indentation)
 filetype plugin indent on
 
 " Enable syntax highlighting
@@ -12,13 +12,13 @@ colorscheme catppuccin_macchiato
 
 " APPEARANCE {{{
 
-" Hide some markup text (e.g. in Markdown)
+" Hide some markup text, such as in Markdown
 set conceallevel=2
 " Highlight the current line
 set cursorline
 " Set special characters to be used in different parts of the window
 set fillchars=diff:╱,eob:\ ,fold:\ ,foldclose:,foldopen:,foldsep:\ ,vert:║
-" Show special characters in text (e.g. tabs, trailing spaces etc.)
+" Show special characters in text, such as tabs and trailing spaces
 set list
 " Set special characters to be displayed when `list` is set
 set listchars=extends:…,nbsp:␣,precedes:…,tab:»·,trail:·
@@ -32,13 +32,13 @@ set relativenumber
 set scrolloff=10
 " Set the minimum number of columns to the sides of the cursor
 set sidescrolloff=10
-" New horizontal splits are created below the current window
+" Open new horizontal splits below the current window
 set splitbelow
-" New vertical splits are created to the right of the current window
+" Open new vertical splits to the right of the current window
 set splitright
 " Use 24-bit RGB colors
 set termguicolors
-" Allow the cursor to move past the EOL in the visual block mode
+" Allow the cursor to move past the end of line in visual block mode
 set virtualedit=block
 " }}}
 
@@ -52,9 +52,9 @@ set expandtab
 set shiftround
 " Use the 'tabstop' value when shifting indentation with << and >>
 set shiftwidth=0
-" Auto-indent based on syntax (ignored if indenting via Treesitter)
+" Indent a new line after C-like syntax, such as `{`
 set smartindent
-" Use the `shiftwidth` value (=`tabstop`) when editing with Tab or BS
+" Use the `shiftwidth` value (equal to `tabstop`) for Tab and Backspace
 set softtabstop=-1
 " Set the tab width for both soft and hard tabs
 set tabstop=2
@@ -64,7 +64,7 @@ set tabstop=2
 
 " Highlight all of the search results
 set hlsearch
-" Use case-insensitive search by default (unless `\C` is used)
+" Use case-insensitive search by default (`\C` in a pattern overrides it)
 set ignorecase
 " Use incremental search (search as you type)
 set incsearch
@@ -93,19 +93,19 @@ set laststatus=2
 if !exists("g:airline_symbols")
     let g:airline_symbols = {}
 endif
-" Use the powerline symbols (requires nerd font)
+" Use the powerline symbols (requires a Nerd Font)
 let g:airline_powerline_fonts = 1
 " Disable the default maxlinenr symbol which causes problems
 let g:airline_symbols.maxlinenr = ""
-" Set the line number symbol (requires nerd font)
+" Set the line number symbol (requires a Nerd Font)
 let g:airline_symbols.linenr = " "
-" Set the column number symbol (requires nerd font)
+" Set the column number symbol (requires a Nerd Font)
 let g:airline_symbols.colnr = " "
 " Enable the built-in tabline extension
 let g:airline#extensions#tabline#enabled = 1
 " Show the unique tail for each path in tabline
 let g:airline#extensions#tabline#formatter = "unique_tail_improved"
-" Use the flame symbol from Powerline Extra Symbols (requires nerd font)
+" Use the flame symbol from Powerline Extra Symbols (requires a Nerd Font)
 let g:airline#extensions#tabline#left_sep = ""
 " Show buffer numbers in tabline
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -119,7 +119,7 @@ let g:airline#extensions#whitespace#enabled = 0
 set noruler
 " Don't show mode on the command line (use the status line instead)
 set noshowmode
-" Show the current command (e.g. f, t) on the command line
+" Show the current command, such as f or t, on the command line
 set showcmd
 " Ignore some patterns when expanding wildcards and completing names
 set wildignore=*.docx,*.exe,*.flv,*.gif,*.img,*.jpg,*.pdf,*.png,*.pyc,*.xlsx
@@ -171,12 +171,12 @@ set hidden
 set history=10000
 " Enable the mouse for all available modes
 set mouse=a
-" Disable the following:
-" - c - messages displayed when using the insert completion menu
-" - C - messages displayed when scanning for completion items
-" - I - the intro message displayed when starting (Neo)Vim
-" - s - messages displayed when wrapping search results
-" - W - messages displayed when writing a file
+" Hide these messages:
+" - c: the messages of the insert completion menu
+" - C: the messages about scanning for completion items
+" - I: the intro message when Vim starts
+" - s: the message when a search wraps around the file
+" - W: the message when Vim writes a file
 set shortmess+=cCIsW
 " Set how long (in ms) to wait for a mapped sequence (default is 1000)
 set timeoutlen=300

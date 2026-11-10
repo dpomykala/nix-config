@@ -1,7 +1,8 @@
 /*
   Base OS and Home Manager profile for all platforms.
 
-  For Home Manager, this should contain OS-independent configuration only.
+  The Home Manager part holds only OS-independent configuration, because the
+  platform profiles of every OS import it.
 */
 { self, ... }: {
   flake.modules.darwin.base = {
@@ -20,7 +21,6 @@
       ];
   };
 
-  # OS-independent config only!
   flake.modules.homeManager.base = {
     imports =
       with self.modules.homeManager;

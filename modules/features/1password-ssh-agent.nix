@@ -1,20 +1,20 @@
 /*
-  This setup allows for managing all SSH keys using 1Password.
+  Use 1Password as the SSH agent for all SSH keys.
 
   Requirements:
-    1. The 1Password desktop app must be installed.
-    2. The SSH agent must be enabled in the 1Password app.
-    3. Identity files must be available (if specified in config).
+    1. The 1Password desktop app is installed.
+    2. The SSH agent is enabled in the 1Password app.
+    3. Every identity file that the SSH config names exists.
 
-  WARN: Installing 1Password GUI through Home Manager is not reliable.
-  It requires the setuid permission for the chrome-sandbox executable,
-  which must be set manually with sudo.
+  WARN: Home Manager can't install the 1Password GUI reliably. The GUI needs
+  the setuid bit on its chrome-sandbox executable, which only sudo can set.
 
-  On Darwin, 1Password is installed via nix-darwin (Homebrew).
-  On NixOS, you can use the dedicated 1Password module.
-  On generic Linux, install manually using your preferred method.
+  On Darwin, the `1password` darwin feature installs 1Password as a Homebrew
+  cask. On NixOS, use the 1Password module of NixOS. On x86-64 Debian or
+  Ubuntu, run `just deb-1password`. On other Linux distributions, install it
+  by hand.
 
-  For more information see: https://developer.1password.com/docs/ssh
+  See https://developer.1password.com/docs/ssh.
 */
 _: {
   flake.modules.homeManager."1password-ssh-agent" =
@@ -37,21 +37,18 @@ _: {
     {
       home.sessionVariables.SSH_AUTH_SOCK = sshAgentSocket;
 
-      # Create the 1Password SSH agent config file
-      # See: https://developer.1password.com/docs/ssh/agent/config
+      # See https://developer.1password.com/docs/ssh/agent/config
       xdg.configFile."1Password/ssh/agent.toml".text = ''
         [[ssh-keys]]
         # Add all SSH keys from the account with this sign-in address
         account = "my.1password.com"
       '';
 
-      # Rules for specific hosts
-      # The order of blocks is not guaranteed unless DAG functions are used
+      # Home Manager orders host blocks only through its DAG functions
       programs.ssh = {
         enable = lib.mkDefault true;
 
         settings = {
-          # Global config for all hosts
           "*" = {
             identityAgent = sshAgentSocket;
           };

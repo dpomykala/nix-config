@@ -1,8 +1,6 @@
 /*
-  Configuration for the canonical Nixpkgs set.
-
-  This Nixpkgs set is re-used for all configuration classes
-  (see: `modules/features/nixpkgs.nix`).
+  The canonical Nixpkgs set. Every configuration class reuses this set. See
+  `modules/features/nixpkgs.nix`.
 */
 {
   inputs,
@@ -11,15 +9,14 @@
 }:
 {
   perSystem = { system, ... }: {
-    # Configure the canonical Nixpkgs set with applied overlays
-    # NOTE: These are `pkgs` used in the flake-parts `perSystem` scope
+    # The `pkgs` argument of every flake-parts `perSystem` module
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
 
       config.allowUnfree = true;
 
       overlays = [
-        # Apply the overlay with custom packages
+        # Custom packages from pkgs/
         self.overlays.default
       ];
     };

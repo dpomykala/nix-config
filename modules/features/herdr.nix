@@ -5,15 +5,19 @@ _: {
     programs.herdr = {
       enable = true;
 
-      # Herdr writes onboarding choices and settings UI changes to its config.
-      # Removing a setting here doesn't remove it from the config file, so
-      # delete it from ~/.config/herdr/config.toml too.
+      /*
+        Herdr writes onboarding choices and settings UI changes to its config.
+        Removing a setting here doesn't remove it from the config file, so
+        delete it from `~/.config/herdr/config.toml` too.
+      */
       mutableSettings = true;
 
       settings = {
-        # Herdr has no Catppuccin Macchiato theme, so these overrides replace
-        # the colors of the default Catppuccin Mocha theme. Drop them when
-        # Herdr ships an official Macchiato theme.
+        /*
+          Herdr has no Catppuccin Macchiato theme, so these overrides replace
+          the colors of the default Catppuccin Mocha theme. Drop them when
+          Herdr ships an official Macchiato theme.
+        */
         theme.custom = {
           accent = "#8aadf4";
           active_row_bg = "#24273a";
