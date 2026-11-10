@@ -4,8 +4,8 @@ _: {
       # Use new-style commands and flakes
       experimental-features = "nix-command flakes";
 
-      # Sandbox all builds except the derivations that set `__noChroot`
-      sandbox = "relaxed";
+      # Sandbox all builds, which Nix doesn't do by default on macOS
+      sandbox = true;
 
       # Let the primary user pass restricted options to the Nix daemon, such as
       # `--option sandbox false`
