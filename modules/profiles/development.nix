@@ -47,8 +47,8 @@
           shell
           ssh
           starship
+          superfile
           vim
-          yazi
           zoxide
         ]
         ++ langFeatures;

@@ -392,8 +392,7 @@
         "nix-homebrew": "nix-homebrew",
         "nix-nvim": "nix-nvim",
         "nixpkgs": "nixpkgs_3",
-        "sops-nix": "sops-nix",
-        "yazi-flavors": "yazi-flavors"
+        "sops-nix": "sops-nix"
       }
     },
     "sops-nix": {
@@ -447,22 +446,6 @@
         "owner": "dont-be-evil-company",
         "repo": "tree-sitter-kulala-http",
         "rev": "630e2b8523c775ba866564c2b4ad88d649a56c00",
-        "type": "github"
-      }
-    },
-    "yazi-flavors": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1794244702,
-        "narHash": "sha256-lITDt1QvL54u6gbJiGixPyP6lk72f3rkiNPDrUg6G8I=",
-        "owner": "yazi-rs",
-        "repo": "flavors",
-        "rev": "38c08d8eb9ea0d28c8c911a249a08f27ba2151ac",
-        "type": "github"
-      },
-      "original": {
-        "owner": "yazi-rs",
-        "repo": "flavors",
         "type": "github"
       }
     }
