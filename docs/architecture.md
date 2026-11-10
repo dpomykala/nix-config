@@ -49,6 +49,8 @@ them.
   module context goes in `flake.modules.generic.*`. See §4 and §6.
 - Prefer a separate module for each platform over `isLinux` or `isDarwin`
   conditionals. See §4.
+- Home Manager sets the macOS user preferences. nix-darwin sets only the macOS
+  settings that need root or aren't user preferences. See §4.
 - One canonical package set, `perSystem.pkgs`, serves every output. Custom
   packages are exposed through both `self.packages.<system>` and
   `self.overlays.default`. See §5.
@@ -472,6 +474,24 @@ conditionals. A module for one platform keeps unused configuration out of the
 target module tree. Use a conditional only when one feature really spans
 platforms, for example `1password-ssh-agent`, which picks the agent socket path
 by platform.
+
+### macOS settings
+
+Home Manager sets the macOS user preferences, the keys that `defaults` reads and
+writes for one user. They go in `targets.darwin.defaults`, and the ByHost keys
+go in `targets.darwin.currentHostDefaults`. nix-darwin sets only the settings
+that need root or aren't user preferences, such as `security.pam`,
+`system.keyboard`, and the domains in `/Library/Preferences`. nix-darwin has
+typed options for many user preferences too, but this repository doesn't use
+them, for these reasons:
+
+- A change to a user preference activates only the home, which doesn't need
+  `sudo` (see §2).
+- Only Home Manager writes the ByHost keys. It runs `defaults -currentHost`,
+  which puts the hardware UUID in the file name, as macOS expects.
+- Every copy of a setting stays in one module. For example, the trackpad reads
+  the swipe gestures from two trackpad domains, and System Settings shows the
+  ByHost copy in `NSGlobalDomain`, so all three need the same values.
 
 ## 5. Packages and nixpkgs
 

@@ -44,6 +44,9 @@ a violation can merge a module twice or fail evaluation far from the change.
 - Every host module sets `_module.args.system`. See `architecture.md` §3.
 - Prefer a separate module for each platform over `isDarwin` or `isLinux`
   conditionals. See `architecture.md` §4.
+- Set macOS user preferences in Home Manager, with `targets.darwin.defaults` or
+  `currentHostDefaults`. Use nix-darwin only for the settings that need root or
+  aren't user preferences. See `architecture.md` §4.
 - Put each file in the directory for its layer, and name it after the module it
   defines. See `architecture.md` §1 and §9.
 

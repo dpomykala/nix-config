@@ -528,6 +528,33 @@ stage the new files, format, and evaluate, as [_Verify changes_ in
    `modules/features/numbers.nix`.
 3. Import the feature in each host that needs the app.
 
+### Add a macOS setting
+
+1. Find the domain and the key. Save the output of `defaults read <domain>`,
+   change the setting in System Settings or in the app, and compare the output
+   again. For a ByHost key, add `-currentHost` after `defaults`.
+2. Pick the module. Put a general macOS setting in
+   `modules/features/system.nix`, and a setting of one app in the feature that
+   owns the app.
+3. Add the key to the `homeManager` module, under
+   `targets.darwin.defaults.<domain>`, or under
+   `targets.darwin.currentHostDefaults.<domain>` for a ByHost key. Use a
+   nix-darwin option in the `darwin` module only for a setting that needs root
+   or isn't a user preference ([`architecture.md`
+   §4](architecture.md#macos-settings)).
+4. Run `just home`, then check the value with `defaults read <domain> <key>`
+   and check the setting in System Settings or the app.
+
+Home Manager checks the type of a key only when it has a typed option for it.
+It writes any other key as it is, so a misspelled key changes nothing. A typed
+option can also write the wrong key: `"com.apple.finder".ShowPathBar` writes a
+key that Finder ignores, and Finder reads `ShowPathbar`.
+
+The `system` feature restarts the Dock during the home activation, so Dock
+settings apply at once. Safari reads its settings only at launch, so quit it
+before the activation. To write to the Safari container, the terminal needs Full
+Disk Access.
+
 ### Add a secret
 
 Only Home Manager has a `sops` feature, and `homeManager.base` imports it, so
