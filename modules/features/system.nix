@@ -30,7 +30,7 @@
       };
 
       # The version used for backwards compatibility
-      stateVersion = 6;
+      stateVersion = 7;
     };
   };
 
