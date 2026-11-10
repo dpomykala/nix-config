@@ -13,10 +13,9 @@ in
         development
 
         # Features
-        brave-browser
-        google-chrome
         handy
         harper-desktop
+        helium-browser
         jetbrains-toolbox
         karabiner
         logi-options-plus

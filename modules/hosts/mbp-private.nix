@@ -14,9 +14,9 @@ in
 
         # Features
         bear
-        brave-browser
         handy
         harper-desktop
+        helium-browser
         jetbrains-toolbox
         karabiner
         logi-options-plus
