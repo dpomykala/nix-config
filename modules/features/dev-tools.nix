@@ -12,7 +12,8 @@ _: {
       # Language servers, formatters, and linters
       langTools = with pkgs; [
         # Markdown language server
-        marksman
+        # TODO: Re-enable marksman when it is in the binary cache
+        # marksman
         nginx-language-server
         # Formatter for web languages, Markdown, YAML, and TOML
         oxfmt
