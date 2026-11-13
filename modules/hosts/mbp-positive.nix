@@ -13,6 +13,7 @@ in
         development
 
         # Features
+        google-chrome
         handy
         harper-desktop
         helium-browser
